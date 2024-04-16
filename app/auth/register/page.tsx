@@ -10,13 +10,15 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
-  const login = async (email, password) => {
-    const session = await account.createEmailSession(email, password);
+  const login = async (email: string, password: string) => {
+    const session = await account.createEmailPasswordSession(email, password);
 
     await fetch("/api/auth", {
       body: JSON.stringify({ session }),
       method: "POST",
-      "Content-Type": "application/json",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
   };
 

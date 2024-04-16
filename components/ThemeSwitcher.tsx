@@ -1,5 +1,5 @@
 "use state";
-import React from "react";
+import React, { useState } from "react";
 
 const ThemeSwitcher = () => {
   const [isDark, setIsDark] = useState(false);

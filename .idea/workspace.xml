@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30085004-d8c5-44d9-ab9c-701abc0699a7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="30085004-d8c5-44d9-ab9c-701abc0699a7" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,6 +48,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "D:\\code\\ACMv2\\node_modules\\prettier",
     "settings.editor.selected.configurable": "settings.javascript.prettier",
     "ts.external.directory.path": "D:\\code\\ACMv2\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
@@ -66,6 +65,7 @@
       <workItem from="1713111670128" duration="3500000" />
       <workItem from="1713270321668" duration="738000" />
       <workItem from="1713271087259" duration="66000" />
+      <workItem from="1713271155407" duration="249000" />
     </task>
     <servers />
   </component>

@@ -1,10 +1,17 @@
 import { cookies } from "next/headers";
 import { account } from "@/appwrite/client";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
-const AdminPageLayout = async ({ events, children }) => {
+const AdminPageLayout = async ({
+  events,
+  children,
+}: {
+  events: ReactNode;
+  children: ReactNode;
+}) => {
   const cookieCreator = cookies();
-  const { value: name } = cookieCreator.get("name");
+  const { value: name } = cookieCreator.get("name")!;
 
   return (
     <div className={"py-16 px-4 lg:px-36 flex flex-col space-y-10"}>
