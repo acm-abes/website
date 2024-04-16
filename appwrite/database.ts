@@ -1,17 +1,17 @@
 import { client } from "@/appwrite/client";
-import { Databases, Query } from "appwrite";
+import { Databases, Models, Query } from "appwrite";
 import { Event } from "@/types";
 
 export default class Database {
-  private static instance: Database | undefined;
-  private connection: Databases | undefined;
-  private databaseId = "661bb5efad9f866934a4";
-  private collections = {
+  databaseId = "661bb5efad9f866934a4";
+  collections = {
     events: "661bb5f65f15263548f4",
   };
-  private buckets = {
+  buckets = {
     event: "661bc7499c13dd5c7af7",
   };
+  private static instance: Database;
+  private connection: Databases | undefined;
 
   constructor() {
     if (Database.instance) {
@@ -22,7 +22,7 @@ export default class Database {
   }
 
   async getEvents() {
-    return this.connection?.listDocuments(
+    return this.connection!.listDocuments(
       this.databaseId,
       this.collections.events,
     );
@@ -30,13 +30,11 @@ export default class Database {
 
   async getEventById(id: string) {
     try {
-      const data = await this.connection?.getDocument(
+      return this.connection!.getDocument(
         this.databaseId,
         this.collections.events,
         id,
       );
-
-      return data as unknown as Event;
     } catch (error) {
       console.error(error);
       return null;
@@ -45,7 +43,7 @@ export default class Database {
 
   async createEvent(event: Event) {
     try {
-      return await this.connection?.createDocument(
+      return await this.connection!.createDocument(
         this.databaseId,
         this.collections.events,
         event.id,
