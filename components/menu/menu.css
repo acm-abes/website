@@ -1,0 +1,118 @@
+.menu-bar,  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    /*padding: 1.75em;*/
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+
+    @apply text-foreground bg-background/20 backdrop-blur-lg py-[1.75em] px-4 md:px-20 xl:px-36;
+}
+
+.menu-bar a,
+.menu-open p {
+    /*color: #000;*/
+    cursor: pointer;
+}
+
+.menu-close p {
+    color: #000;
+    cursor: pointer;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 2em;
+    background: #F8F6E3;
+    z-index: 2;
+    display: flex;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+}
+.menu-overlay-bar{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    padding: 2em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu-close-icon {
+    flex: 2;
+    display: flex;
+    height: 100%;
+    align-items: flex-end;
+    cursor: pointer;
+}
+
+.menu-copy {
+    height: 100%;
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 2em;
+}
+
+.menu-preview {
+    flex: 4;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.menu-close-icon p {
+    font-size: 200px;
+    -webkit-text-stroke: 10px #c5fb45;
+    line-height: 70%;
+}
+
+.menu-link-item {
+    width: max-content;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.menu-link-item-holder {
+    position: relative;
+}
+
+.menu-link-item-holder a {
+    color: #000; 
+    font-size: 80px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 85%;
+}
+
+.menu-info {
+    display: flex;
+}
+
+.menu-info-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+@media (max-width: 900px) {
+    .menu-close-icon {
+        display: none;
+    }
+
+    .menu-copy {
+        padding-top: 8em;
+    }
+
+    .menu-link-item-holder a {
+         font-size: 60px;
+    }
+} 
