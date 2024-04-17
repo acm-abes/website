@@ -7,6 +7,9 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import { GrClose } from "react-icons/gr";
+import { logout } from "@/lib/auth";
+import { usePathname, useRouter } from "next/navigation";
+import { isUserLoggedIn } from "@/lib/utils";
 
 const menuLinks = [
   {
@@ -25,11 +28,25 @@ const menuLinks = [
     path: "/about",
     label: "ABOUT US",
   },
+  {
+    path: "/auth/login",
+    label: "LOGIN",
+  },
 ];
 const Menu = () => {
   const container = useRef();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const tl = useRef();
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    isUserLoggedIn().then((res) => {
+      setLoggedIn(res);
+    });
+  }, [pathname]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -93,11 +110,7 @@ const Menu = () => {
           </div>
           <div className="menu-close" onClick={toggleMenu}>
             <div>
-              <GrClose
-                className={
-                  "text-neutral-900 cursor-pointer text-2xl md:mr-[5.5rem] xl:mr-[8.25rem]"
-                }
-              />
+              <GrClose id={"close"} />
             </div>
           </div>
         </div>
@@ -106,15 +119,41 @@ const Menu = () => {
         </div>
         <div className="menu-copy">
           <div className="menu-links">
-            {menuLinks.map((link, index) => (
-              <div className="menu-link-item" key={index}>
-                <div className="menu-link-item-holder" onClick={toggleMenu}>
-                  <Link href={link.path} className="menu-link">
-                    {link.label}
-                  </Link>
+            {menuLinks.map((link, index) => {
+              return (
+                <div className="menu-link-item" key={index}>
+                  <div className="menu-link-item-holder" onClick={toggleMenu}>
+                    <Link
+                      onClick={
+                        link.label !== "LOGIN"
+                          ? () => {}
+                          : loggedIn
+                            ? async () => {
+                                await logout();
+                                setLoggedIn(false);
+                                router.refresh();
+                              }
+                            : () => {}
+                      }
+                      href={
+                        link.label !== "LOGIN"
+                          ? link.path
+                          : loggedIn
+                            ? ""
+                            : "/auth/login"
+                      }
+                      className="menu-link"
+                    >
+                      {link.label !== "LOGIN"
+                        ? link.label
+                        : loggedIn
+                          ? "LOGOUT"
+                          : "LOGIN"}
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <div className="menu-info">
             <div className="menu-info-col">
