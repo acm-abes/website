@@ -19,7 +19,7 @@ import { register } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
@@ -109,4 +109,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
