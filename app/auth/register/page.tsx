@@ -18,9 +18,14 @@ import { RegisterSchema } from "@/schemas/auth";
 import { register } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useState } from "react";
+import { TailSpin } from "react-loader-spinner";
+import { useTheme } from "next-themes";
 
 const RegisterPage = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const { theme } = useTheme();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -32,7 +37,17 @@ const RegisterPage = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
-    await register(values.email, values.password, values.name, router);
+    setLoading(true);
+    const res = await register(
+      values.email,
+      values.password,
+      values.name,
+      router,
+    );
+
+    if (res.$id) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -100,8 +115,26 @@ const RegisterPage = () => {
               Login
             </Link>
           </FormDescription>
-          <Button className={"w-full"} type="submit">
-            Submit
+          <Button
+            disabled={loading}
+            className={`w-full flex items-center`}
+            type="submit"
+          >
+            {loading && (
+              <TailSpin
+                visible={true}
+                height="20"
+                width="20"
+                color={theme === "dark" ? "white" : "black"}
+                ariaLabel="tail-spin-loading"
+                wrapperStyle={{}}
+                wrapperClass={``}
+              />
+            )}
+
+            <span className={`${loading && "translate-x-2"} duration-200`}>
+              Submit
+            </span>
           </Button>
         </form>
       </Form>

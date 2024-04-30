@@ -3,12 +3,9 @@ import { Databases } from "appwrite";
 import { Event } from "@/types";
 
 export default class Database {
-  databaseId = "661bb5efad9f866934a4";
-  collections = {
+  private databaseId = "661bb5efad9f866934a4";
+  private collections = {
     events: "661bb5f65f15263548f4",
-  };
-  buckets = {
-    event: "661bc7499c13dd5c7af7",
   };
   private static instance: Database;
   private connection: Databases;
@@ -40,9 +37,6 @@ export default class Database {
     }
   }
 
-  /**
-   * @param {Event} event
-   */
   async createEvent(event: Event) {
     try {
       return await this.connection.createDocument(
@@ -57,10 +51,6 @@ export default class Database {
     }
   }
 
-  /**
-   * @param {string} id
-   * @param {Event} event
-   */
   async updateEvent(id: string, event: Event) {
     try {
       return await this.connection.updateDocument(

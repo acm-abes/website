@@ -1,12 +1,14 @@
 import { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { Models } from "appwrite";
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  const body: { session: string; role: string; name: string } =
-    await req.json();
+  const body: { session: Models.User<Models.Preferences> } = await req.json();
 
-  const { session, role, name } = body;
+  const name = body.session.name;
+  const role = body.session.labels[0];
+  const session = body.session.$id;
 
   const cookieCreator = cookies();
 

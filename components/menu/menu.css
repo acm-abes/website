@@ -9,11 +9,15 @@
     align-items: center;
     z-index: 1;
 
-    @apply text-foreground bg-background/20 backdrop-blur-lg py-[1.75em] px-4 md:px-20 xl:px-36;
+    @apply text-foreground bg-background/20 backdrop-blur-lg py-[1.75em] px-4 pr-10 md:px-20 xl:px-36;
 }
 
 #close {
     @apply text-neutral-900 cursor-pointer text-2xl mr-5 lg:mr-28;
+}
+
+#open {
+    @apply cursor-pointer text-2xl;
 }
 
 .menu-bar a,

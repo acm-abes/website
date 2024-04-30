@@ -1,5 +1,6 @@
 import { account, ID } from "@/appwrite/client";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { Models } from "appwrite";
 
 export const register = async (
   email: string,
@@ -7,8 +8,8 @@ export const register = async (
   name: string,
   router: AppRouterInstance,
 ) => {
-  await account.create(ID.unique(), email, password, name);
-  await login(email, password, router);
+  const aw = await account.create(ID.unique(), email, password, name);
+  return await login(email, password, router);
 };
 
 export const login = async (
@@ -17,9 +18,10 @@ export const login = async (
   router: AppRouterInstance,
 ) => {
   const session = await account.createEmailPasswordSession(email, password);
+  const userInfo = await account.get();
 
-  fetch("/api/auth", {
-    body: JSON.stringify({ session }),
+  await fetch("/api/auth", {
+    body: JSON.stringify({ session: userInfo }),
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -29,6 +31,8 @@ export const login = async (
   if (await account.get()) {
     router.push("/");
   }
+
+  return session;
 };
 
 export const logout = async () => {

@@ -7,7 +7,6 @@
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
 
-
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
 
@@ -25,6 +24,9 @@
 
     --accent: 0 0% 96.1%;
     --accent-foreground: 0 0% 9%;
+
+    --success: 127 69% 43%;
+    --success-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -58,6 +60,9 @@
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
 
+    --success: 127 69% 43%;
+    --success-foreground: 0 0% 98%;
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
@@ -73,5 +78,7 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  input[type="file"] {
   }
 }

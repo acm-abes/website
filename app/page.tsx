@@ -27,10 +27,12 @@ export default function Home() {
               <div className="w-full flex md:flex-row flex-col items-center justify-between space-y-3 md:space-y-0 md:space-x-20">
                 <Image
                   alt={"abes acm"}
-                  width={1300}
-                  height={1300}
+                  width={880}
+                  height={880}
                   src={"/images/abesec.png"}
-                  className="md:w-1/3 w-72"
+                  className="md:w-80 w-80"
+                  priority
+                  sizes="(min-width: 1360px) 320px, (min-width: 1040px) calc(19.33vw + 61px), (min-width: 780px) calc(21.25vw + 70px), (min-width: 400px) 320px, calc(75vw + 35px)"
                 />
                 <div className="md:w-2/3 flex flex-col space-y-1">
                   <Link
