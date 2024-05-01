@@ -12,6 +12,22 @@ export const register = async (
   return await login(email, password, router);
 };
 
+export const getLocalSession = async (
+  userInfo: Models.User<Models.Preferences>,
+) => {
+  const response = await fetch("/api/auth", {
+    body: JSON.stringify({ session: userInfo }),
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (response.ok) {
+    return response;
+  }
+};
+
 export const login = async (
   email: string,
   password: string,
@@ -20,14 +36,7 @@ export const login = async (
   const session = await account.createEmailPasswordSession(email, password);
   const userInfo = await account.get();
 
-  await fetch("/api/auth", {
-    body: JSON.stringify({ session: userInfo }),
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
+  await getLocalSession(userInfo);
   if (await account.get()) {
     router.push("/");
   }

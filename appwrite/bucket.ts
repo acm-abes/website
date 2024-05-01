@@ -20,10 +20,10 @@ export class Bucket {
     return this.connection.getFileView(this.buckets.event, id);
   }
 
-  async createItem(file: File) {
+  async createItem(file: File, id?: string) {
     const output = await this.connection.createFile(
       this.buckets.event,
-      ID.unique(),
+      id || ID.unique(),
       file,
     );
 

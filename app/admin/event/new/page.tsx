@@ -23,15 +23,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { Bucket } from "@/appwrite/bucket";
 import Image from "next/image";
+import { AppwriteException } from "appwrite";
 
 const Page = () => {
   const db = new Database();
   const bucket = new Bucket();
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
+
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [image, setImage] = useState("");
+  const [error, setError] = useState(false);
 
   const form = useForm<z.infer<typeof EventSchema>>({
     resolver: zodResolver(EventSchema),
@@ -47,8 +51,46 @@ const Page = () => {
       sponsors: [],
     },
   });
-  const onSubmit = (values: z.infer<typeof EventSchema>) => {
-    // if (file) bucket.createItem(file).then((r) => setImage(r.$id));
+  const onSubmit = async (values: z.infer<typeof EventSchema>) => {
+    setLoading(true);
+
+    const id = values.name.trim().split(" ").join("-").toLowerCase();
+
+    const logoInput = document.querySelector("#logo") as HTMLInputElement;
+    const file = logoInput.files![0];
+
+    try {
+      const eventImage = await bucket.createItem(file, id);
+
+      const eventImageURL = bucket.getItem(id);
+
+      const eventData = {
+        ...values,
+        id,
+        logo: eventImageURL.toString(),
+      };
+
+      console.log(eventData);
+
+      const res = await db.createEvent(eventData);
+
+      if (res?.$id) {
+        setLoading(false);
+        setSuccess(true);
+        setTimeout(() => {
+          router.push("/admin");
+        }, 2000);
+      } else {
+        setError(true);
+        setLoading(false);
+      }
+    } catch (err) {
+      if (err instanceof AppwriteException) {
+        console.log(err);
+        setError(true);
+        setLoading(false);
+      }
+    }
   };
 
   const onImageUpload = () => {
@@ -71,7 +113,6 @@ const Page = () => {
     setImage("");
     const logoInput = document.querySelector("#logo") as HTMLInputElement;
     logoInput.files = null;
-    // logoInput.value = "";
   };
 
   return (
@@ -99,17 +140,11 @@ const Page = () => {
             control={form.control}
             name="venue"
             render={({ field }) => {
-              console.log(field.onChange);
-
               return (
                 <FormItem>
                   <FormLabel>Venue</FormLabel>
                   <FormControl>
-                    <Input
-                      accept={"image/png, image/jpeg"}
-                      type={"text"}
-                      placeholder="Enter event venue"
-                    />
+                    <Input type={"text"} placeholder="Enter event venue" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -190,6 +225,7 @@ const Page = () => {
             )}
           />
           <Button
+            variant={error ? "destructive" : "default"}
             disabled={loading}
             className={`w-full space-x-1 flex items-center ${success && "bg-success text-success-foreground"}`}
             type="submit"

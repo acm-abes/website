@@ -12,8 +12,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Database from "@/appwrite/database";
+import Loading from "@/app/admin/dashboard/@events/loading";
+// import { Skeleton } from "@/components/ui/skeleton";
 
 const AuthGreeting = async () => {
+  const database = new Database();
+
+  const { documents: fetchedEvents } = await database.getEvents();
+
+  // return <Loading />;
+
   return (
     <div className={"flex flex-col space-y-2"}>
       <div className={"flex w-full justify-between"}>
@@ -41,14 +50,14 @@ const AuthGreeting = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {events.map((item) => (
+          {fetchedEvents.map((item) => (
             <TableRow key={item.id}>
               <TableCell className="font-medium">
                 <Link href={`/event/${item.id}`} className={"inherit"}>
                   {item.name}
                 </Link>
               </TableCell>
-              <TableCell>{item.date}</TableCell>
+              <TableCell>{new Date(item.date).toDateString()}</TableCell>
               <TableCell className={"flex justify-end"}>
                 <Link href={`/admin/event/edit/${item.id}`}>
                   <Edit size={"18"} />

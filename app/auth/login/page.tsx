@@ -15,14 +15,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LoginSchema } from "@/schemas/auth";
-import { login } from "@/lib/auth";
+import { getLocalSession, login } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Head from "next/head";
 import { useState } from "react";
 import { useTheme } from "next-themes";
 import { TailSpin } from "react-loader-spinner";
 import { CheckIcon } from "lucide-react";
+import { account } from "@/appwrite/client";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -38,6 +38,10 @@ const LoginPage = () => {
     },
   });
 
+  account.get().then(async (res) => {
+    if (res) await getLocalSession(res);
+  });
+
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setLoading(true);
     const res = await login(values.email, values.password, router);
@@ -50,10 +54,10 @@ const LoginPage = () => {
 
   return (
     <>
-      <head>
-        <title>LOGIN | ABES ACM</title>
-        {/*<meta name={"description"} content={"Login to your account"} />*/}
-      </head>
+      {/*<head>*/}
+      {/*  <title>LOGIN | ABES ACM</title>*/}
+      {/*  /!*<meta name={"description"} content={"Login to your account"} />*!/*/}
+      {/*</head>*/}
 
       <main className={"md:px-36 px-4 py-10 flex flex-col items-center"}>
         <Form {...form}>

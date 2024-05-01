@@ -1,5 +1,5 @@
 import { client } from "@/appwrite/client";
-import { Databases } from "appwrite";
+import { Databases, ID } from "appwrite";
 import { Event } from "@/types";
 
 export default class Database {
@@ -42,7 +42,7 @@ export default class Database {
       return await this.connection.createDocument(
         this.databaseId,
         this.collections.events,
-        event.id,
+        event.id || ID.unique(),
         event,
       );
     } catch (e) {

@@ -16,5 +16,5 @@ export async function POST(req: NextRequest, res: NextResponse) {
   cookieCreator.set("role", role);
   cookieCreator.set("name", name);
 
-  return NextResponse.json({ session, role });
+  return NextResponse.json({ session, role }, { status: 200 });
 }
