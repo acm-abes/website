@@ -10,9 +10,7 @@ import Database from "@/appwrite/database";
 import { notFound } from "next/navigation";
 import { Models } from "appwrite";
 import { type Event } from "@/types";
-
-// from "./../../../components/ui/carousel";
-// export const dynamic = "force-dynamic";
+import { Metadata } from "next";
 
 interface EventProps {
   params: {
@@ -29,8 +27,8 @@ const EventPage = async ({ params: { id } }: EventProps) => {
 
   // const data = events.find((e) => e.id === id);
   try {
-    data = (await database.getEventById(id))!;
-    console.log(data);
+    data = events.find((e) => e.id === id)! as Event & Models.Document;
+    if (!data) data = (await database.getEventById(id))!;
     if (!data) return notFound();
   } catch (e) {
     return notFound();
@@ -120,9 +118,16 @@ const EventPage = async ({ params: { id } }: EventProps) => {
   );
 };
 
-export async function generateMetadata({ params }: EventProps) {
+export async function generateMetadata({
+  params,
+}: EventProps): Promise<Metadata> {
   // const base_image_url = "/images";
-  const data = events.find((e) => e.id === params.id);
+  let data = events.find((e) => e.id === params.id);
+
+  if (!data) {
+    const database = new Database();
+    data = (await database.getEventById(params.id))!;
+  }
 
   if (!data)
     return {
@@ -138,9 +143,18 @@ export async function generateMetadata({ params }: EventProps) {
 
   return {
     title: data.name,
+    icons: {
+      icon: data.logo,
+    },
     openGraph: {
       title: data.name,
-      images: [{ url: `https://acm-abesec-1.vercel.app${data.logo}` }],
+      images: [
+        {
+          url: data.logo.includes("images")
+            ? `https://acm-abesec-1.vercel.app${data.logo}`
+            : data.logo,
+        },
+      ],
       description: data.description.split(" ").slice(0, 40).join(" ") + "...",
     },
   };
