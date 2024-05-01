@@ -1,5 +1,5 @@
 import { client } from "@/appwrite/client";
-import { Databases, ID } from "appwrite";
+import { Databases, ID, Models } from "appwrite";
 import { Event } from "@/types";
 
 export default class Database {
@@ -26,11 +26,11 @@ export default class Database {
 
   async getEventById(id: string) {
     try {
-      return this.connection.getDocument(
+      return (await this.connection.getDocument(
         this.databaseId,
         this.collections.events,
         id,
-      );
+      )) as unknown as Promise<Models.Document & Event>;
     } catch (error) {
       console.error(error);
       return null;

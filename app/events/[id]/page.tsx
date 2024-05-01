@@ -6,6 +6,10 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { events } from "@/public/data/events";
+import Database from "@/appwrite/database";
+import { notFound } from "next/navigation";
+import { Models } from "appwrite";
+import { type Event } from "@/types";
 
 // from "./../../../components/ui/carousel";
 // export const dynamic = "force-dynamic";
@@ -16,12 +20,21 @@ interface EventProps {
   };
 }
 
-const Event = ({ params: { id } }: EventProps) => {
+const EventPage = async ({ params: { id } }: EventProps) => {
+  const database = new Database();
+
   const base_image_url = "/images";
 
-  const data = events.find((e) => e.id === id);
+  let data: Event & Models.Document;
 
-  if (!data) return <main>Event not found</main>;
+  // const data = events.find((e) => e.id === id);
+  try {
+    data = (await database.getEventById(id))!;
+    console.log(data);
+    if (!data) return notFound();
+  } catch (e) {
+    return notFound();
+  }
 
   return (
     <main className="w-[100dvw] h-full space-y-36 md:space-y-52 lg:space-y-96 flex flex-col items-start">
@@ -80,7 +93,7 @@ const Event = ({ params: { id } }: EventProps) => {
                 timeStyle: "short",
                 hour12: true,
               }).format(data.time)} */}
-              {data.date}
+              {new Date(data.date).toDateString()}
             </span>
           </div>
           <div className="flex flex-col">
@@ -133,4 +146,4 @@ export async function generateMetadata({ params }: EventProps) {
   };
 }
 
-export default Event;
+export default EventPage;
