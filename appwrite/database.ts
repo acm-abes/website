@@ -1,12 +1,13 @@
 import { client } from "@/appwrite/client";
 import { Databases, ID, Models } from "appwrite";
-import { Event } from "@/types";
+import { Event, EventDocument } from "@/types";
 
 export default class Database {
-  private databaseId = "661bb5efad9f866934a4";
+  private databaseId = process.env.DATABASE_ID;
   private collections = {
-    events: "661bb5f65f15263548f4",
+    events: process.env.EVENTS_COLLECTION,
   };
+
   private static instance: Database;
   private connection: Databases;
   constructor() {
@@ -14,11 +15,12 @@ export default class Database {
     if (Database.instance) {
       return Database.instance;
     }
+
     Database.instance = this;
   }
 
   async getEvents() {
-    return this.connection.listDocuments(
+    return this.connection.listDocuments<EventDocument>(
       this.databaseId,
       this.collections.events,
     );
@@ -26,11 +28,11 @@ export default class Database {
 
   async getEventById(id: string) {
     try {
-      return (await this.connection.getDocument(
+      return await this.connection.getDocument<EventDocument>(
         this.databaseId,
         this.collections.events,
         id,
-      )) as unknown as Promise<Models.Document & Event>;
+      );
     } catch (error) {
       console.error(error);
       return null;
@@ -39,7 +41,7 @@ export default class Database {
 
   async createEvent(event: Event) {
     try {
-      return await this.connection.createDocument(
+      return await this.connection.createDocument<EventDocument>(
         this.databaseId,
         this.collections.events,
         event.id || ID.unique(),
@@ -53,7 +55,7 @@ export default class Database {
 
   async updateEvent(id: string, event: Event) {
     try {
-      return await this.connection.updateDocument(
+      return await this.connection.updateDocument<EventDocument>(
         this.databaseId,
         this.collections.events,
         id,

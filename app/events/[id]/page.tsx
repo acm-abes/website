@@ -40,7 +40,7 @@ const EventPage = async ({ params: { id } }: EventProps) => {
         {/* TODO : Add Carousel*/}
         <Carousel className="w-[100vw] relative">
           <CarouselContent>
-            {data.banners &&
+            {data.banners?.length ? (
               data.banners.map((banner, index) => (
                 <CarouselItem className={``} key={index}>
                   {banner !== "/" ? (
@@ -55,7 +55,18 @@ const EventPage = async ({ params: { id } }: EventProps) => {
                     <div className="w-full h-full bg-red-500"></div>
                   )}
                 </CarouselItem>
-              ))}
+              ))
+            ) : (
+              <CarouselItem className={``}>
+                <Image
+                  alt="event banner"
+                  className="w-[100dvw] max-h-96"
+                  width={1080}
+                  height={2560}
+                  src={"/images/default_banner.jpg"}
+                />
+              </CarouselItem>
+            )}
           </CarouselContent>
           {/* <CarouselNext className="right-3 z-50"></CarouselNext>
           <CarouselPrevious className=" left-3 z-50"></CarouselPrevious> */}
@@ -67,7 +78,7 @@ const EventPage = async ({ params: { id } }: EventProps) => {
         /> */}
       </div>
       <div className="w-full h-full p-2 sm:p-5 md:p-10 lg:p-36 space-y-10 md:space-y-10 lg:space-y-16 flex flex-col items-start">
-        <div className="flex justify-end rounded bg-secondary/40 drop-shadow-lg w-full p-4 sm:py-5 md:py-7 relative items-center">
+        <div className="flex justify-end rounded bg-secondary/40 backdrop-blur-lg w-full p-4 sm:py-5 md:py-7 relative items-center">
           <Image
             alt="event logo"
             width={512}

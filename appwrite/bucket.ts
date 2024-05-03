@@ -3,7 +3,7 @@ import { client } from "@/appwrite/client";
 
 export class Bucket {
   private buckets = {
-    event: "661bc7499c13dd5c7af7",
+    event: process.env.BUCKET_ID,
   };
   private static instance: Bucket;
   private connection: Storage;

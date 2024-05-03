@@ -32,6 +32,10 @@ const menuLinks = [
     path: "/auth/login",
     label: "LOGIN",
   },
+  {
+    path: "/gallery",
+    label: "GALLERY",
+  },
 ];
 const Menu = () => {
   const container = useRef();

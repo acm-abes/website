@@ -53,7 +53,7 @@ const AuthGreeting = async () => {
           {fetchedEvents.map((item) => (
             <TableRow key={item.id}>
               <TableCell className="font-medium">
-                <Link href={`/event/${item.id}`} className={"inherit"}>
+                <Link href={`/events/${item.id}`} className={"inherit"}>
                   {item.name}
                 </Link>
               </TableCell>

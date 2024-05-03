@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { Bucket } from "@/appwrite/bucket";
 import Image from "next/image";
-import { AppwriteException } from "appwrite";
+import { AppwriteException, ID } from "appwrite";
 
 const Page = () => {
   const db = new Database();
@@ -32,6 +32,7 @@ const Page = () => {
 
   const router = useRouter();
 
+  const [banners, setBanners] = useState([""]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [image, setImage] = useState("");
@@ -51,26 +52,36 @@ const Page = () => {
       sponsors: [],
     },
   });
+
   const onSubmit = async (values: z.infer<typeof EventSchema>) => {
     setLoading(true);
 
     const id = values.name.trim().split(" ").join("-").toLowerCase();
 
     const logoInput = document.querySelector("#logo") as HTMLInputElement;
+    const bannerInput = document.querySelector("#banners") as HTMLInputElement;
+
     const file = logoInput.files![0];
+    const bannerFiles = Array.from(bannerInput.files!);
 
     try {
       const eventImage = await bucket.createItem(file, id);
 
       const eventImageURL = bucket.getItem(id);
 
+      const bannerImages = await Promise.all(
+        bannerFiles.map(async (banner) => {
+          const res = await bucket.createItem(banner, ID.unique());
+          return bucket.getItem(res.$id).toString();
+        }),
+      );
+
       const eventData = {
         ...values,
         id,
         logo: eventImageURL.toString(),
+        banners: bannerImages,
       };
-
-      console.log(eventData);
 
       const res = await db.createEvent(eventData);
 
@@ -93,7 +104,7 @@ const Page = () => {
     }
   };
 
-  const onImageUpload = () => {
+  const onLogoUpload = () => {
     const reader = new FileReader();
 
     const logoInput = document.querySelector("#logo") as HTMLInputElement;
@@ -107,6 +118,24 @@ const Page = () => {
     };
 
     reader.readAsDataURL(file);
+  };
+
+  const onBannerUpload = () => {
+    const reader = new FileReader();
+
+    const bannerInput = document.querySelector("#banners") as HTMLInputElement;
+    const files = Array.from(bannerInput.files!);
+
+    if (!files.length) return;
+
+    files.forEach((file) => {
+      reader.onload = (e) => {
+        // console.log(e.target!.result);
+        setBanners((prev) => [...prev, e.target!.result as string]);
+      };
+
+      reader.readAsDataURL(file);
+    });
   };
 
   const removeSelectedImage = () => {
@@ -194,7 +223,7 @@ const Page = () => {
                       alt={"Logo preview"}
                       src={image}
                       id={"preview"}
-                      className={"w-full"}
+                      className={"max-h-96 w-fit"}
                     />
                     <Button
                       className={
@@ -211,12 +240,84 @@ const Page = () => {
                 )}
                 <FormControl>
                   <Input
-                    onInput={onImageUpload}
+                    onInput={onLogoUpload}
                     id={"logo"}
                     type={"file"}
                     className={"file-input"}
                     placeholder={"Add Event logo"}
                     accept=".jpg, .jpeg, .png"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="banners"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Event Banners</FormLabel>
+                {image && (
+                  <div className={"relative group flex flex-col space-y-1"}>
+                    {banners &&
+                      banners
+                        .filter((file) => file !== "")
+                        .map((banner) => (
+                          <Image
+                            width={1654}
+                            height={480}
+                            alt={"Banner preview"}
+                            src={banner}
+                            id={"banner_preview"}
+                            className={"lg:w-1/2"}
+                          />
+                        ))}
+                  </div>
+                )}
+                <FormControl>
+                  <Input
+                    onInput={onBannerUpload}
+                    id={"banners"}
+                    type={"file"}
+                    className={"file-input"}
+                    placeholder={"Add Event Banners"}
+                    accept=".jpg, .jpeg, .png"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="sponsors"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sponsors</FormLabel>
+                <FormControl>
+                  <Input
+                    type={"text"}
+                    placeholder={"Mention Your Sponsors (comma seperated)"}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="prizes"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Prizes</FormLabel>
+                <FormControl>
+                  <Input
+                    type={"text"}
+                    placeholder={"Mention the prizes"}
                     {...field}
                   />
                 </FormControl>

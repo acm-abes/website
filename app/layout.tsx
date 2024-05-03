@@ -12,9 +12,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "HOME | ABES ACM",
   description: "Official ABES ACM Chapter",
-  icons: {
-    icon: "/images/abes-acm.png",
-  },
+  // icons: {
+  //   icon: "/images/abes-acm.png",
+  // },
 };
 
 export default function RootLayout({
