@@ -8,3 +8,5 @@ _Please refer to Git Commit History for previous Logs_
   - Added field for Sponsors
   - Added field for Prizes
 - Initialed Gallery
+- Added Background gradient
+- Added Gallery Page (Placeholder)

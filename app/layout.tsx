@@ -12,9 +12,6 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "HOME | ABES ACM",
   description: "Official ABES ACM Chapter",
-  // icons: {
-  //   icon: "/images/abes-acm.png",
-  // },
 };
 
 export default function RootLayout({
@@ -22,18 +19,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const index = getRandomGradient(gradients);
-
   return (
     <html lang="en">
-      <body
-        className={"bg-background"}
-        // style={{
-
-        //   background: `radial-gradient(${gradients[index].start}, ${gradients[index].end});`,
-        // }}
-        // className={inter.className}
-      >
+      <body>
         <ThemeProvider>
           {/* <Navbar /> */}
           <Menu />

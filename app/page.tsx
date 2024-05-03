@@ -11,6 +11,15 @@ import Link from "next/link";
 import Card from "@/components/Card";
 import Image from "next/image";
 import { events } from "@/public/data/events";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "HOME | ABES ACM",
+  description: "Official ABES ACM Chapter",
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
 
 export default function Home() {
   return (
