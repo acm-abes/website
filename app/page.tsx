@@ -1,13 +1,6 @@
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
 import Image from "next/image";
 
-// const alumniSans = Alumni_Sans({
-//   subsets: ["latin"],
-//   style: "normal",
-//   weight: ["200", "400", "600", "700"],
-//   preload: true,
-// });
-
 export default function Home() {
   return (
     <BackgroundGradientAnimation

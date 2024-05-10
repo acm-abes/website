@@ -97,11 +97,6 @@ const EventPage = async ({ params: { id } }: EventProps) => {
               Organized on
             </span>
             <span className="text-base md:text-lg">
-              {/* {new Intl.DateTimeFormat("en-GB", {
-                dateStyle: "full",
-                timeStyle: "short",
-                hour12: true,
-              }).format(data.time)} */}
               {new Date(data.date).toDateString()}
             </span>
           </div>
