@@ -31,16 +31,22 @@ export default function Home() {
             className={"flex hero space-y-1 w-fit h-fit flex-col items-start"}
           >
             {/*<span className={"text-lg drop-shadow-2xl"}>Welcome to</span>*/}
-            <h1 className={"text-5xl text-cyan-600 font-bold drop-shadow-2xl"}>
+            <h1
+              className={
+                "text-4xl md:text-5xl text-cyan-600 font-bold drop-shadow-2xl"
+              }
+            >
               ABES-ACM
             </h1>
-            <p className={"accent-neutral-400"}>
+            <p className={"text-sm md:text-base accent-neutral-400"}>
               Welcome to Official ACM chapter by ABES EC
             </p>
           </div>
 
           <Image
-            className={" h-screen w-fit absolute right-0 object-cover"}
+            className={
+              "h-screen w-fit absolute right-0 object-cover md:block hidden"
+            }
             src={"/images/hero.svg"}
             width={256}
             height={256}
