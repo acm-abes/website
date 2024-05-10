@@ -18,3 +18,12 @@ export const isUserLoggedIn = async () => {
     return false;
   }
 };
+
+export const isAdmin = async () => {
+  try {
+    const user = await account.get();
+    return user.labels.includes("admin");
+  } catch (e) {
+    return false;
+  }
+};

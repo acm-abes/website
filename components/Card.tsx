@@ -15,7 +15,7 @@ const Card = ({ name, description, image, date, id, className }: CardProps) => {
   return (
     <Link
       href={`/events/${id}`}
-      className={`w-full md:w-80 lg:w-96 h-80 flex flex-col space-y-2 items-center bg-neutral-900/60 rounded-md p-4 ${className}`}
+      className={`w-full md:w-80 lg:w-96 h-80 flex flex-col space-y-2 items-center bg-secondary/40 border rounded-md p-4 ${className}`}
     >
       <div className="w-full justify-between flex flex-col space-y-1 items-start">
         <h3 className="text-2xl flex items-center group space-x-1">

@@ -6,9 +6,11 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { events } from "@/public/data/events";
-
-// from "./../../../components/ui/carousel";
-// export const dynamic = "force-dynamic";
+import Database from "@/appwrite/database";
+import { notFound } from "next/navigation";
+import { Models } from "appwrite";
+import { type Event } from "@/types";
+import { Metadata } from "next";
 
 interface EventProps {
   params: {
@@ -16,12 +18,21 @@ interface EventProps {
   };
 }
 
-const Event = ({ params: { id } }: EventProps) => {
+const EventPage = async ({ params: { id } }: EventProps) => {
+  const database = new Database();
+
   const base_image_url = "/images";
 
-  const data = events.find((e) => e.id === id);
+  let data: Event & Models.Document;
 
-  if (!data) return <main>Event not found</main>;
+  // const data = events.find((e) => e.id === id);
+  try {
+    data = events.find((e) => e.id === id)! as Event & Models.Document;
+    if (!data) data = (await database.getEventById(id))!;
+    if (!data) return notFound();
+  } catch (e) {
+    return notFound();
+  }
 
   return (
     <main className="w-[100dvw] h-full space-y-36 md:space-y-52 lg:space-y-96 flex flex-col items-start">
@@ -29,7 +40,7 @@ const Event = ({ params: { id } }: EventProps) => {
         {/* TODO : Add Carousel*/}
         <Carousel className="w-[100vw] relative">
           <CarouselContent>
-            {data.banners &&
+            {data.banners?.length ? (
               data.banners.map((banner, index) => (
                 <CarouselItem className={``} key={index}>
                   {banner !== "/" ? (
@@ -44,7 +55,18 @@ const Event = ({ params: { id } }: EventProps) => {
                     <div className="w-full h-full bg-red-500"></div>
                   )}
                 </CarouselItem>
-              ))}
+              ))
+            ) : (
+              <CarouselItem className={``}>
+                <Image
+                  alt="event banner"
+                  className="w-[100dvw] max-h-96"
+                  width={1080}
+                  height={2560}
+                  src={"/images/default_banner.jpg"}
+                />
+              </CarouselItem>
+            )}
           </CarouselContent>
           {/* <CarouselNext className="right-3 z-50"></CarouselNext>
           <CarouselPrevious className=" left-3 z-50"></CarouselPrevious> */}
@@ -56,7 +78,7 @@ const Event = ({ params: { id } }: EventProps) => {
         /> */}
       </div>
       <div className="w-full h-full p-2 sm:p-5 md:p-10 lg:p-36 space-y-10 md:space-y-10 lg:space-y-16 flex flex-col items-start">
-        <div className="flex justify-end rounded bg-secondary/40 drop-shadow-lg w-full p-4 sm:py-5 md:py-7 relative items-center">
+        <div className="flex justify-end rounded bg-secondary/40 backdrop-blur-lg w-full p-4 sm:py-5 md:py-7 relative items-center">
           <Image
             alt="event logo"
             width={512}
@@ -80,7 +102,7 @@ const Event = ({ params: { id } }: EventProps) => {
                 timeStyle: "short",
                 hour12: true,
               }).format(data.time)} */}
-              {data.date}
+              {new Date(data.date).toDateString()}
             </span>
           </div>
           <div className="flex flex-col">
@@ -107,9 +129,16 @@ const Event = ({ params: { id } }: EventProps) => {
   );
 };
 
-export async function generateMetadata({ params }: EventProps) {
+export async function generateMetadata({
+  params,
+}: EventProps): Promise<Metadata> {
   // const base_image_url = "/images";
-  const data = events.find((e) => e.id === params.id);
+  let data = events.find((e) => e.id === params.id);
+
+  if (!data) {
+    const database = new Database();
+    data = (await database.getEventById(params.id))!;
+  }
 
   if (!data)
     return {
@@ -125,12 +154,21 @@ export async function generateMetadata({ params }: EventProps) {
 
   return {
     title: data.name,
+    icons: {
+      icon: data.logo,
+    },
     openGraph: {
       title: data.name,
-      images: [{ url: `https://acm-abesec-1.vercel.app${data.logo}` }],
+      images: [
+        {
+          url: data.logo.includes("images")
+            ? `https://acm-abesec-1.vercel.app${data.logo}`
+            : data.logo,
+        },
+      ],
       description: data.description.split(" ").slice(0, 40).join(" ") + "...",
     },
   };
 }
 
-export default Event;
+export default EventPage;

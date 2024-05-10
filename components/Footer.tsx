@@ -5,7 +5,7 @@ import { NavItems } from "./Navbar";
 
 const Footer = () => {
   return (
-    <footer className="w-full backdrop-blur-lg h-full bg-background/20 flex flex-col space-y-7 p-4 md:py-10 md:px-20 lg:px-36">
+    <footer className="w-full backdrop-blur-lg h-full bg-black flex flex-col space-y-7 p-4 md:py-10 md:px-20 lg:px-36">
       <div className="w-full flex items-start">
         <h2 className="text-3xl">
           <Link

@@ -1,7 +1,9 @@
+import { Models } from "appwrite";
+
 export interface Event {
   id: string;
   name: string;
-  banners: string[];
+  banners?: string[];
   logo: string;
   date: string;
   description: string;
@@ -9,3 +11,5 @@ export interface Event {
   prizes: string;
   venue: string;
 }
+
+type EventDocument = Event & Models.Document;

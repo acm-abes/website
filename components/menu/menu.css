@@ -7,13 +7,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 1;
+    z-index: 2;
 
-    @apply text-foreground bg-background/20 backdrop-blur-lg py-[1.75em] px-4 md:px-20 xl:px-36;
+    @apply text-foreground bg-background/20 backdrop-blur-lg py-[1.75em] px-4 pr-10 md:px-20 xl:px-36;
 }
 
 #close {
-    @apply text-neutral-900 cursor-pointer text-2xl mr-5 lg:mr-28;
+    @apply text-neutral-900 cursor-pointer text-2xl mr-5 lg:mr-28 z-[999];
+}
+
+#open {
+    @apply cursor-pointer text-2xl;
 }
 
 .menu-bar a,
@@ -35,7 +39,7 @@
     height: 100vh;
     padding: 2em;
     background: #F8F6E3;
-    z-index: 2;
+    z-index: 999;
     display: flex;
     clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
 }

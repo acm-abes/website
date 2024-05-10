@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "EVENTS | ABES ACM",
-  description: "Official ABES ACM Chapter",
+  description: "Events Hosted by Official ABES ACM Chapter",
   icons: { icon: "/images/abes-acm.png" },
 };
 

@@ -15,13 +15,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LoginSchema } from "@/schemas/auth";
-import { login } from "@/lib/auth";
+import { getLocalSession, login } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Head from "next/head";
+import { useState } from "react";
+import { useTheme } from "next-themes";
+import { TailSpin } from "react-loader-spinner";
+import { CheckIcon } from "lucide-react";
+import { account } from "@/appwrite/client";
 
 const LoginPage = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const { theme } = useTheme();
+  const [success, setSuccess] = useState(false);
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -31,16 +38,26 @@ const LoginPage = () => {
     },
   });
 
+  account.get().then(async (res) => {
+    if (res) await getLocalSession(res);
+  });
+
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
-    await login(values.email, values.password, router);
+    setLoading(true);
+    const res = await login(values.email, values.password, router);
+
+    if (res.$id) {
+      setLoading(false);
+      setSuccess(true);
+    }
   };
 
   return (
     <>
-      <head>
-        <title>LOGIN | ABES ACM</title>
-        {/*<meta name={"description"} content={"Login to your account"} />*/}
-      </head>
+      {/*<head>*/}
+      {/*  <title>LOGIN | ABES ACM</title>*/}
+      {/*  /!*<meta name={"description"} content={"Login to your account"} />*!/*/}
+      {/*</head>*/}
 
       <main className={"md:px-36 px-4 py-10 flex flex-col items-center"}>
         <Form {...form}>
@@ -56,7 +73,11 @@ const LoginPage = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your email" {...field} />
+                    <Input
+                      type={"email"}
+                      placeholder="Enter your email"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -85,8 +106,27 @@ const LoginPage = () => {
                 Register
               </Link>
             </FormDescription>
-            <Button className={"w-full"} type="submit">
-              Submit
+            <Button
+              disabled={loading}
+              className={`w-full space-x-1 flex items-center ${success && "bg-success text-success-foreground"}`}
+              type="submit"
+            >
+              {loading && (
+                <TailSpin
+                  visible={true}
+                  height="20"
+                  width="20"
+                  color={theme === "dark" ? "white" : "black"}
+                  ariaLabel="tail-spin-loading"
+                  wrapperStyle={{}}
+                  wrapperClass={``}
+                />
+              )}
+              {success && <CheckIcon />}
+
+              <span className={`${loading && "translate-x-2"} duration-200`}>
+                Submit
+              </span>
             </Button>
           </form>
         </Form>

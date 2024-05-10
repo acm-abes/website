@@ -9,7 +9,7 @@ import Image from "next/image";
 import { GrClose } from "react-icons/gr";
 import { logout } from "@/lib/auth";
 import { usePathname, useRouter } from "next/navigation";
-import { isUserLoggedIn } from "@/lib/utils";
+import { isAdmin, isUserLoggedIn } from "@/lib/utils";
 
 const menuLinks = [
   {
@@ -32,12 +32,18 @@ const menuLinks = [
     path: "/auth/login",
     label: "LOGIN",
   },
+  {
+    path: "/gallery",
+    label: "GALLERY",
+  },
 ];
 const Menu = () => {
   const container = useRef();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const tl = useRef();
+
   const [loggedIn, setLoggedIn] = useState(false);
+  const [admin, setAdmin] = useState(false);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -45,6 +51,7 @@ const Menu = () => {
   useEffect(() => {
     isUserLoggedIn().then((res) => {
       setLoggedIn(res);
+      res && isAdmin().then((res) => setAdmin(res));
     });
   }, [pathname]);
 
@@ -99,7 +106,7 @@ const Menu = () => {
         </div>
         <div className="menu-open" onClick={toggleMenu}>
           <div>
-            <GiHamburgerMenu className={"text-2xl cursor-pointer mr-5"} />
+            <GiHamburgerMenu id={"open"} />
           </div>
         </div>
       </div>
@@ -154,6 +161,15 @@ const Menu = () => {
                 </div>
               );
             })}
+            {admin && (
+              <div className="menu-link-item">
+                <div className="menu-link-item-holder" onClick={toggleMenu}>
+                  <Link href={"/admin"} className={"menu-link"}>
+                    ADMIN PANEL
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
           <div className="menu-info">
             <div className="menu-info-col">
