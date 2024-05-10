@@ -57,18 +57,3 @@ export default function Home() {
     </BackgroundGradientAnimation>
   );
 }
-
-const MotionLayer = () => {
-  return (
-    <div className={"absolute top-0 left-0 w-full h-full bg-black"}>
-      <div
-        className={"w-full h-full backdrop-blur-3xl absolute top-0 left-0"}
-      ></div>
-      <div
-        className={
-          "rounded-full w-10 h-10 bg-red-600 top-1/2 blur-3xl absolute"
-        }
-      ></div>
-    </div>
-  );
-};
