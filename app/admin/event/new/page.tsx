@@ -24,6 +24,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Bucket } from "@/appwrite/bucket";
 import Image from "next/image";
 import { AppwriteException, ID } from "appwrite";
+import DatePicker from "@/components/datepicker";
 
 const Page = () => {
   const db = new Database();
@@ -52,6 +53,10 @@ const Page = () => {
       sponsors: [],
     },
   });
+
+  const debugSubmit = async (values: z.infer<typeof EventSchema>) => {
+    console.log(values);
+  };
 
   const onSubmit = async (values: z.infer<typeof EventSchema>) => {
     setLoading(true);
@@ -187,7 +192,10 @@ const Page = () => {
               <FormItem>
                 <FormLabel>Date</FormLabel>
                 <FormControl>
-                  <Input type={"date"} {...field} />
+                  {/*<Input type={"date"} {...field} />*/}
+                  <div>
+                    <DatePicker value={field.value} onChange={field.onChange} />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

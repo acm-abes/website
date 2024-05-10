@@ -10,3 +10,10 @@ _Please refer to Git Commit History for previous Logs_
 - Initialed Gallery
 - Added Background gradient
 - Added Gallery Page (Placeholder)
+
+### 4 May 2024
+- Added moving gradient background for home page
+- Changed Hero Section Image
+
+### 10 May 2024
+- Updated Date picker for Create Event Page

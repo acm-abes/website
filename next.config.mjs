@@ -6,6 +6,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "cloud.appwrite.io",
         port: ""
+      },
+      {
+        protocol: "https",
+        hostname: "pbs.twimg.com",
+        port:""
       }
     ]
   }

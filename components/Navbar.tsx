@@ -29,7 +29,7 @@ export const NavItems = [
 
 const Navbar = () => {
   return (
-    <header className="bg-background/20 backdrop-blur-lgs z-20 sticky top-0 h-16 md:h-20 flex items-center justify-between px-5 lg:px-36 w-full">
+    <header className="bg-background/20 backdrop-blur-sm z-40 sticky top-0 h-16 md:h-20 flex items-center justify-between px-5 lg:px-36 w-full">
       <div>
         <Link href={"/"} className="flex items-center justify-center space-x-2">
           <Image

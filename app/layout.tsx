@@ -7,7 +7,7 @@ import Menu from "@/components/menu/Menu";
 import { Metadata } from "next";
 import React from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "HOME | ABES ACM",
@@ -28,7 +28,7 @@ export default function RootLayout({
           <div className="pt-20">{children}</div>
           <Footer />
         </ThemeProvider>
-        <Analytics />
+        {/*<Analytics />*/}
       </body>
     </html>
   );
