@@ -12,6 +12,13 @@ import React from "react";
 export const metadata: Metadata = {
   title: "HOME | ABES ACM",
   description: "Official ABES ACM Chapter",
+  openGraph: {
+    images: [
+      {
+        url: new URL("https://acm-abesec-1.vercel.app/images/acm-color-bg.jpg"),
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
