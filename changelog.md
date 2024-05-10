@@ -17,3 +17,4 @@ _Please refer to Git Commit History for previous Logs_
 
 ### 10 May 2024
 - Updated Date picker for Create Event Page
+- Added new default open graph image

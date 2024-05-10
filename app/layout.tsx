@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [
       {
-        url: new URL("https://acm-abesec-1.vercel.app/images/acm-color-bg.jpg"),
+        url: new URL("https://abes-acm.vercel.app/images/acm-color-bg.jpg"),
       },
     ],
   },
