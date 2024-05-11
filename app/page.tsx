@@ -7,7 +7,9 @@ export default function Home() {
       gradientBackgroundStart={"#000"}
       gradientBackgroundEnd={"#000"}
       // thirdColor={"#000"}
+      fourthColor={"227, 227, 227"}
       interactive={false}
+      // size={"50%"}
       className={"min-h-screen w-screen overflow-hidden absolute top-0 left-0"}
     >
       <main
@@ -26,12 +28,12 @@ export default function Home() {
             {/*<span className={"text-lg drop-shadow-2xl"}>Welcome to</span>*/}
             <h1
               className={
-                "text-4xl md:text-5xl text-cyan-600 font-bold drop-shadow-2xl"
+                "text-5xl md:text-6xl text-cyan-600 font-bold drop-shadow-2xl"
               }
             >
               ABES-ACM
             </h1>
-            <p className={"text-sm md:text-base accent-neutral-400"}>
+            <p className={"md:text-lg accent-neutral-400"}>
               Welcome to Official ACM chapter by ABES EC
             </p>
           </div>

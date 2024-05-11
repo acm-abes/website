@@ -1,5 +1,5 @@
 import React from "react";
-import { events } from "@/public/data/events";
+// import { events } from "@/public/data/events";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Edit, Plus } from "lucide-react";
@@ -13,9 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Database from "@/appwrite/database";
-import Loading from "@/app/admin/dashboard/@events/loading";
-// import { Skeleton } from "@/components/ui/skeleton";
-
+import DeleteEventDialog from "@/app/admin/dashboard/@events/delete-event-dialog";
 const AuthGreeting = async () => {
   const database = new Database();
 
@@ -58,7 +56,11 @@ const AuthGreeting = async () => {
                 </Link>
               </TableCell>
               <TableCell>{new Date(item.date).toDateString()}</TableCell>
-              <TableCell className={"flex justify-end"}>
+              <TableCell className={"flex space-x-6 justify-end"}>
+                <DeleteEventDialog item={item} />
+                {/*</TableCell>*/}
+                {/*<TableCell className={"flex justify-end"}>*/}
+
                 <Link href={`/admin/event/edit/${item.id}`}>
                   <Edit size={"18"} />
                 </Link>

@@ -97,9 +97,9 @@ const Menu = () => {
           <Link href={"/"}>
             <Image
               src={"/images/abes-acm.png"}
-              width={128}
-              height={128}
-              className="h-10 w-10"
+              width={64}
+              height={64}
+              // className="w-[20px]"
               alt={"ABES-ACM"}
             />
           </Link>

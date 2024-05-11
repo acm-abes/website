@@ -39,7 +39,11 @@ const LoginPage = () => {
   });
 
   account.get().then(async (res) => {
-    if (res) await getLocalSession(res);
+    if (res) {
+      const { ok } = (await getLocalSession(res))!;
+
+      if (ok) router.refresh();
+    }
   });
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {

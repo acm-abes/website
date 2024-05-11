@@ -34,9 +34,9 @@ const Navbar = () => {
         <Link href={"/"} className="flex items-center justify-center space-x-2">
           <Image
             src={"/images/abes-acm.png"}
-            width={128}
-            height={128}
-            className="h-10 w-10"
+            width={256}
+            height={256}
+            className="h-14 w-14"
             alt={"ABES-ACM"}
           />
           <span>ABES-EC</span>

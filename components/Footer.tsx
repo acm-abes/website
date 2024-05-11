@@ -28,7 +28,7 @@ const Footer = () => {
         spirit of technology and computing among the students, through various
         fields of modern technology.
       </p>
-      <div className="grid grid-cols-4 justify-evenly w-full underline opacity-90 text-sm text-center">
+      <div className="grid gap-y-6 grid-cols-4 justify-evenly w-full underline opacity-90 text-sm text-center">
         {NavItems.map((item) => (
           <Link href={"/" + item.href}>{item.name}</Link>
         ))}

@@ -66,4 +66,17 @@ export default class Database {
       return null;
     }
   }
+
+  async deleteEvent(id: string) {
+    try {
+      return await this.connection.deleteDocument(
+        this.databaseId,
+        this.collections.events,
+        id,
+      );
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  }
 }
