@@ -24,3 +24,13 @@ _Please refer to Git Commit History for previous Logs_
 - Added delete event feature to admin panel
 - Fixed not being able to access admin panel correctly
 - Added Dialogs
+
+### 12 May 2024
+- Login Page
+  - Fixed Account not found bug in Login Page
+  - Added callback URL for Login Page
+- Improved Matcher for middleware
+
+#### TODO
+- Convert Login and Register Page to Server Components and add metadata.
+- Make changes to date formatting in events.
