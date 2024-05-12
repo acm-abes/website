@@ -18,13 +18,14 @@ import { LoginSchema } from "@/schemas/auth";
 import { getLocalSession, login } from "@/lib/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useTheme } from "next-themes";
 import { TailSpin } from "react-loader-spinner";
 import { CheckIcon } from "lucide-react";
 import { account } from "@/appwrite/client";
+import { isUserLoggedIn } from "@/lib/utils";
 
-const LoginPage = () => {
+const LoginForm = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
@@ -39,9 +40,10 @@ const LoginPage = () => {
     },
   });
 
-  account.get().then(async (res) => {
+  isUserLoggedIn().then(async (res) => {
     if (res) {
-      const { ok } = (await getLocalSession(res))!;
+      const user = await account.get();
+      const { ok } = (await getLocalSession(user))!;
       const callbackURL = searchParams.has("callback")
         ? searchParams.get("callback")!
         : "/";
@@ -147,6 +149,14 @@ const LoginPage = () => {
         </Form>
       </main>
     </>
+  );
+};
+
+const LoginPage = () => {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 };
 
