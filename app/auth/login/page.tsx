@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LoginSchema } from "@/schemas/auth";
 import { getLocalSession, login } from "@/lib/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { useTheme } from "next-themes";
@@ -29,6 +29,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
   const [success, setSuccess] = useState(false);
+  const searchParams = useSearchParams();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -41,14 +42,24 @@ const LoginPage = () => {
   account.get().then(async (res) => {
     if (res) {
       const { ok } = (await getLocalSession(res))!;
+      const callbackURL = searchParams.has("callback")
+        ? searchParams.get("callback")!
+        : "/";
 
-      if (ok) router.refresh();
+      if (ok) router.push(callbackURL);
     }
   });
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setLoading(true);
-    const res = await login(values.email, values.password, router);
+
+    const callbackURL = searchParams.get("callback");
+    const res = await login(
+      values.email,
+      values.password,
+      router,
+      callbackURL || undefined,
+    );
 
     if (res.$id) {
       setLoading(false);

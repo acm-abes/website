@@ -1,5 +1,4 @@
 import React from "react";
-import Database from "@/appwrite/database";
 
 interface Params {
   params: {

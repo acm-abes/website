@@ -1,5 +1,5 @@
 import { client } from "@/appwrite/client";
-import { Databases, ID, Models } from "appwrite";
+import { Databases, ID } from "appwrite";
 import { Event, EventDocument } from "@/types";
 
 export default class Database {

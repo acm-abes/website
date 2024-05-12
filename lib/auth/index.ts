@@ -8,7 +8,7 @@ export const register = async (
   name: string,
   router: AppRouterInstance,
 ) => {
-  const aw = await account.create(ID.unique(), email, password, name);
+  await account.create(ID.unique(), email, password, name);
   return await login(email, password, router);
 };
 
@@ -32,13 +32,14 @@ export const login = async (
   email: string,
   password: string,
   router: AppRouterInstance,
+  callbackURL: string = "/",
 ) => {
   const session = await account.createEmailPasswordSession(email, password);
   const userInfo = await account.get();
 
   await getLocalSession(userInfo);
   if (await account.get()) {
-    router.push("/");
+    setTimeout(() => router.push(callbackURL), 1000);
   }
 
   return session;

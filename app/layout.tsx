@@ -1,8 +1,6 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/Providers";
 import Footer from "@/components/Footer";
-import { Analytics } from "@vercel/analytics/react";
 import Menu from "@/components/menu/Menu";
 import { Metadata } from "next";
 import React from "react";
