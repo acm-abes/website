@@ -7,7 +7,7 @@ import Database from "@/appwrite/database";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "EVENTS | ABES ACM",
+  title: "EVENTS",
   description: "Events Hosted by Official ABES ACM Chapter",
   icons: { icon: "/images/abes-acm.png" },
 };

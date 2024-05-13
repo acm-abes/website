@@ -6,7 +6,7 @@ export const events: Event[] = [
     name: "ACPC 2k24",
     banners: ["/ACPC/banner_1.png", "/ACPC/banner_2.png", "/ACPC/banner_3.png"],
     logo: "/images/ACPC/poster.jpg",
-    date: "27 Apr 2024, 11:00 AM",
+    date: "2024-04-27T00:00:00.000+00:00",
     description:
       "ACPC aims to provide a platform for students to showcase their knowledge and skills in competitive programming. The ABESEC Collegiate Programming Contest(ACPC) is an algorithmic programming contest for college students. ACPC providescription students with opportunities to interact, demonstrate, and improve their teamwork, programming, and problem-solving processes.",
     sponsors: [],
@@ -16,7 +16,7 @@ export const events: Event[] = [
   {
     id: "navrohan-2k24",
     name: "Navrohan 2K24",
-    date: "5 Feb 2024",
+    date: "5-2-2024",
     logo: "/assets/navrohan.jpg",
     description:
       "ACM ABESEC Student Chapter and ACM ABESEC W Chapter are bringing for you “NAVROHAN-2k24”, the Recruitment drive of 2024. So, roll up your sleeves and get ready to experience the most interesting tech recruitment. 🔹 Open to all the branches of 1st and 2nd year for the first time.",

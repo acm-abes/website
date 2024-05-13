@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import "./menu.css";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -44,15 +44,18 @@ const Menu = () => {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [admin, setAdmin] = useState(false);
-
-  const router = useRouter();
   const pathname = usePathname();
+  const router = useRouter();
 
-  useEffect(() => {
+  const checkLoginStatus = useCallback(() => {
     isUserLoggedIn().then((res) => {
       setLoggedIn(res);
       res && isAdmin().then((res) => setAdmin(res));
     });
+  }, []);
+
+  useEffect(() => {
+    checkLoginStatus();
   }, [pathname]);
 
   const toggleMenu = () => {

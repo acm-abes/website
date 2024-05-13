@@ -4,18 +4,15 @@ import Footer from "@/components/Footer";
 import Menu from "@/components/menu/Menu";
 import { Metadata } from "next";
 import React from "react";
+import { defaultOGConfig } from "@/lib/constants";
 
 // const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "HOME | ABES ACM",
+  title: { template: "%s | ABES ACM", default: "HOME" },
   description: "Official ABES ACM Chapter",
   openGraph: {
-    images: [
-      {
-        url: "https://abes-acm.vercel.app/images/acm-color-bg.jpg",
-      },
-    ],
+    ...defaultOGConfig,
   },
 };
 

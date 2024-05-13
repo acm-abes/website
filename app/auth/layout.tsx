@@ -5,7 +5,11 @@ const Layout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  return <div>{children}</div>;
+  return (
+    <main className={"md:px-36 px-4 py-10 flex flex-col items-center"}>
+      {children}
+    </main>
+  );
 };
 
 export default Layout;

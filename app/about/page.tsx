@@ -1,8 +1,13 @@
 import Link from "next/link";
 import React from "react";
+import { defaultOGConfig } from "@/lib/constants";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "ABOUT US | ABES ACM",
+export const metadata: Metadata = {
+  openGraph: {
+    ...defaultOGConfig,
+  },
+  title: "ABOUT US",
   description: "Official ABES ACM Chapter",
   icons: { icon: "/images/abes-acm.png" },
 };

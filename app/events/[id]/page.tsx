@@ -1,4 +1,4 @@
-import React from "react";
+import React, { cache } from "react";
 import Image from "next/image";
 import {
   Carousel,
@@ -11,12 +11,18 @@ import { notFound } from "next/navigation";
 import { Models } from "appwrite";
 import { type Event } from "@/types";
 import { Metadata } from "next";
+import { format, parse, parseISO } from "date-fns";
+import { parseDate } from "@/lib/utils";
 
 interface EventProps {
   params: {
     id: string;
   };
 }
+
+const getEvent = cache(async (database: Database, id: string) => {
+  return await database.getEventById(id);
+});
 
 const EventPage = async ({ params: { id } }: EventProps) => {
   const database = new Database();
@@ -28,7 +34,13 @@ const EventPage = async ({ params: { id } }: EventProps) => {
   // const data = events.find((e) => e.id === id);
   try {
     data = events.find((e) => e.id === id)! as Event & Models.Document;
-    if (!data) data = (await database.getEventById(id))!;
+    // if (!data) data = (await database.getEventById(id))!;
+    if (!data) data = (await getEvent(database, id))!;
+
+    const parsedDate = parseDate(data.date);
+
+    data.date = parsedDate;
+
     if (!data) return notFound();
   } catch (e) {
     return notFound();
@@ -45,6 +57,7 @@ const EventPage = async ({ params: { id } }: EventProps) => {
                 <CarouselItem className={``} key={index}>
                   {banner !== "/" ? (
                     <Image
+                      priority
                       alt="event banner"
                       className="w-[100dvw] max-h-96"
                       width={1080}
@@ -96,9 +109,7 @@ const EventPage = async ({ params: { id } }: EventProps) => {
             <span className="text-sm text-secondary-foreground">
               Organized on
             </span>
-            <span className="text-base md:text-lg">
-              {new Date(data.date).toDateString()}
-            </span>
+            <span className="text-base md:text-lg">{data.date}</span>
           </div>
           <div className="flex flex-col">
             <span className="text-sm text-secondary-foreground">Venue</span>
@@ -132,7 +143,7 @@ export async function generateMetadata({
 
   if (!data) {
     const database = new Database();
-    data = (await database.getEventById(params.id))!;
+    data = (await getEvent(database, params.id))!;
   }
 
   if (!data)
