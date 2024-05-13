@@ -33,8 +33,8 @@ export default class Database {
         this.collections.events,
         id,
       );
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      console.log(e);
       return null;
     }
   }

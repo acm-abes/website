@@ -29,8 +29,10 @@ const Footer = () => {
         fields of modern technology.
       </p>
       <div className="grid gap-y-6 grid-cols-4 justify-evenly w-full underline opacity-90 text-sm text-center">
-        {NavItems.map((item) => (
-          <Link href={"/" + item.href}>{item.name}</Link>
+        {NavItems.map((item, index) => (
+          <Link key={index} href={"/" + item.href}>
+            {item.name}
+          </Link>
         ))}
       </div>
       <div className="text-sm text-center">

@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { account } from "@/appwrite/client";
-import { format, parse } from "date-fns";
+import { format, parse, parseISO } from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -30,21 +30,29 @@ export const isAdmin = async () => {
 };
 
 export const parseDate = (date: string) => {
-  let parsedDate = parse(date, "d-M-yyyy", new Date()).toString();
+  let parsedDate = parse(
+    date,
+    "yyyy-MM-dd'T'HH:mm:ss.SSSxxx",
+    new Date(),
+  ).toString();
 
-  parsedDate === "Invalid Date" &&
-    (parsedDate = parse(date, "d MMM yyyy", new Date()).toString());
+  if (parsedDate === "Invalid Date") {
+    parsedDate = parse(date, "d MMM yyyy", new Date()).toString();
+  }
 
-  parsedDate === "Invalid Date" &&
-    (parsedDate = parse(
-      date,
-      "yyyy-MM-dd'T'HH:mm:ss.SSSxxx",
-      new Date(),
-    ).toString());
+  if (parsedDate === "Invalid Date") {
+    parsedDate = parse(date, "d MMM yyyy", new Date()).toString();
+  }
 
-  parsedDate = format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx").toString();
+  if (parsedDate === "Invalid Date" || parsedDate === "Invalid Time") {
+    parsedDate = parse(date, "d MMMM yyyy", new Date()).toString();
+  }
 
-  (parsedDate = format(parsedDate, "do MMMM yyyy")).toString();
+  if (parsedDate === "Invalid Date") {
+    parsedDate = parse(date, "d-MM-yyyy", new Date()).toString();
+  }
 
-  return parsedDate;
+  const final = format(parsedDate, "do MMM yyyy");
+
+  return final;
 };

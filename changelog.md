@@ -48,3 +48,8 @@ _Please refer to Git Commit History for previous Logs_
 - Added Metadata to Login and Register
 - Made date formatting consistent across all events
 - Code Refactored
+- Made date formatting consistent across all pages
+
+#### TODO
+
+- Add Loading Components to Events and Event pages

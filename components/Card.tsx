@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { parseDate } from "@/lib/utils";
 
 interface CardProps {
   name: string;
@@ -32,7 +33,7 @@ const Card = ({ name, description, image, date, id, className }: CardProps) => {
         >
           {name}
         </h3>
-        <span className={"opacity-75"}>{date}</span>
+        <span className={"opacity-75"}>{parseDate(date)}</span>
         <p className={"opacity-90 "}>{description.slice(0, 75)}...</p>
       </div>
     </Link>

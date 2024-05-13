@@ -6,10 +6,9 @@ import { Metadata } from "next";
 import React from "react";
 import { defaultOGConfig } from "@/lib/constants";
 
-// const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
   title: { template: "%s | ABES ACM", default: "HOME" },
+  metadataBase: new URL("https://abes-acm.vercel.app"),
   description: "Official ABES ACM Chapter",
   openGraph: {
     ...defaultOGConfig,

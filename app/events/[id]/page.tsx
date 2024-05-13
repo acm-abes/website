@@ -11,7 +11,6 @@ import { notFound } from "next/navigation";
 import { Models } from "appwrite";
 import { type Event } from "@/types";
 import { Metadata } from "next";
-import { format, parse, parseISO } from "date-fns";
 import { parseDate } from "@/lib/utils";
 
 interface EventProps {
@@ -32,19 +31,18 @@ const EventPage = async ({ params: { id } }: EventProps) => {
   let data: Event & Models.Document;
 
   // const data = events.find((e) => e.id === id);
-  try {
-    data = events.find((e) => e.id === id)! as Event & Models.Document;
-    // if (!data) data = (await database.getEventById(id))!;
-    if (!data) data = (await getEvent(database, id))!;
 
-    const parsedDate = parseDate(data.date);
+  data = events.find((e) => e.id === id)! as Event & Models.Document;
+  // if (!data) data = (await database.getEventById(id))!;
+  if (!data) data = (await getEvent(database, id))!;
 
-    data.date = parsedDate;
+  if (!data) return notFound();
 
-    if (!data) return notFound();
-  } catch (e) {
-    return notFound();
-  }
+  console.log("Date passed : ", data.date);
+
+  data.date = parseDate(data.date);
+
+  console.log(data.date);
 
   return (
     <main className="w-[100dvw] h-full space-y-36 md:space-y-52 lg:space-y-96 flex flex-col items-start">
