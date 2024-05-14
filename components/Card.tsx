@@ -21,8 +21,8 @@ const Card = ({ name, description, image, date, id, className }: CardProps) => {
       <Image
         src={image!}
         alt={name}
-        width={256}
-        height={256}
+        width={512}
+        height={512}
         className={"w-full lg:w-1/2"}
       />
       <div className={"w-full h-full flex flex-col p-2 px-4 space-y-2"}>

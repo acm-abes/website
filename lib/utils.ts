@@ -52,6 +52,15 @@ export const parseDate = (date: string) => {
     parsedDate = parse(date, "d-MM-yyyy", new Date()).toString();
   }
 
+  if (parsedDate === "Invalid Date") {
+    parsedDate = parse(date, "do MMM yyyy", new Date()).toString();
+  }
+
+  if (parsedDate === "Invalid Date") {
+    console.log("Invalid Date", date);
+    return date;
+  }
+
   const final = format(parsedDate, "do MMM yyyy");
 
   return final;

@@ -13,13 +13,7 @@ export const metadata: Metadata = {
   icons: { icon: "/images/abes-acm.png" },
 };
 
-const Events = async () => {
-  const database = new Database();
-
-  const { documents } = await database.getEvents();
-
-  const events = [...documents, ...oldEvents];
-
+const EventsLoading = async () => {
   return (
     <main className="p-5 md:px-20 lg:px-36 space-y-5">
       <div className="flex space-x-1 items-end">
@@ -28,12 +22,12 @@ const Events = async () => {
       </div>
       <section className="gap-3 gap-y-5 md:gap-y-3 grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3">
         {/*<CardSkeleton />*/}
-        {events.map((event, index) => (
-          <Card className={"w-10"} key={index} {...event} image={event.logo} />
+        {Array.from({ length: 7 }).map((_, index) => (
+          <CardSkeleton key={index} />
         ))}
       </section>
     </main>
   );
 };
 
-export default Events;
+export default EventsLoading;
