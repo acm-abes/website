@@ -24,6 +24,7 @@ import { Bucket } from "@/appwrite/bucket";
 import Image from "next/image";
 import { AppwriteException, ID } from "appwrite";
 import DatePicker from "@/components/datepicker";
+import { revalidateEvents } from "@/actions/revalidate";
 
 const Page = () => {
   const db = new Database();
@@ -90,6 +91,7 @@ const Page = () => {
       const res = await db.createEvent(eventData);
 
       if (res?.$id) {
+        await revalidateEvents();
         setLoading(false);
         setSuccess(true);
         setTimeout(() => {

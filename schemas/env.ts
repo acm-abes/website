@@ -7,7 +7,7 @@ const env = z.object({
   BUCKET_ID: z.string(),
 });
 
-env.parse(process.env);
+// env.parse(process.env);
 
 declare global {
   namespace NodeJS {

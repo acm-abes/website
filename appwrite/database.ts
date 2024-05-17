@@ -1,42 +1,54 @@
-import { client } from "@/appwrite/client";
-import { Databases, ID } from "appwrite";
-import { Event, EventDocument } from "@/types";
+import { databaseClient } from "@/appwrite/client";
+import { Models } from "appwrite";
 
-export default class Database {
-  private databaseId = process.env.DATABASE_ID;
-  private collections = {
-    events: process.env.EVENTS_COLLECTION,
+const databaseId = process.env.DATABASE_ID;
+
+const collections = [
+  {
+    id: process.env.EVENTS_COLLECTION,
+    name: "events",
+  },
+] as const;
+
+export const database: Record<
+  string,
+  {
+    list: <T>() => Promise<Models.DocumentList<T & Models.Document>>;
+    search?: <T>(id: string) => Promise<(T & Models.Document) | null>;
+    create?: <T>(data: T, id?: string) => Promise<(T & Models.Document) | null>;
+    delete?: <T>(id: string) => Promise<(T & Models.Document) | null>;
+    update?: <T>(id: string, data: T) => Promise<(T & Models.Document) | null>;
+  }
+> = {} as const;
+
+collections.forEach((collection) => {
+  database[collection.name] = {
+    list: async <T>() => {
+      return databaseClient.listDocuments<T & Models.Document>(
+        databaseId,
+        collection.id,
+      );
+    },
+
+    search: async <T>(id: string) => {
+      try {
+        return await databaseClient.getDocument<T & Models.Document>(
+          databaseId,
+          collection.id,
+          id,
+        );
+      } catch (e) {
+        console.log(e);
+        return null;
+      }
+    },
   };
+});
 
-  private static instance: Database;
-  private connection: Databases;
-  constructor() {
-    this.connection = new Databases(client);
-    if (Database.instance) {
-      return Database.instance;
-    }
-
-    Database.instance = this;
-  }
-
-  async getEvents() {
-    return this.connection.listDocuments<EventDocument>(
-      this.databaseId,
-      this.collections.events,
-    );
-  }
+/*
 
   async getEventById(id: string) {
-    try {
-      return await this.connection.getDocument<EventDocument>(
-        this.databaseId,
-        this.collections.events,
-        id,
-      );
-    } catch (e) {
-      console.log(e);
-      return null;
-    }
+
   }
 
   async createEvent(event: Event) {
@@ -79,4 +91,5 @@ export default class Database {
       return null;
     }
   }
-}
+
+*/
