@@ -13,17 +13,17 @@ export const events: Event[] = [
     prizes: `Win upto 10000 in prizes including participation certificate for all participants & achievement certificate,trophy and goodies for the winners`,
     venue: "Aryabhatta Block , ABES ENGINEERING COLLEGE",
   },
-  {
-    id: "navrohan-2k24",
-    name: "Navrohan 2K24",
-    date: "5-2-2024",
-    logo: "/assets/navrohan.jpg",
-    description:
-      "ACM ABESEC Student Chapter and ACM ABESEC W Chapter are bringing for you “NAVROHAN-2k24”, the Recruitment drive of 2024. So, roll up your sleeves and get ready to experience the most interesting tech recruitment. 🔹 Open to all the branches of 1st and 2nd year for the first time.",
-    banners: [],
-    prizes: "",
-    venue: "",
-  },
+  // {
+  //   id: "navrohan-2k24",
+  //   name: "Navrohan 2K24",
+  //   date: "5-2-2024",
+  //   logo: "/assets/navrohan.jpg",
+  //   description:
+  //     "ACM ABESEC Student Chapter and ACM ABESEC W Chapter are bringing for you “NAVROHAN-2k24”, the Recruitment drive of 2024. So, roll up your sleeves and get ready to experience the most interesting tech recruitment. 🔹 Open to all the branches of 1st and 2nd year for the first time.",
+  //   banners: [],
+  //   prizes: "",
+  //   venue: "",
+  // },
   {
     id: "cps",
     name: "Career Pathway Session",

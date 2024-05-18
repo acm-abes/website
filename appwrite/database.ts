@@ -1,7 +1,7 @@
 import { databaseClient } from "@/appwrite/client";
 import { ID, Models } from "appwrite";
 
-const databaseId = process.env.DATABASE_ID;
+const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 
 type DocumentList<T> = Models.DocumentList<T & Models.Document>;
 type Document<T> = T & Models.Document;
@@ -12,7 +12,11 @@ type CollectionConfig = {
   id: string;
 };
 const collections: Record<CollectionNames, CollectionConfig> = {
-  events: { id: process.env.EVENTS_COLLECTION },
+  events: { id: process.env.NEXT_PUBLIC_EVENTS_COLLECTION },
+};
+
+type asyncFunc = {
+  a: () => {};
 };
 
 type CollectionFunctions = {

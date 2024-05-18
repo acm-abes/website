@@ -100,4 +100,8 @@
   .hero {
     font-family: "Poppins";
   }
+
+  textarea::-webkit-scrollbar {
+    display: none;
+  }
 }

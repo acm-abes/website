@@ -15,6 +15,7 @@ import Database from "@/appwrite/database";
 import { EventDocument } from "@/types";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import database from "@/appwrite/database";
 
 interface DeleteEventDialogProps {
   item: EventDocument;
@@ -26,11 +27,9 @@ const DeleteEventDialog = ({ item }: DeleteEventDialogProps) => {
   const [deleted, setDeleted] = useState(false);
 
   const handleDeleteEvent = async (id: string) => {
-    const database = new Database();
-
     try {
       setLoading(true);
-      database.deleteEvent(id).then((res) => {
+      database.events?.delete(id).then((res) => {
         console.log(res);
         router.refresh();
         setDeleted(true);

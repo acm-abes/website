@@ -71,7 +71,7 @@ const Page = () => {
     try {
       const eventImage = await bucket.createItem(file, id);
 
-      const eventImageURL = bucket.getItem(id);
+      const eventImageURL = bucket.getItem(eventImage.$id);
 
       const bannerImages = await Promise.all(
         bannerFiles.map(async (banner) => {
@@ -90,11 +90,12 @@ const Page = () => {
       const res = await database.events?.create(eventData, id);
 
       if (res?.$id) {
-        await revalidateEvents();
+        // await revalidateEvents();
+        await fetch("/api/revalidate?path=/events");
         setLoading(false);
         setSuccess(true);
         setTimeout(() => {
-          router.push("/admin");
+          router.push("/events/" + id);
         }, 2000);
       } else {
         setError(true);
@@ -178,7 +179,11 @@ const Page = () => {
                 <FormItem>
                   <FormLabel>Venue</FormLabel>
                   <FormControl>
-                    <Input type={"text"} placeholder="Enter event venue" />
+                    <Input
+                      {...field}
+                      type={"text"}
+                      placeholder="Enter event venue"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -206,9 +211,23 @@ const Page = () => {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Event description</FormLabel>
+                <FormLabel>
+                  Event description
+                  <span
+                    className={
+                      (field.value.length > 3000 && "text-red-500") || " "
+                    }
+                  >
+                    {" " + field.value.length}
+                  </span>
+                </FormLabel>
                 <FormControl>
                   <Textarea
+                    rows={
+                      10 > field.value.length / 50
+                        ? 10
+                        : field.value.length / 50
+                    }
                     placeholder={"Describe the event, Markdown is supported"}
                     {...field}
                   />
@@ -307,9 +326,9 @@ const Page = () => {
                 <FormLabel>Sponsors</FormLabel>
                 <FormControl>
                   <Input
+                    {...field}
                     type={"text"}
                     placeholder={"Mention Your Sponsors (comma seperated)"}
-                    {...field}
                   />
                 </FormControl>
                 <FormMessage />

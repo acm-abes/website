@@ -23,7 +23,6 @@ const Events = async () => {
         <span className="opacity-75">hosted by us</span>
       </div>
       <section className="gap-3 gap-y-5 md:gap-y-3 grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3">
-        {/*<CardSkeleton />*/}
         {events.map((event, index) => (
           <Card className={"w-10"} key={index} {...event} image={event.logo} />
         ))}
