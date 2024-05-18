@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { database } from "@/appwrite/database";
+import database from "@/appwrite/database";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -87,7 +87,7 @@ const Page = () => {
         banners: bannerImages,
       };
 
-      const res = await database.events.create(eventData, id);
+      const res = await database.events?.create(eventData, id);
 
       if (res?.$id) {
         await revalidateEvents();

@@ -2,7 +2,7 @@ import React from "react";
 import Card from "@/components/Card";
 import { events as oldEvents } from "@/public/data/events";
 import { Metadata } from "next";
-import { database } from "@/appwrite/database";
+import database from "@/appwrite/database";
 import { EventDocument } from "@/types";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const Events = async () => {
-  const { documents } = await database.events.list<EventDocument>();
+  const { documents } = await database.events?.list<EventDocument>()!;
 
   const events = [...documents, ...oldEvents];
 

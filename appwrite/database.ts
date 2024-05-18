@@ -3,29 +3,33 @@ import { ID, Models } from "appwrite";
 
 const databaseId = process.env.DATABASE_ID;
 
-const collections = [
-  {
-    id: process.env.EVENTS_COLLECTION,
-    name: "events",
-  },
-] as const;
+type DocumentList<T> = Models.DocumentList<T & Models.Document>;
+type Document<T> = T & Models.Document;
 
-type CollectionFunctions = {
-  list: <T>() => Promise<Models.DocumentList<T & Models.Document>>;
-  search: <T>(id: string) => Promise<(T & Models.Document) | null>;
-  create: <T>(data: T, id?: string) => Promise<(T & Models.Document) | null>;
-  delete?: <T>(id: string) => Promise<(T & Models.Document) | null>;
-  update?: <T>(id: string, data: T) => Promise<(T & Models.Document) | null>;
+type CollectionNames = "events";
+
+type CollectionConfig = {
+  id: string;
+};
+const collections: Record<CollectionNames, CollectionConfig> = {
+  events: { id: process.env.EVENTS_COLLECTION },
 };
 
-const cols = collections.map((c) => c.name);
+type CollectionFunctions = {
+  list: <T>() => Promise<DocumentList<T>>;
+  search: <T>(id: string) => Promise<Document<T> | null>;
+  create: <T>(data: T, id?: string) => Promise<Document<T> | null>;
+  update: <T>(id: string, data: Partial<T>) => Promise<Document<T> | null>;
+  delete: (id: string) => Promise<boolean>;
+};
 
-type CollectionNames = (typeof cols)[number];
+type DatabaseType = Record<CollectionNames, CollectionFunctions>;
 
-export const database: Record<CollectionNames, CollectionFunctions> = {};
+const database: Partial<DatabaseType> = {};
 
-collections.forEach((collection) => {
-  database[collection.name as CollectionNames] = {
+Object.keys(collections).forEach((collectionName) => {
+  const collection = collections[collectionName as CollectionNames];
+  database[collectionName as CollectionNames] = {
     list: async <T>() => {
       return databaseClient.listDocuments<T & Models.Document>(
         databaseId,
@@ -59,85 +63,31 @@ collections.forEach((collection) => {
         return null;
       }
     },
-  };
-});
 
-/*
-collections.forEach((collection) => {
-  database[collection.name] = {
-    list: async <T>() => {
-      return databaseClient.listDocuments<T & Models.Document>(
-        databaseId,
-        collection.id,
-      );
-    },
-
-    search: async <T>(id: string) => {
+    update: async <T>(id: string, data: Partial<T>) => {
       try {
-        return await databaseClient.getDocument<T & Models.Document>(
+        return await databaseClient.updateDocument<T & Models.Document>(
           databaseId,
           collection.id,
           id,
-        );
-      } catch (e) {
-        console.log(e);
-        return null;
-      }
-    },
-
-    create: async <T>(data: T, id?: string) => {
-      try {
-        return await databaseClient.createDocument<T & Models.Document>(
-          databaseId,
-          collection.id,
-          id || ID.unique(),
-          data as T & Models.Document,
+          data as Partial<T & Models.Document>,
         );
       } catch (e) {
         console.error(e);
         return null;
       }
     },
+
+    delete: async (id: string) => {
+      try {
+        await databaseClient.deleteDocument(databaseId, collection.id, id);
+        return true;
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
+    },
   };
 });
 
- */
-
-/*
-
-  async getEventById(id: string) {
-
-  }
-
-  async createEvent(event: Event) {
-
-  }
-
-  async updateEvent(id: string, event: Event) {
-    try {
-      return await this.connection.updateDocument<EventDocument>(
-        this.databaseId,
-        this.collections.events,
-        id,
-        event,
-      );
-    } catch (e) {
-      console.error(e);
-      return null;
-    }
-  }
-
-  async deleteEvent(id: string) {
-    try {
-      return await this.connection.deleteDocument(
-        this.databaseId,
-        this.collections.events,
-        id,
-      );
-    } catch (e) {
-      console.error(e);
-      return null;
-    }
-  }
-
-*/
+export default database;
