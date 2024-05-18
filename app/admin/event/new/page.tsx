@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import Database from "@/appwrite/database";
+import { database } from "@/appwrite/database";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -27,7 +27,6 @@ import DatePicker from "@/components/datepicker";
 import { revalidateEvents } from "@/actions/revalidate";
 
 const Page = () => {
-  const db = new Database();
   const bucket = new Bucket();
   const { theme } = useTheme();
 
@@ -88,7 +87,7 @@ const Page = () => {
         banners: bannerImages,
       };
 
-      const res = await db.createEvent(eventData);
+      const res = await database.events.create(eventData, id);
 
       if (res?.$id) {
         await revalidateEvents();
