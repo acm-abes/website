@@ -1,4 +1,5 @@
-import { Client, Account } from "appwrite";
+import { Client, Account, Databases } from "appwrite";
+import "@/schemas/env";
 
 export const client = new Client();
 
@@ -7,5 +8,7 @@ client
   .setProject("661aa97555bdeffbb8fb");
 
 export const account = new Account(client);
+
+export const databaseClient = new Databases(client);
 
 export { ID } from "appwrite";

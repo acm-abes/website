@@ -1,6 +1,12 @@
 import React from "react";
 
-const Member = () => {
+interface Params {
+  params: {
+    name: string;
+  };
+}
+
+const Member = ({ params: { name } }: Params) => {
   return <div>Member</div>;
 };
 

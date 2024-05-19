@@ -9,9 +9,10 @@ import { events } from "@/public/data/events";
 import Database from "@/appwrite/database";
 import { notFound } from "next/navigation";
 import { Models } from "appwrite";
-import { type Event } from "@/types";
+import { type Event, EventDocument } from "@/types";
 import { Metadata } from "next";
 import { parseDate } from "@/lib/utils";
+import database from "@/appwrite/database";
 
 interface EventProps {
   params: {
@@ -19,30 +20,22 @@ interface EventProps {
   };
 }
 
-const getEvent = cache(async (database: Database, id: string) => {
-  return await database.getEventById(id);
+const getEvent = cache(async (id: string) => {
+  return database.events?.search<EventDocument>(id);
 });
 
 const EventPage = async ({ params: { id } }: EventProps) => {
-  const database = new Database();
-
   const base_image_url = "/images";
 
   let data: Event & Models.Document;
 
-  // const data = events.find((e) => e.id === id);
-
   data = events.find((e) => e.id === id)! as Event & Models.Document;
-  // if (!data) data = (await database.getEventById(id))!;
-  if (!data) data = (await getEvent(database, id))!;
+
+  if (!data) data = (await getEvent(id))!;
 
   if (!data) return notFound();
 
-  console.log("Date passed : ", data.date);
-
   data.date = parseDate(data.date);
-
-  console.log(data.date);
 
   return (
     <main className="w-[100dvw] h-full space-y-36 md:space-y-52 lg:space-y-96 flex flex-col items-start">
@@ -136,12 +129,10 @@ const EventPage = async ({ params: { id } }: EventProps) => {
 export async function generateMetadata({
   params,
 }: EventProps): Promise<Metadata> {
-  // const base_image_url = "/images";
   let data = events.find((e) => e.id === params.id);
 
   if (!data) {
-    const database = new Database();
-    data = (await getEvent(database, params.id))!;
+    data = (await getEvent(params.id))!;
   }
 
   if (!data)
@@ -150,7 +141,7 @@ export async function generateMetadata({
       openGraph: {
         title: "Invalid Event",
         images: [
-          { url: `https://acm-abesec-1.vercel.app/public/images/abes-acm.png` },
+          { url: `https://abes-acm.vercel.app/public/images/abes-acm.png` },
         ],
         description: "Not a valid event",
       },

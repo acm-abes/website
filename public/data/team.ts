@@ -50,14 +50,14 @@ export const team: Team[] = [
     image: "kunika.jpg",
   },
   {
-    role: "Tresurer",
+    role: "Treasurer",
     name: "Kartik Mittal",
     github: "https://github.com/KartikMittal05",
     linkedin: "https://www.linkedin.com/in/kartik-mittal-b0b6a0250",
     image: "kartik.jpg",
   },
   {
-    role: "Tresurer",
+    role: "Treasurer",
     name: "Pooja",
     github: "",
     linkedin: "",

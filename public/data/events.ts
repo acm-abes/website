@@ -14,8 +14,8 @@ export const events: Event[] = [
     venue: "Aryabhatta Block , ABES ENGINEERING COLLEGE",
   },
   {
-    id: "navrohan-2k24",
-    name: "Navrohan 2K24",
+    id: "navrohan-2k24-1.0",
+    name: "Navrohan 2K24 1.0",
     date: "5-2-2024",
     logo: "/assets/navrohan.jpg",
     description:

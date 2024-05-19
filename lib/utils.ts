@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { account } from "@/appwrite/client";
 import { format, parse, parseISO } from "date-fns";
+import { Models } from "appwrite";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -12,17 +13,19 @@ export const getRandomGradient = (arr: string[]) => {
 
 // Client only
 export const isUserLoggedIn = async () => {
+  let user;
   try {
-    await account.get();
-    return true;
+    user = await account.get();
+    return [true, user];
   } catch (e) {
-    return false;
+    console.info("Not logged in");
+    return [false, null];
   }
 };
 
-export const isAdmin = async () => {
+export const isAdmin = async (user?: Models.User<Models.Preferences>) => {
   try {
-    const user = await account.get();
+    user = user || (await account.get());
     return user.labels.includes("admin");
   } catch (e) {
     return false;

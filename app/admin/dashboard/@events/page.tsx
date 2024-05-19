@@ -1,5 +1,4 @@
 import React from "react";
-// import { events } from "@/public/data/events";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Edit, Plus } from "lucide-react";
@@ -12,12 +11,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Database from "@/appwrite/database";
+import database from "@/appwrite/database";
 import DeleteEventDialog from "@/app/admin/dashboard/@events/delete-event-dialog";
+import { EventDocument } from "@/types";
 const AuthGreeting = async () => {
-  const database = new Database();
-
-  const { documents: fetchedEvents } = await database.getEvents();
+  const { documents: fetchedEvents } =
+    await database.events?.list<EventDocument>()!;
 
   // return <Loading />;
 

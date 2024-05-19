@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import Database from "@/appwrite/database";
+import database from "@/appwrite/database";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -24,9 +24,9 @@ import { Bucket } from "@/appwrite/bucket";
 import Image from "next/image";
 import { AppwriteException, ID } from "appwrite";
 import DatePicker from "@/components/datepicker";
+import { revalidateEvents } from "@/actions/revalidate";
 
 const Page = () => {
-  const db = new Database();
   const bucket = new Bucket();
   const { theme } = useTheme();
 
@@ -71,7 +71,7 @@ const Page = () => {
     try {
       const eventImage = await bucket.createItem(file, id);
 
-      const eventImageURL = bucket.getItem(id);
+      const eventImageURL = bucket.getItem(eventImage.$id);
 
       const bannerImages = await Promise.all(
         bannerFiles.map(async (banner) => {
@@ -87,13 +87,15 @@ const Page = () => {
         banners: bannerImages,
       };
 
-      const res = await db.createEvent(eventData);
+      const res = await database.events?.create(eventData, id);
 
       if (res?.$id) {
+        // await revalidateEvents();
+        await fetch("/api/revalidate?path=/events");
         setLoading(false);
         setSuccess(true);
         setTimeout(() => {
-          router.push("/admin");
+          router.push("/events/" + id);
         }, 2000);
       } else {
         setError(true);
@@ -177,7 +179,11 @@ const Page = () => {
                 <FormItem>
                   <FormLabel>Venue</FormLabel>
                   <FormControl>
-                    <Input type={"text"} placeholder="Enter event venue" />
+                    <Input
+                      {...field}
+                      type={"text"}
+                      placeholder="Enter event venue"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -205,9 +211,23 @@ const Page = () => {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Event description</FormLabel>
+                <FormLabel>
+                  Event description
+                  <span
+                    className={
+                      (field.value.length > 3000 && "text-red-500") || " "
+                    }
+                  >
+                    {" " + field.value.length}
+                  </span>
+                </FormLabel>
                 <FormControl>
                   <Textarea
+                    rows={
+                      10 > field.value.length / 50
+                        ? 10
+                        : field.value.length / 50
+                    }
                     placeholder={"Describe the event, Markdown is supported"}
                     {...field}
                   />
@@ -230,7 +250,7 @@ const Page = () => {
                       alt={"Logo preview"}
                       src={image}
                       id={"preview"}
-                      className={"max-h-96 w-fit"}
+                      className={"max-h-72 w-fit"}
                     />
                     <Button
                       className={
@@ -265,7 +285,7 @@ const Page = () => {
             name="banners"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Event Banners</FormLabel>
+                <FormLabel>Event Banners (optional)</FormLabel>
                 {image && (
                   <div className={"relative group flex flex-col space-y-1"}>
                     {banners &&
@@ -278,7 +298,7 @@ const Page = () => {
                             alt={"Banner preview"}
                             src={banner}
                             id={"banner_preview"}
-                            className={"lg:w-1/2"}
+                            className={"max-h-32 w-fit"}
                           />
                         ))}
                   </div>
@@ -306,9 +326,9 @@ const Page = () => {
                 <FormLabel>Sponsors</FormLabel>
                 <FormControl>
                   <Input
+                    {...field}
                     type={"text"}
                     placeholder={"Mention Your Sponsors (comma seperated)"}
-                    {...field}
                   />
                 </FormControl>
                 <FormMessage />

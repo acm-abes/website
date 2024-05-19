@@ -3,7 +3,7 @@ import { client } from "@/appwrite/client";
 
 export class Bucket {
   private buckets = {
-    event: process.env.BUCKET_ID,
+    event: process.env.NEXT_PUBLIC_BUCKET_ID,
   };
   private static instance: Bucket;
   private connection: Storage;
@@ -26,8 +26,6 @@ export class Bucket {
       id || ID.unique(),
       file,
     );
-
-    console.log(output);
 
     return output;
   }

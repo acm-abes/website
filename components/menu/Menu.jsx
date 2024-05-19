@@ -47,12 +47,12 @@ const Menu = () => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const checkLoginStatus = useCallback(() => {
-    isUserLoggedIn().then((res) => {
-      setLoggedIn(res);
-      res && isAdmin().then((res) => setAdmin(res));
+  const checkLoginStatus = () => {
+    isUserLoggedIn().then(([status, user]) => {
+      setLoggedIn(status);
+      status && isAdmin(user).then((res) => setAdmin(res));
     });
-  }, []);
+  };
 
   useEffect(() => {
     checkLoginStatus();
