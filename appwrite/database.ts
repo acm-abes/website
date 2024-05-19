@@ -82,7 +82,7 @@ Object.keys(collections).forEach((collectionName) => {
       }
     },
 
-    delete: async (id: string) => {
+    delete: async (id: string = "default") => {
       try {
         await databaseClient.deleteDocument(databaseId, collection.id, id);
         return true;

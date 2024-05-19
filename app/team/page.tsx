@@ -8,7 +8,7 @@ import Link from "next/link";
 import TeamAvatar from "@/components/TeamAvatar";
 
 export const metadata = {
-  title: "TEAM | ABES ACM",
+  title: "TEAM",
   description: "Official ABES ACM Chapter",
   icons: { icon: "/images/abes-acm.png" },
 };
@@ -49,11 +49,15 @@ const TeamPage = () => {
               {/*</h2>*/}
               <h2
                 className={
-                  "opacity-20 text-7xl font-bold my-5 w-full flex justify-center"
+                  "opacity-20 text-5xl sm:text-7xl font-bold my-5 w-full flex justify-center"
                 }
               >
                 <span className={"text-center"}>
-                  {role.includes("Team") ? role : role + "s"}
+                  {role.includes("Team")
+                    ? role
+                    : role === "Secretary"
+                      ? "Secretaries"
+                      : role + "s"}
                 </span>
               </h2>
               {/*<hr className={"w-full"} />*/}

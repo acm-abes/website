@@ -27,8 +27,6 @@ export class Bucket {
       file,
     );
 
-    console.log(output);
-
     return output;
   }
 }

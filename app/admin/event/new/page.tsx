@@ -250,7 +250,7 @@ const Page = () => {
                       alt={"Logo preview"}
                       src={image}
                       id={"preview"}
-                      className={"max-h-96 w-fit"}
+                      className={"max-h-72 w-fit"}
                     />
                     <Button
                       className={
@@ -285,7 +285,7 @@ const Page = () => {
             name="banners"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Event Banners</FormLabel>
+                <FormLabel>Event Banners (optional)</FormLabel>
                 {image && (
                   <div className={"relative group flex flex-col space-y-1"}>
                     {banners &&
@@ -298,7 +298,7 @@ const Page = () => {
                             alt={"Banner preview"}
                             src={banner}
                             id={"banner_preview"}
-                            className={"lg:w-1/2"}
+                            className={"max-h-32 w-fit"}
                           />
                         ))}
                   </div>

@@ -9,7 +9,6 @@ const env = z.object({
 
 try {
   env.parse(process.env);
-  console.log(process.env.NEXT_PUBLIC_BUCKET_ID);
 } catch (e) {
   console.log("ENV NOT FOUND");
 }
@@ -19,5 +18,3 @@ declare global {
     interface ProcessEnv extends z.infer<typeof env> {}
   }
 }
-
-const s = process.env.NEXT_PUBLIC_DATABASE_ID;

@@ -11,10 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { AiOutlineDelete } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
-import Database from "@/appwrite/database";
 import { EventDocument } from "@/types";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
-import { useRouter } from "next/navigation";
 import database from "@/appwrite/database";
 
 interface DeleteEventDialogProps {
@@ -23,18 +21,17 @@ interface DeleteEventDialogProps {
 
 const DeleteEventDialog = ({ item }: DeleteEventDialogProps) => {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const [deleted, setDeleted] = useState(false);
 
   const handleDeleteEvent = async (id: string) => {
     try {
       setLoading(true);
-      database.events?.delete(id).then((res) => {
-        console.log(res);
-        router.refresh();
+      const res = await database.events?.delete(id);
+
+      if (res) {
         setDeleted(true);
         setLoading(false);
-      });
+      }
     } catch (e) {
       console.log(e);
       setLoading(false);
