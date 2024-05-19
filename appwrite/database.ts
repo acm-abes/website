@@ -15,10 +15,6 @@ const collections: Record<CollectionNames, CollectionConfig> = {
   events: { id: process.env.NEXT_PUBLIC_EVENTS_COLLECTION },
 };
 
-type asyncFunc = {
-  a: () => {};
-};
-
 type CollectionFunctions = {
   list: <T>() => Promise<DocumentList<T>>;
   search: <T>(id: string) => Promise<Document<T> | null>;

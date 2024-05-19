@@ -1,11 +1,6 @@
 import React from "react";
-import Card from "@/components/Card";
-import { events as oldEvents } from "@/public/data/events";
 import { Metadata } from "next";
-import Database from "@/appwrite/database";
 import CardSkeleton from "@/components/CardSkeleton";
-
-export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "EVENTS",

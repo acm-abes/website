@@ -1,11 +1,5 @@
 import React from "react";
-import Card from "@/components/Card";
-import Image from "next/image";
-import { parseDate } from "@/lib/utils";
-import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
-
-const placeholder = {};
 
 const CardSkeleton = () => {
   return (

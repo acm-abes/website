@@ -21,12 +21,10 @@ export class Bucket {
   }
 
   async createItem(file: File, id?: string) {
-    const output = await this.connection.createFile(
+    return await this.connection.createFile(
       this.buckets.event,
       id || ID.unique(),
       file,
     );
-
-    return output;
   }
 }

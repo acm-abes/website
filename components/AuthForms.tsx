@@ -32,6 +32,8 @@ export const LoginForm = () => {
   const [success, setSuccess] = useState(false);
   const searchParams = useSearchParams();
 
+  const [loginStatusLoading, setLoginStatusLoading] = useState(false);
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -43,12 +45,20 @@ export const LoginForm = () => {
   isUserLoggedIn().then(async (res) => {
     if (res) {
       const user = await account.get();
+
+      if (res) {
+        setLoginStatusLoading(true);
+      }
+
       const { ok } = (await getLocalSession(user))!;
       const callbackURL = searchParams.has("callback")
         ? searchParams.get("callback")!
         : "/";
 
-      if (ok) router.push(callbackURL);
+      if (ok) {
+        setLoginStatusLoading(false);
+        router.push(callbackURL);
+      }
     }
   });
 
@@ -75,7 +85,21 @@ export const LoginForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-4 w-full sm:w-1/2 lg:w-1/3"
       >
-        <h1 className={"text-4xl font-semibold"}>Login</h1>
+        <div className={"flex space-x-3 items-center"}>
+          <h1 className={"text-4xl font-semibold"}>Login</h1>
+          {loginStatusLoading && (
+            <TailSpin
+              visible={true}
+              height="20"
+              width="20"
+              strokeWidth={5}
+              color={theme === "dark" ? "black" : "white"}
+              ariaLabel="tail-spin-loading"
+              wrapperStyle={{}}
+              wrapperClass={``}
+            />
+          )}
+        </div>
         <FormField
           control={form.control}
           name="email"
@@ -126,6 +150,7 @@ export const LoginForm = () => {
               visible={true}
               height="20"
               width="20"
+              strokeWidth={4}
               color={theme === "dark" ? "white" : "black"}
               ariaLabel="tail-spin-loading"
               wrapperStyle={{}}

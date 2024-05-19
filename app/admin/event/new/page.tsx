@@ -24,7 +24,6 @@ import { Bucket } from "@/appwrite/bucket";
 import Image from "next/image";
 import { AppwriteException, ID } from "appwrite";
 import DatePicker from "@/components/datepicker";
-import { revalidateEvents } from "@/actions/revalidate";
 
 const Page = () => {
   const bucket = new Bucket();

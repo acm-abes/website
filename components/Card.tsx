@@ -34,7 +34,7 @@ const Card = ({ name, description, image, date, id, className }: CardProps) => {
           {name}
         </h3>
         <span className={"opacity-75"}>{parseDate(date)}</span>
-        <p className={"opacity-90 "}>{description.slice(0, 75)}...</p>
+        <p className={"opacity-90"}>{description.slice(0, 75)}...</p>
       </div>
     </Link>
   );

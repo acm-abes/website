@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { account } from "@/appwrite/client";
-import { format, parse, parseISO } from "date-fns";
+import { format, parse } from "date-fns";
 import { Models } from "appwrite";
 
 export function cn(...inputs: ClassValue[]) {
@@ -64,7 +64,5 @@ export const parseDate = (date: string) => {
     return date;
   }
 
-  const final = format(parsedDate, "do MMM yyyy");
-
-  return final;
+  return format(parsedDate, "do MMM yyyy");
 };
