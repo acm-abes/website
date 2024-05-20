@@ -50,6 +50,6 @@ _Please refer to Git Commit History for previous Logs_
 - Code Refactored
 - Made date formatting consistent across all pages
 
-#### TODO
+#### ~~TODO~~
 
-- Add Loading Components to Events and Event pages
+~~- Add Loading Components to Events and Event pages~~
