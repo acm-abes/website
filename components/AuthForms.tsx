@@ -15,24 +15,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LoginSchema, RegisterSchema } from "@/schemas/auth";
-import { getLocalSession, login, register } from "@/lib/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { useTheme } from "next-themes";
 import { TailSpin } from "react-loader-spinner";
 import { CheckIcon } from "lucide-react";
-import { account } from "@/appwrite/client";
-import { isUserLoggedIn } from "@/lib/utils";
+import { useAuth } from "@/hooks/auth";
 
 export const LoginForm = () => {
+  const {
+    login,
+    user,
+    getLocalSession,
+    loading: loginStatusLoading,
+  } = useAuth();
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
   const [success, setSuccess] = useState(false);
   const searchParams = useSearchParams();
-
-  const [loginStatusLoading, setLoginStatusLoading] = useState(false);
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -42,25 +45,15 @@ export const LoginForm = () => {
     },
   });
 
-  isUserLoggedIn().then(async (res) => {
-    if (res) {
-      const user = await account.get();
+  if (user) {
+    const callbackURL = searchParams.has("callback")
+      ? searchParams.get("callback")!
+      : "/";
 
-      if (res) {
-        setLoginStatusLoading(true);
-      }
-
-      const { ok } = (await getLocalSession(user))!;
-      const callbackURL = searchParams.has("callback")
-        ? searchParams.get("callback")!
-        : "/";
-
-      if (ok) {
-        setLoginStatusLoading(false);
-        router.push(callbackURL);
-      }
-    }
-  });
+    getLocalSession(user).then(() => {
+      router.push(callbackURL);
+    });
+  }
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setLoading(true);
@@ -169,6 +162,8 @@ export const LoginForm = () => {
 };
 
 export const RegisterForm = () => {
+  const { register } = useAuth();
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();

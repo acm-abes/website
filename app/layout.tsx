@@ -5,6 +5,7 @@ import Menu from "@/components/menu/Menu";
 import { Metadata } from "next";
 import React from "react";
 import { defaultOGConfig } from "@/lib/constants";
+import { AuthProvider } from "@/hooks/auth";
 
 export const metadata: Metadata = {
   title: { template: "%s | ABES ACM", default: "HOME" },
@@ -25,9 +26,11 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           {/* <Navbar /> */}
-          <Menu />
-          <div className="pt-20">{children}</div>
-          <Footer />
+          <AuthProvider>
+            <Menu />
+            <div className="pt-20">{children}</div>
+            <Footer />
+          </AuthProvider>
         </ThemeProvider>
         {/*<Analytics />*/}
       </body>

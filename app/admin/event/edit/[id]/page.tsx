@@ -1,13 +1,27 @@
-import React from "react";
+import React, { Suspense } from "react";
+import EditEventForm from "@/app/admin/event/edit/[id]/form";
+import database from "@/appwrite/database";
+import { notFound } from "next/navigation";
 
-interface Params {
+const EventEditPage = async ({
+  params: { id },
+}: {
   params: {
     id: string;
   };
-}
+}) => {
+  const event = await database.events?.search(id);
 
-const Page = async ({ params: { id } }: Params) => {
-  return <main className="p-5 md:px-20 lg:px-36 space-y-5">{id}</main>;
+  if (!event) {
+    return notFound();
+  }
+
+  // @ts-ignore
+  return (
+    <Suspense>
+      <EditEventForm {...event} />
+    </Suspense>
+  );
 };
 
-export default Page;
+export default EventEditPage;

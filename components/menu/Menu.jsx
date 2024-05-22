@@ -10,6 +10,7 @@ import { GrClose } from "react-icons/gr";
 import { logout } from "@/lib/auth";
 import { usePathname, useRouter } from "next/navigation";
 import { isAdmin, isUserLoggedIn } from "@/lib/utils";
+import { useAuth } from "@/hooks/auth";
 
 const menuLinks = [
   {
@@ -38,6 +39,8 @@ const menuLinks = [
   },
 ];
 const Menu = () => {
+  const { user, loading } = useAuth();
+
   const container = useRef();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const tl = useRef();
@@ -47,16 +50,15 @@ const Menu = () => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const checkLoginStatus = () => {
-    isUserLoggedIn().then(([status, user]) => {
-      setLoggedIn(status);
-      status && isAdmin(user).then((res) => setAdmin(res));
-    });
-  };
-
   useEffect(() => {
-    checkLoginStatus();
-  }, [pathname]);
+    if (!loading) {
+      setLoggedIn(!!user);
+      user &&
+        isAdmin().then((res) => {
+          setAdmin(res);
+        });
+    }
+  }, [user, pathname]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
