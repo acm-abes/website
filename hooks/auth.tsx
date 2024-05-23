@@ -29,10 +29,6 @@ interface ContextData {
 
   logout: () => Promise<void>;
 
-  getLocalSession: (
-    userInfo: Models.User<Models.Preferences>,
-  ) => Promise<Response | undefined>;
-
   register: (
     email: string,
     password: string,
@@ -40,7 +36,7 @@ interface ContextData {
     router: AppRouterInstance,
   ) => Promise<Models.Session>;
 
-  isAdmin: () => Promise<boolean>;
+  isAdmin: boolean;
 }
 
 export const AuthContext = createContext<ContextData | null>(null);
@@ -50,24 +46,47 @@ export const AuthProvider = ({ children }: Params) => {
   const [user, setUser] = useState<Models.User<Models.Preferences> | null>(
     null,
   );
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     setLoading(true);
 
     try {
-      account.get().then((res) => {
-        setUser(res);
-
-        setLoading(false);
-      });
+      if (!user) {
+        account
+          .get()
+          .then((res) => {
+            setUser(res);
+          })
+          .catch((res) => res);
+      }
     } catch (e) {
       console.log("user not found");
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      setIsAdmin(user.labels.includes("admin"));
+
+      fetch("/api/auth", {
+        body: JSON.stringify({ session: user }),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res);
+    }
+
+    if (!user) setIsAdmin(false);
+  }, [user]);
 
   const contextData = {
     user,
     loading,
+    isAdmin,
     async login(
       email: string,
       password: string,
@@ -75,8 +94,6 @@ export const AuthProvider = ({ children }: Params) => {
       callbackURL: string = "/",
     ) {
       const session = await account.createEmailPasswordSession(email, password);
-
-      await this.getLocalSession();
 
       const res = await account.get();
 
@@ -90,8 +107,9 @@ export const AuthProvider = ({ children }: Params) => {
 
     async logout() {
       await fetch("/api/auth/logout");
-
       await account.deleteSession("current");
+      await fetch("/api/auth/logout");
+      setUser(null);
     },
 
     async register(
@@ -103,30 +121,6 @@ export const AuthProvider = ({ children }: Params) => {
     ) {
       await account.create(ID.unique(), email, password, name);
       return this.login(email, password, router);
-    },
-
-    async getLocalSession() {
-      const response = await fetch("/api/auth", {
-        body: JSON.stringify({ session: this.user }),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        return response;
-      }
-    },
-
-    async isAdmin() {
-      if (!user) return false;
-
-      if (user.labels.includes("admin")) {
-        return true;
-      }
-
-      return false;
     },
   };
 

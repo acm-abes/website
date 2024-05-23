@@ -24,12 +24,7 @@ import { CheckIcon } from "lucide-react";
 import { useAuth } from "@/hooks/auth";
 
 export const LoginForm = () => {
-  const {
-    login,
-    user,
-    getLocalSession,
-    loading: loginStatusLoading,
-  } = useAuth();
+  const { login, user, loading: loginStatusLoading } = useAuth();
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -49,10 +44,6 @@ export const LoginForm = () => {
     const callbackURL = searchParams.has("callback")
       ? searchParams.get("callback")!
       : "/";
-
-    getLocalSession(user).then(() => {
-      router.push(callbackURL);
-    });
   }
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {

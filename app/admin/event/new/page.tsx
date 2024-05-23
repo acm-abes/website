@@ -150,231 +150,227 @@ const Page = () => {
   };
 
   return (
-    <main className="p-10 md:px-20 lg:px-36 space-y-5 w-full">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 w-full sm:w-2/3"
-        >
-          <h1 className={"text-4xl font-semibold"}>Create a new Event</h1>
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 w-full sm:w-2/3"
+      >
+        <h1 className={"text-4xl font-semibold"}>Create a new Event</h1>
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the even name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="venue"
+          render={({ field }) => {
+            return (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Venue</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter the even name" {...field} />
+                  <Input
+                    {...field}
+                    type={"text"}
+                    placeholder="Enter event venue"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="venue"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Venue</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type={"text"}
-                      placeholder="Enter event venue"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-          <FormField
-            control={form.control}
-            name="date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Date</FormLabel>
-                <FormControl>
-                  {/*<Input type={"date"} {...field} />*/}
-                  <div>
-                    <DatePicker value={field.value} onChange={field.onChange} />
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Event description
-                  <span
+            );
+          }}
+        />
+        <FormField
+          control={form.control}
+          name="date"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Date</FormLabel>
+              <FormControl>
+                {/*<Input type={"date"} {...field} />*/}
+                <div>
+                  <DatePicker value={field.value} onChange={field.onChange} />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Event description
+                <span
+                  className={
+                    (field.value.length > 3000 && "text-red-500") || " "
+                  }
+                >
+                  {" " + field.value.length}
+                </span>
+              </FormLabel>
+              <FormControl>
+                <Textarea
+                  rows={
+                    10 > field.value.length / 50 ? 10 : field.value.length / 50
+                  }
+                  placeholder={"Describe the event, Markdown is supported"}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="logo"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Event Logo</FormLabel>
+              {image && (
+                <div className={"relative group"}>
+                  <Image
+                    width={256}
+                    height={256}
+                    alt={"Logo preview"}
+                    src={image}
+                    id={"preview"}
+                    className={"max-h-72 w-fit"}
+                  />
+                  <Button
                     className={
-                      (field.value.length > 3000 && "text-red-500") || " "
+                      "absolute duration-500 opacity-0 group-hover:opacity-100 top-0 -right-1 rounded-full"
                     }
+                    size={"sm"}
+                    variant={"link"}
+                    title={"Remove logo"}
+                    onClick={removeSelectedImage}
                   >
-                    {" " + field.value.length}
-                  </span>
-                </FormLabel>
-                <FormControl>
-                  <Textarea
-                    rows={
-                      10 > field.value.length / 50
-                        ? 10
-                        : field.value.length / 50
-                    }
-                    placeholder={"Describe the event, Markdown is supported"}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="logo"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Event Logo</FormLabel>
-                {image && (
-                  <div className={"relative group"}>
-                    <Image
-                      width={256}
-                      height={256}
-                      alt={"Logo preview"}
-                      src={image}
-                      id={"preview"}
-                      className={"max-h-72 w-fit"}
-                    />
-                    <Button
-                      className={
-                        "absolute duration-500 opacity-0 group-hover:opacity-100 top-0 -right-1 rounded-full"
-                      }
-                      size={"sm"}
-                      variant={"link"}
-                      title={"Remove logo"}
-                      onClick={removeSelectedImage}
-                    >
-                      <X size={18} />
-                    </Button>
-                  </div>
-                )}
-                <FormControl>
-                  <Input
-                    onInput={onLogoUpload}
-                    id={"logo"}
-                    type={"file"}
-                    className={"file-input"}
-                    placeholder={"Add Event logo"}
-                    accept=".jpg, .jpeg, .png"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="banners"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Event Banners (optional)</FormLabel>
-                {image && (
-                  <div className={"relative group flex flex-col space-y-1"}>
-                    {banners &&
-                      banners
-                        .filter((file) => file !== "")
-                        .map((banner) => (
-                          <Image
-                            width={1654}
-                            height={480}
-                            alt={"Banner preview"}
-                            src={banner}
-                            id={"banner_preview"}
-                            className={"max-h-32 w-fit"}
-                          />
-                        ))}
-                  </div>
-                )}
-                <FormControl>
-                  <Input
-                    onInput={onBannerUpload}
-                    id={"banners"}
-                    type={"file"}
-                    className={"file-input"}
-                    placeholder={"Add Event Banners"}
-                    accept=".jpg, .jpeg, .png"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="sponsors"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sponsors</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type={"text"}
-                    placeholder={"Mention Your Sponsors (comma seperated)"}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="prizes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Prizes</FormLabel>
-                <FormControl>
-                  <Input
-                    type={"text"}
-                    placeholder={"Mention the prizes"}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            variant={error ? "destructive" : "default"}
-            disabled={loading}
-            className={`w-full space-x-1 flex items-center ${success && "bg-success text-success-foreground"}`}
-            type="submit"
-          >
-            {loading && (
-              <TailSpin
-                visible={true}
-                height="20"
-                width="20"
-                color={theme === "dark" ? "white" : "black"}
-                ariaLabel="tail-spin-loading"
-              />
-            )}
-            {success && <CheckIcon />}
+                    <X size={18} />
+                  </Button>
+                </div>
+              )}
+              <FormControl>
+                <Input
+                  onInput={onLogoUpload}
+                  id={"logo"}
+                  type={"file"}
+                  className={"file-input"}
+                  placeholder={"Add Event logo"}
+                  accept=".jpg, .jpeg, .png"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="banners"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Event Banners (optional)</FormLabel>
+              {image && (
+                <div className={"relative group flex flex-col space-y-1"}>
+                  {banners &&
+                    banners
+                      .filter((file) => file !== "")
+                      .map((banner) => (
+                        <Image
+                          width={1654}
+                          height={480}
+                          alt={"Banner preview"}
+                          src={banner}
+                          id={"banner_preview"}
+                          className={"max-h-32 w-fit"}
+                        />
+                      ))}
+                </div>
+              )}
+              <FormControl>
+                <Input
+                  onInput={onBannerUpload}
+                  id={"banners"}
+                  type={"file"}
+                  className={"file-input"}
+                  placeholder={"Add Event Banners"}
+                  accept=".jpg, .jpeg, .png"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="sponsors"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Sponsors</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  type={"text"}
+                  placeholder={"Mention Your Sponsors (comma seperated)"}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="prizes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Prizes</FormLabel>
+              <FormControl>
+                <Input
+                  type={"text"}
+                  placeholder={"Mention the prizes"}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          variant={error ? "destructive" : "default"}
+          disabled={loading}
+          className={`w-full space-x-1 flex items-center ${success && "bg-success text-success-foreground"}`}
+          type="submit"
+        >
+          {loading && (
+            <TailSpin
+              visible={true}
+              height="20"
+              width="20"
+              color={theme === "dark" ? "white" : "black"}
+              ariaLabel="tail-spin-loading"
+            />
+          )}
+          {success && <CheckIcon />}
 
-            <span className={`${loading && "translate-x-2"} duration-200`}>
-              Submit
-            </span>
-          </Button>
-        </form>
-      </Form>
-    </main>
+          <span className={`${loading && "translate-x-2"} duration-200`}>
+            Submit
+          </span>
+        </Button>
+      </form>
+    </Form>
   );
 };
 
