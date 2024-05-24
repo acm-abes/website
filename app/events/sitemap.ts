@@ -7,7 +7,7 @@ export async function generateSitemaps() {
   return events.map((event) => ({ id: event.id }));
 }
 
-export const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
+const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const { base } = routes;
 
   const eventsURL = base + "/events/";
@@ -20,3 +20,5 @@ export const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
     priority: 0.8,
   }));
 };
+
+export default sitemap;
