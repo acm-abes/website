@@ -16,12 +16,6 @@ const nextConfig = {
         port:""
       }
     ]
-  },
-  env: {
-    "PROJECT_ID": process.env.PROJECT_ID,
-    DATABASE_ID: process.env.DATABASE_ID,
-    BUCKET_ID: process.env.BUCKET_ID,
-    EVENTS_COLLECTION: process.env.EVENTS_COLLECTION,
   }
 };
 

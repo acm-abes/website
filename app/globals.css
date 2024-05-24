@@ -6,6 +6,7 @@
 @tailwind utilities;
 
 @layer base {
+/*
   :root {
 
     --root-background-1: #000;
@@ -44,8 +45,9 @@
 
     --radius: 0.5rem;
   }
+*/
 
-  [data-theme="dark"] {
+  :root {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
 
