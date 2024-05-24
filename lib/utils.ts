@@ -1,8 +1,9 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { account } from "@/appwrite/client";
 import { format, parse } from "date-fns";
-import { Models } from "appwrite";
+import database from "@/appwrite/database";
+import { EventDocument } from "@/types";
+import { events, events as oldEvents } from "@/public/data/events";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -11,25 +12,24 @@ export const getRandomGradient = (arr: string[]) => {
   return Math.floor(Math.random() * arr.length);
 };
 
-// Client only
-export const isUserLoggedIn = async () => {
-  let user;
-  try {
-    user = await account.get();
-    return [true, user];
-  } catch (e) {
-    console.info("Not logged in");
-    return [false, null];
-  }
+export const getAllEvents = async () => {
+  const { documents } = await database.events?.list<EventDocument>()!;
+
+  return [...documents, ...oldEvents];
 };
 
-export const isAdmin = async (user?: Models.User<Models.Preferences>) => {
-  try {
-    user = user || (await account.get());
-    return user.labels.includes("admin");
-  } catch (e) {
-    return false;
-  }
+export const getEvent = async (id: string): Promise<EventDocument | null> => {
+  // const URL = baseURL + "/api/event?id=" + id;
+
+  let event: EventDocument | null | undefined;
+
+  event = events.find((e) => e.id === id)! as EventDocument;
+
+  if (!event) event = await database.events?.search<EventDocument>(id);
+
+  if (!event) return null;
+
+  return event;
 };
 
 export const parseDate = (date: string) => {
