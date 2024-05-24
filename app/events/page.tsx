@@ -11,10 +11,14 @@ export const metadata: Metadata = {
   icons: { icon: "/images/abes-acm.png" },
 };
 
-const Events = async () => {
+const getAllEvents = async () => {
   const { documents } = await database.events?.list<EventDocument>()!;
 
-  const events = [...documents, ...oldEvents];
+  return [...documents, ...oldEvents];
+};
+
+const Events = async () => {
+  const events = await getAllEvents();
 
   return (
     <main className="p-5 md:px-20 lg:px-36 space-y-5">
