@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import "./menu.css";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -7,9 +7,8 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import { GrClose } from "react-icons/gr";
-import { logout } from "@/lib/auth";
-import { usePathname, useRouter } from "next/navigation";
-import { isAdmin, isUserLoggedIn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/auth";
 
 const menuLinks = [
   {
@@ -38,25 +37,13 @@ const menuLinks = [
   },
 ];
 const Menu = () => {
+  const { user, loading, logout, isAdmin } = useAuth();
+
   const container = useRef();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const tl = useRef();
 
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [admin, setAdmin] = useState(false);
-  const pathname = usePathname();
   const router = useRouter();
-
-  const checkLoginStatus = () => {
-    isUserLoggedIn().then(([status, user]) => {
-      setLoggedIn(status);
-      status && isAdmin(user).then((res) => setAdmin(res));
-    });
-  };
-
-  useEffect(() => {
-    checkLoginStatus();
-  }, [pathname]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -137,10 +124,9 @@ const Menu = () => {
                       onClick={
                         link.label !== "LOGIN"
                           ? () => {}
-                          : loggedIn
+                          : !!user
                             ? async () => {
                                 await logout();
-                                setLoggedIn(false);
                                 router.refresh();
                               }
                             : () => {}
@@ -148,7 +134,7 @@ const Menu = () => {
                       href={
                         link.label !== "LOGIN"
                           ? link.path
-                          : loggedIn
+                          : !!user
                             ? ""
                             : "/auth/login"
                       }
@@ -156,7 +142,7 @@ const Menu = () => {
                     >
                       {link.label !== "LOGIN"
                         ? link.label
-                        : loggedIn
+                        : !!user
                           ? "LOGOUT"
                           : "LOGIN"}
                     </Link>
@@ -164,7 +150,7 @@ const Menu = () => {
                 </div>
               );
             })}
-            {admin && (
+            {isAdmin && (
               <div className="menu-link-item">
                 <div className="menu-link-item-holder" onClick={toggleMenu}>
                   <Link href={"/admin"} className={"menu-link"}>

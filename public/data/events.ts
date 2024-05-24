@@ -270,7 +270,7 @@ export const events: Event[] = [
 //     logo: "/assets/hackw.jpg",
 //     banners: ["/"],
 //     descriptioncription:
-//       "ACM-W organised a National Hackathon for girls students with a team of 3 members which consisted of 2 rounds on 19th&20th December,2020 where teams has to make their project on the topic given by the committee on the spot.The theme of the hackathon was SELF RELIANT INDIA – a small step towards Self Reliant India for innovative ideas using IT Solution in domains such as - Health Care,Finance, Agriculture, Education and Social innovation.",
+//       "ACM-W organised a National Hackathon for girls students with a team of 3 members which consisted of 2 rounds on 19th&20th where teams has to make their project on the topic given by the committee on the spot.The theme of the hackathon was SELF RELIANT INDIA – a small step towards Self Reliant India for innovative ideas using IT Solution in domains such as - Health Care,Finance, Agriculture, Education and Social innovation.",
 //   },
 //   {
 //     id: "smart-abes-hackathon",

@@ -6,7 +6,6 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { events } from "@/public/data/events";
-import Database from "@/appwrite/database";
 import { notFound } from "next/navigation";
 import { Models } from "appwrite";
 import { type Event, EventDocument } from "@/types";

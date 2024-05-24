@@ -15,17 +15,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LoginSchema, RegisterSchema } from "@/schemas/auth";
-import { getLocalSession, login, register } from "@/lib/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { useTheme } from "next-themes";
 import { TailSpin } from "react-loader-spinner";
 import { CheckIcon } from "lucide-react";
-import { account } from "@/appwrite/client";
-import { isUserLoggedIn } from "@/lib/utils";
+import { useAuth } from "@/hooks/auth";
 
 export const LoginForm = () => {
+  const { login, user, loading: loginStatusLoading } = useAuth();
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
@@ -40,17 +40,11 @@ export const LoginForm = () => {
     },
   });
 
-  isUserLoggedIn().then(async (res) => {
-    if (res) {
-      const user = await account.get();
-      const { ok } = (await getLocalSession(user))!;
-      const callbackURL = searchParams.has("callback")
-        ? searchParams.get("callback")!
-        : "/";
-
-      if (ok) router.push(callbackURL);
-    }
-  });
+  if (user) {
+    const callbackURL = searchParams.has("callback")
+      ? searchParams.get("callback")!
+      : "/";
+  }
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setLoading(true);
@@ -75,7 +69,21 @@ export const LoginForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-4 w-full sm:w-1/2 lg:w-1/3"
       >
-        <h1 className={"text-4xl font-semibold"}>Login</h1>
+        <div className={"flex space-x-3 items-center"}>
+          <h1 className={"text-4xl font-semibold"}>Login</h1>
+          {loginStatusLoading && (
+            <TailSpin
+              visible={true}
+              height="20"
+              width="20"
+              strokeWidth={5}
+              color={theme === "dark" ? "black" : "white"}
+              ariaLabel="tail-spin-loading"
+              wrapperStyle={{}}
+              wrapperClass={``}
+            />
+          )}
+        </div>
         <FormField
           control={form.control}
           name="email"
@@ -126,6 +134,7 @@ export const LoginForm = () => {
               visible={true}
               height="20"
               width="20"
+              strokeWidth={4}
               color={theme === "dark" ? "white" : "black"}
               ariaLabel="tail-spin-loading"
               wrapperStyle={{}}
@@ -144,6 +153,8 @@ export const LoginForm = () => {
 };
 
 export const RegisterForm = () => {
+  const { register } = useAuth();
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();

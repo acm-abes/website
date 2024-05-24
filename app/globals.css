@@ -100,7 +100,7 @@
   }
 
   .hero {
-    font-family: "Poppins";
+    font-family: "Poppins", serif;
   }
 
   textarea::-webkit-scrollbar {

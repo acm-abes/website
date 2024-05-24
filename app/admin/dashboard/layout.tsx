@@ -10,7 +10,7 @@ const AdminPageLayout = async ({ events, children }: EventsProps) => {
   const { value: name } = cookieCreator.get("name")!;
 
   return (
-    <div className={"py-16 px-4 lg:px-36 flex flex-col space-y-10"}>
+    <div className={"flex flex-col space-y-10"}>
       <h1 className={"text-4xl"}>
         Hello admin <u className={"text-purple-500"}>{name}</u>!
       </h1>

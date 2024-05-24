@@ -1,5 +1,4 @@
 import React from "react";
-import EventPageLoading from "@/app/events/[id]/loading";
 
 const Layout = ({
   children,
