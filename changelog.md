@@ -50,11 +50,11 @@ _Please refer to Git Commit History for previous Logs_
 - Code Refactored
 - Made date formatting consistent across all pages
 
-#### TODO
+#### ~~TODO~~
 
 ~~- Add Loading Components to Events and Event pages~~
+
 
 ### 24 May 2024
 
 - Changed rendering pattern from SSR to SSG for best performance and SEO
-
