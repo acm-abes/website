@@ -6,37 +6,16 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { notFound } from "next/navigation";
-import { EventDocument } from "@/types";
 import { Metadata } from "next";
 import { parseDate } from "@/lib/utils";
 import { defaultOGConfig } from "@/lib/constants";
-import database from "@/appwrite/database";
-import { events, events as oldEvents } from "@/public/data/events";
+import { getAllEvents, getEvent } from "@/lib/utils";
 
 interface EventProps {
   params: {
     id: string;
   };
 }
-
-const getAllEvents = async () => {
-  const { documents } = await database.events?.list<EventDocument>()!;
-
-  return [...documents, ...oldEvents];
-};
-const getEvent = cache(async (id: string): Promise<EventDocument | null> => {
-  // const URL = baseURL + "/api/event?id=" + id;
-
-  let event: EventDocument | null | undefined;
-
-  event = events.find((e) => e.id === id)! as EventDocument;
-
-  if (!event) event = await database.events?.search<EventDocument>(id);
-
-  if (!event) return null;
-
-  return event;
-});
 
 const EventPage = async ({ params: { id } }: EventProps) => {
   const base_image_url = "/images";
@@ -75,6 +54,7 @@ const EventPage = async ({ params: { id } }: EventProps) => {
             ) : (
               <CarouselItem className={``}>
                 <Image
+                  priority
                   alt="event banner"
                   className="w-[100dvw] max-h-96"
                   width={1080}
