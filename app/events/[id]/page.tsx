@@ -5,13 +5,13 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { events } from "@/public/data/events";
 import { notFound } from "next/navigation";
-import { Models } from "appwrite";
-import { type Event, EventDocument } from "@/types";
+import { EventDocument } from "@/types";
 import { Metadata } from "next";
 import { parseDate } from "@/lib/utils";
+import { defaultOGConfig } from "@/lib/constants";
 import database from "@/appwrite/database";
+import { events, events as oldEvents } from "@/public/data/events";
 
 interface EventProps {
   params: {
@@ -19,22 +19,35 @@ interface EventProps {
   };
 }
 
-const getEvent = cache(async (id: string) => {
-  return database.events?.search<EventDocument>(id);
+const getAllEvents = async () => {
+  const { documents } = await database.events?.list<EventDocument>()!;
+
+  return [...documents, ...oldEvents];
+};
+const getEvent = cache(async (id: string): Promise<EventDocument | null> => {
+  // const URL = baseURL + "/api/event?id=" + id;
+
+  let event: EventDocument | null | undefined;
+
+  event = events.find((e) => e.id === id)! as EventDocument;
+
+  if (!event) event = await database.events?.search<EventDocument>(id);
+
+  if (!event) return null;
+
+  return event;
 });
 
 const EventPage = async ({ params: { id } }: EventProps) => {
   const base_image_url = "/images";
 
-  let data: Event & Models.Document;
+  const event = await getEvent(id);
 
-  data = events.find((e) => e.id === id)! as Event & Models.Document;
+  if (!event) {
+    return notFound();
+  }
 
-  if (!data) data = (await getEvent(id))!;
-
-  if (!data) return notFound();
-
-  data.date = parseDate(data.date);
+  event.date = parseDate(event.date);
 
   return (
     <main className="w-[100dvw] h-full space-y-36 md:space-y-52 lg:space-y-96 flex flex-col items-start">
@@ -42,8 +55,8 @@ const EventPage = async ({ params: { id } }: EventProps) => {
         {/* TODO : Add Carousel*/}
         <Carousel className="w-[100vw] relative">
           <CarouselContent>
-            {data.banners?.length ? (
-              data.banners.map((banner, index) => (
+            {event.banners?.length ? (
+              event.banners.map((banner, index) => (
                 <CarouselItem className={``} key={index}>
                   {banner !== "/" ? (
                     <Image
@@ -87,10 +100,10 @@ const EventPage = async ({ params: { id } }: EventProps) => {
             width={512}
             height={512}
             className="w-28 md:w-32 lg:w-44 absolute rounded-lg left-5"
-            src={data.logo}
+            src={event.logo}
           />
           <h1 className="text-2xl sm:text-3xl md:text-4xl text-end max-w-[70%]">
-            {data.name}
+            {event.name}
           </h1>
         </div>
 
@@ -99,12 +112,12 @@ const EventPage = async ({ params: { id } }: EventProps) => {
             <span className="text-sm text-secondary-foreground">
               Organized on
             </span>
-            <span className="text-base md:text-lg">{data.date}</span>
+            <span className="text-base md:text-lg">{event.date}</span>
           </div>
           <div className="flex flex-col">
             <span className="text-sm text-secondary-foreground">Venue</span>
             <span className="text-base md:text-lg">
-              {data.venue || "ABES Engineering College"}
+              {event.venue || "ABES Engineering College"}
             </span>
           </div>
         </div>
@@ -112,12 +125,12 @@ const EventPage = async ({ params: { id } }: EventProps) => {
           <h3 className="text-2xl text-primary/45 font-bold">
             About the event
           </h3>
-          <p>{data.description}</p>
+          <p>{event.description}</p>
         </div>
         <div className="flex justify-between rounded bg-secondary/40 drop-shadow-lg w-full">
           <div className="flex flex-col p-4">
             <span className="text-sm text-secondary-foreground">Prizes</span>
-            <span className="text-lg">{data.prizes}</span>
+            <span className="text-lg">{event.prizes}</span>
           </div>
         </div>
       </div>
@@ -128,13 +141,9 @@ const EventPage = async ({ params: { id } }: EventProps) => {
 export async function generateMetadata({
   params,
 }: EventProps): Promise<Metadata> {
-  let data = events.find((e) => e.id === params.id);
+  const event = await getEvent(params.id);
 
-  if (!data) {
-    data = (await getEvent(params.id))!;
-  }
-
-  if (!data)
+  if (!event)
     return {
       title: "Invalid Event",
       openGraph: {
@@ -147,22 +156,30 @@ export async function generateMetadata({
     };
 
   return {
-    title: data.name,
+    title: event.name,
     icons: {
-      icon: data.logo,
+      icon: event.logo,
     },
     openGraph: {
-      title: data.name,
+      ...defaultOGConfig,
+      url: defaultOGConfig?.url + `/events/${params.id}`,
+      title: event.name,
       images: [
         {
-          url: data.logo.includes("images")
-            ? `https://acm-abesec-1.vercel.app${data.logo}`
-            : data.logo,
+          url: event.logo.includes("images")
+            ? `https://acm-abesec-1.vercel.app${event.logo}`
+            : event.logo,
         },
       ],
-      description: data.description.split(" ").slice(0, 40).join(" ") + "...",
+      description: event.description.split(" ").slice(0, 40).join(" ") + "...",
     },
   };
+}
+
+export async function generateStaticParams() {
+  const events = await getAllEvents();
+
+  return events.map((event) => ({ id: event.id }));
 }
 
 export default EventPage;

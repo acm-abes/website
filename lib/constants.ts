@@ -1,5 +1,8 @@
 import { Metadata } from "next";
-export const baseURL = "https://abes-acm.vercel.app";
+export const baseURL =
+  process.env.NODE_ENV === "production"
+    ? "https://abes-acm.vercel.app"
+    : "http://localhost:3000";
 
 export const defaultOGConfig: Metadata["openGraph"] = {
   siteName: "ABES ACM",

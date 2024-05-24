@@ -9,7 +9,7 @@
     align-items: center;
     z-index: 2;
 
-    @apply text-foreground h-24 bg-background/20 backdrop-blur-lg py-[1.75em] px-4 pr-10 md:px-20 xl:px-36;
+    @apply text-foreground h-24 bg-background/20 backdrop-blur-lg py-[1.75em] px-4 pr-10 md:px-20 lg:px-36;
 }
 
 #close {
