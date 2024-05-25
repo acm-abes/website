@@ -28,7 +28,14 @@ const Events = async () => {
       </div>
       <section className="gap-3 gap-y-5 md:gap-y-3 grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3">
         {events.map((event, index) => (
-          <Card className={"w-10"} key={index} {...event} image={event.logo} />
+          <Card
+            className={
+              "w-10 hover:border-foreground/80 hover:scale-[103%] duration-150"
+            }
+            key={index}
+            {...event}
+            image={event.logo}
+          />
         ))}
       </section>
     </main>
