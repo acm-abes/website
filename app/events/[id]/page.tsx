@@ -82,7 +82,7 @@ const EventPage = async ({ params: { id } }: EventProps) => {
             className="w-28 md:w-32 lg:w-44 absolute rounded-lg left-5"
             src={event.logo}
           />
-          <h1 className="text-2xl sm:text-3xl md:text-4xl text-end max-w-[70%]">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl text-end max-w-[60%]">
             {event.name}
           </h1>
         </div>
