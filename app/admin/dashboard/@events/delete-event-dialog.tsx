@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { EventDocument } from "@/types";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import database from "@/appwrite/database";
+import { revalidateEvents } from "@/actions/revalidate";
 
 interface DeleteEventDialogProps {
   item: EventDocument;
@@ -31,6 +32,7 @@ const DeleteEventDialog = ({ item }: DeleteEventDialogProps) => {
       if (res) {
         setDeleted(true);
         setLoading(false);
+        await revalidateEvents();
       }
     } catch (e) {
       console.log(e);
