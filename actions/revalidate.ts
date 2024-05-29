@@ -6,6 +6,6 @@ export const revalidate = async (path: string) => {
   revalidatePath(path);
 };
 
-export const revalidateEvents = async (event = "") => {
-  await revalidate(`/events/${event}`);
+export const revalidateEvents = async (event?: string) => {
+  await revalidate(`/events${event ? "/" + event : ""}`);
 };
