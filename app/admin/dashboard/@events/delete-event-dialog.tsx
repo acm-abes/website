@@ -15,6 +15,7 @@ import { EventDocument } from "@/types";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import database from "@/appwrite/database";
 import { revalidateEvents } from "@/actions/revalidate";
+import { Bucket } from "@/appwrite/bucket";
 
 interface DeleteEventDialogProps {
   item: EventDocument;
@@ -27,7 +28,17 @@ const DeleteEventDialog = ({ item }: DeleteEventDialogProps) => {
   const handleDeleteEvent = async (id: string) => {
     try {
       setLoading(true);
-      const res = await database.events?.delete(id);
+
+      const bucket = new Bucket();
+
+      const event = await database.events?.search(id);
+
+      if (!event) return "Event not found";
+
+      const deleteEventData = database.events?.delete(id);
+      const deleteEventLogo = bucket.deleteItem(event.logo);
+
+      const res = await Promise.all([deleteEventData, deleteEventLogo]);
 
       if (res) {
         setDeleted(true);

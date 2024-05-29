@@ -27,4 +27,8 @@ export class Bucket {
       file,
     );
   }
+
+  async deleteItem(id: string) {
+    return await this.connection.deleteFile(this.buckets.event, id);
+  }
 }
