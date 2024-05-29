@@ -39,7 +39,7 @@ const DeleteEventDialog = ({ item }: DeleteEventDialogProps) => {
       const deleteEventLogo = await bucket.deleteItem(id);
 
       if (deleteEventData && deleteEventLogo) {
-        await revalidateEvents();
+        await fetch("/api/revalidate?path=/events");
 
         setDeleted(true);
         setLoading(false);
