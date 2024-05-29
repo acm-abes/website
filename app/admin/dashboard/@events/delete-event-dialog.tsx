@@ -36,7 +36,7 @@ const DeleteEventDialog = ({ item }: DeleteEventDialogProps) => {
       if (!event) return "Event not found";
 
       const deleteEventData = await database.events?.delete(id);
-      const deleteEventLogo = await bucket.deleteItem(event.logo);
+      const deleteEventLogo = await bucket.deleteItem(id);
 
       if (deleteEventData && deleteEventLogo) {
         await revalidateEvents();
