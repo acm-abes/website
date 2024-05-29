@@ -5,5 +5,5 @@ export async function GET(req: NextRequest, res: NextResponse) {
   await revalidateEvents();
 
   console.log("Revalidated Events");
-  return NextResponse.json({ message: "Revalidated Events" });
+  return NextResponse.json({ message: "Revalidated Events" }, { status: 200 });
 }
