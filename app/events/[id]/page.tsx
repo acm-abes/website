@@ -105,7 +105,7 @@ const EventPage = async ({ params: { id } }: EventProps) => {
           <h3 className="text-2xl text-primary/45 font-bold">
             About the event
           </h3>
-          <p>{event.description}</p>
+          <p className={"whitespace-pre"}>{event.description}</p>
         </div>
         <div className="flex justify-between rounded bg-secondary/40 drop-shadow-lg w-full">
           <div className="flex flex-col p-4">
