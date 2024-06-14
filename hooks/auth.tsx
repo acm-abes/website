@@ -34,7 +34,7 @@ interface ContextData {
     password: string,
     name: string,
     router: AppRouterInstance,
-  ) => Promise<Models.Session>;
+  ) => Promise<Models.User<Models.Preferences>>;
 
   isAdmin: boolean;
 }
