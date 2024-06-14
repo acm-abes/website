@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { Models } from "appwrite";
+import jwt from "jsonwebtoken";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const oneDay = 24 * 60 * 60 * 1000;
@@ -15,9 +16,22 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
   const cookieCreator = cookies();
 
-  cookieCreator.set("session", session, { expires: Date.now() + oneMonth });
-  cookieCreator.set("role", role, { expires: Date.now() + oneMonth });
-  cookieCreator.set("name", name, { expires: Date.now() + oneMonth });
+  const token = jwt.sign({ session, role }, process.env.TOKEN_SECRET);
 
-  return NextResponse.json({ session, role }, { status: 200 });
+  cookieCreator.set("session", token, {
+    httpOnly: true,
+    expires: Date.now() + oneMonth,
+    secure: true,
+  });
+
+  cookieCreator.set("name", name, {
+    httpOnly: true,
+    expires: Date.now() + oneMonth,
+    secure: true,
+  });
+
+  return NextResponse.json(
+    { message: "Verified successfully" },
+    { status: 200 },
+  );
 }

@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { cookies } from "next/headers";
+import * as jose from "jose";
 
 export async function middleware(
   request: NextRequest,
@@ -8,12 +9,31 @@ export async function middleware(
 
   const adminPage = "/admin";
 
-  const session = cookies().get("session");
-  const role = cookies().get("role");
+  const session = cookies().get("session")?.value;
+
+  const loggedIn = !!session;
+
+  let tokenPayload;
+
+  if (loggedIn) {
+    try {
+      const decoded = await jose.jwtVerify<{ session: string; role: string }>(
+        session,
+        new TextEncoder().encode(process.env.TOKEN_SECRET),
+      );
+
+      tokenPayload = decoded.payload;
+    } catch (e) {
+      console.log("Error : ", e);
+    }
+  }
+
+  const { session: payloadSession, role } = tokenPayload || {};
 
   const isAuthPage =
     pathname === "/auth/login" || pathname === "/auth/register";
-  const isAdmin = role && role.value === "admin";
+
+  const isAdmin = role && role === "admin";
 
   if (adminPage === pathname)
     return NextResponse.redirect(new URL("/admin/dashboard", request.url));
@@ -22,18 +42,13 @@ export async function middleware(
     const callbackURL = new URLSearchParams(request.nextUrl.search).get(
       "callback",
     );
-
-    console.log("Callback : ", callbackURL);
     return NextResponse.redirect(new URL(callbackURL || "/", request.url));
   }
 
   if (pathname.includes(adminPage) && (!session || !isAdmin))
-    return NextResponse.redirect(
-      new URL(`/auth/login?callback=${pathname}`, request.url),
-    );
+    return NextResponse.redirect(new URL(`/`, request.url));
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
   matcher: [
     "/",
@@ -41,7 +56,6 @@ export const config = {
     "/auth/register",
     "/admin/:path*",
     "/((?!.+\\.[\\w]+$|_next).*)",
-    "/",
     "/(api|trpc)(.*)",
   ],
 };

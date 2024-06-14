@@ -119,8 +119,7 @@ export const AuthProvider = ({ children }: Params) => {
       name: string,
       router: AppRouterInstance,
     ) {
-      await account.create(ID.unique(), email, password, name);
-      return this.login(email, password, router);
+      return await account.create(ID.unique(), email, password, name);
     },
   };
 
