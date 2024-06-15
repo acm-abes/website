@@ -153,7 +153,7 @@ export const LoginForm = () => {
 };
 
 export const RegisterForm = () => {
-  const { register } = useAuth();
+  const { register, login } = useAuth();
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -170,12 +170,9 @@ export const RegisterForm = () => {
 
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     setLoading(true);
-    const res = await register(
-      values.email,
-      values.password,
-      values.name,
-      router,
-    );
+    await register(values.email, values.password, values.name, router);
+
+    const res = await login(values.email, values.password, router);
 
     if (res.$id) {
       setLoading(false);
