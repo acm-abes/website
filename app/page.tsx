@@ -23,7 +23,7 @@ export default function Home() {
           <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition duration-200 rounded-lg text-white shadow-[0px_2px_0px_0px_#FFFFFF40_inset]">
             <Link href={"/events"}>Upcoming Events</Link> 
           </button>
-          <button className="px-4 py-2  text-white "><Link href={"/team"}></Link>Meet the Team</button>
+          <button className="px-4 py-2  text-white "><Link href={"/team"}>Meet the Team</Link></button>
         </div>
       </Vortex>
     </div>
