@@ -11,12 +11,12 @@ export default function Home() {
         particleCount={1000}
         rangeY={120}
         
-        className="flex items-center flex-col justify-center px-2 md:px-10 py-4 w-full h-full"
+        className="flex items-center flex-col justify-center px-4 md:px-10 py-4 w-full h-full"
       >
-        <h1 className="text-4xl md:text-9xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50">
+        <h1 className="text-7xl md:text-9xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50">
           ACM
         </h1>
-        <p className="text-white text-sm md:text-2xl max-w-xl mt-6 text-center">
+        <p className="text-white text-lg md:text-2xl max-w-xl mt-6 text-center">
           Computer Science Excellence with the Association for Computing Machinery at ABESEC.
         </p>
         <div className="flex flex-col sm:flex-row items-center gap-4 mt-6">
