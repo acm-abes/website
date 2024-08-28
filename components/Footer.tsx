@@ -24,7 +24,7 @@ const Footer = () => {
         </h2>
       </div>
       <p className="opacity-70">
-        We at the Association of Computing Machinery, ABES EC aim to instill
+        We at the Association of Computing Machinery, ABES-EC aim to instill
         spirit of technology and computing among the students, through various
         fields of modern technology.
       </p>

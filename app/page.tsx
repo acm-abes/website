@@ -1,57 +1,31 @@
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
+import { Vortex } from "@/components/ui/vortex";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <>
-      <BackgroundGradientAnimation
-        gradientBackgroundStart={"#000"}
-        gradientBackgroundEnd={"#000"}
-        // thirdColor={"#000"}
-        fourthColor={"227, 227, 227"}
-        interactive={false}
-        // size={"50%"}
-        className={"h-screen w-screen absolute top-0 left-0"}
-        containerClassName={"min-h-screen"}
+    <div className="w-full mx-auto rounded-md  h-[30rem] overflow-hidden">
+      <Vortex
+        backgroundColor="black"
+        particleCount={1000}
+        rangeY={120}
+        
+        className="flex items-center flex-col justify-center px-4 md:px-10 py-4 w-full h-full"
       >
-        <main
-          className={
-            "w-full h-full overflow-hidden flex flex-col items-center main-container space-y-10 md:space-y-20"
-          }
-        >
-          <div
-            className={
-              "z-[1] w-full h-[calc(100dvh-7.5rem)] flex items-center md:justify-between"
-            }
-          >
-            <div
-              className={"flex hero space-y-1 w-fit h-fit flex-col items-start"}
-            >
-              {/*<span className={"text-lg drop-shadow-2xl"}>Welcome to</span>*/}
-              <h1
-                className={
-                  "text-5xl md:text-6xl text-cyan-600 font-bold drop-shadow-2xl"
-                }
-              >
-                ABES-ACM
-              </h1>
-              <p className={"md:text-lg accent-neutral-400"}>
-                Welcome to Official ACM chapter by ABES EC
-              </p>
-            </div>
-
-            <Image
-              className={
-                "h-screen w-fit absolute right-0 object-cover md:block hidden"
-              }
-              src={"/images/hero.svg"}
-              width={256}
-              height={256}
-              alt={"Hero"}
-            />
-          </div>
-        </main>
-      </BackgroundGradientAnimation>
-    </>
+        <h1 className="text-7xl md:text-9xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50">
+          ACM
+        </h1>
+        <p className="text-white text-lg md:text-2xl max-w-xl mt-6 text-center">
+          Computer Science Excellence with the Association for Computing Machinery at ABESEC.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center gap-4 mt-6">
+          <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition duration-200 rounded-lg text-white shadow-[0px_2px_0px_0px_#FFFFFF40_inset]">
+            <Link href={"/events"}>Upcoming Events</Link> 
+          </button>
+          <button className="px-4 py-2  text-white "><Link href={"/team"}>Meet the Team</Link></button>
+        </div>
+      </Vortex>
+    </div>
   );
 }
