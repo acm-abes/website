@@ -24,7 +24,7 @@ interface ContextData {
     email: string,
     password: string,
     router: AppRouterInstance,
-    callbackURL?: string,
+    callbackURL?: string
   ) => Promise<Models.Session>;
 
   logout: () => Promise<void>;
@@ -33,7 +33,7 @@ interface ContextData {
     email: string,
     password: string,
     name: string,
-    router: AppRouterInstance,
+    router: AppRouterInstance
   ) => Promise<Models.User<Models.Preferences>>;
 
   isAdmin: boolean;
@@ -44,7 +44,7 @@ export const AuthContext = createContext<ContextData | null>(null);
 export const AuthProvider = ({ children }: Params) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<Models.User<Models.Preferences> | null>(
-    null,
+    null
   );
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -91,18 +91,28 @@ export const AuthProvider = ({ children }: Params) => {
       email: string,
       password: string,
       router: AppRouterInstance,
-      callbackURL: string = "/",
+      callbackURL: string = "/"
     ) {
-      const session = await account.createEmailPasswordSession(email, password);
+      try {
+        console.log("Trying to loginnn");
+        const session = await account.createEmailPasswordSession(
+          email,
+          password
+        );
 
-      const res = await account.get();
+        const res = await account.get();
 
-      if (res) {
-        setUser(res);
-        setTimeout(() => router.push(callbackURL), 1000);
+        if (res) {
+          setUser(res);
+          setTimeout(() => router.push(callbackURL), 1000);
+        }
+
+        return session;
+      } catch (error: any) {
+        console.log({ ...error });
+        //will catch this error where login fun is used
+        throw error; //ise wha pakad lenege wha wha lol :)
       }
-
-      return session;
     },
 
     async logout() {
@@ -117,9 +127,21 @@ export const AuthProvider = ({ children }: Params) => {
       email: string,
       password: string,
       name: string,
-      router: AppRouterInstance,
+      router: AppRouterInstance
     ) {
-      return await account.create(ID.unique(), email, password, name);
+      try {
+        const session = await account.create(
+          ID.unique(),
+          email,
+          password,
+          name
+        );
+        return session;
+      } catch (error: any) {
+        console.log({ ...error });
+        //will catch this error where register fun is used
+        throw error; //ise wha pakad lenege wha wha lol :)
+      }
     },
   };
 
