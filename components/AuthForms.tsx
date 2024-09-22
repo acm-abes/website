@@ -31,6 +31,7 @@ export const LoginForm = () => {
   const { theme } = useTheme();
   const [success, setSuccess] = useState(false);
   const searchParams = useSearchParams();
+  const [appwriteError, setAppwriteError] = useState<any>({});
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -47,19 +48,25 @@ export const LoginForm = () => {
   }
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const callbackURL = searchParams.get("callback");
-    const res = await login(
-      values.email,
-      values.password,
-      router,
-      callbackURL || undefined,
-    );
+      const callbackURL = searchParams.get("callback");
+      const res = await login(
+        values.email,
+        values.password,
+        router,
+        callbackURL || undefined
+      );
 
-    if (res.$id) {
+      if (res.$id) {
+        setLoading(false);
+        setSuccess(true);
+      }
+    } catch (error: any) {
+      setAppwriteError(error);
       setLoading(false);
-      setSuccess(true);
+      setSuccess(false);
     }
   };
 
@@ -124,6 +131,9 @@ export const LoginForm = () => {
             Register
           </Link>
         </FormDescription>
+        {appwriteError && (
+          <p className="text-red-500">{appwriteError.message}</p>
+        )}
         <Button
           disabled={loading}
           className={`w-full space-x-1 flex items-center ${success && "bg-success text-success-foreground"}`}
@@ -154,6 +164,7 @@ export const LoginForm = () => {
 
 export const RegisterForm = () => {
   const { register, login } = useAuth();
+  const [appwriteError, setAppwriteError] = useState<any>({});
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -169,12 +180,17 @@ export const RegisterForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
-    setLoading(true);
-    await register(values.email, values.password, values.name, router);
+    try {
+      setLoading(true);
+      await register(values.email, values.password, values.name, router);
 
-    const res = await login(values.email, values.password, router);
+      const res = await login(values.email, values.password, router);
 
-    if (res.$id) {
+      if (res.$id) {
+        setLoading(false);
+      }
+    } catch (error: any) {
+      setAppwriteError(error);
       setLoading(false);
     }
   };
@@ -239,6 +255,9 @@ export const RegisterForm = () => {
             Login
           </Link>
         </FormDescription>
+        {appwriteError && (
+          <p className="text-red-500">{appwriteError.message}</p>
+        )}
         <Button
           disabled={loading}
           className={`w-full flex items-center`}
