@@ -56,7 +56,7 @@ export const LoginForm = () => {
         values.email,
         values.password,
         router,
-        callbackURL || undefined
+        callbackURL || undefined,
       );
 
       if (res.$id) {
@@ -182,7 +182,7 @@ export const RegisterForm = () => {
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     try {
       setLoading(true);
-      await register(values.email, values.password, values.name, router);
+      await register(values.email, values.password, values.name);
 
       const res = await login(values.email, values.password, router);
 

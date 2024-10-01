@@ -85,18 +85,14 @@
   * {
     @apply border-border;
   }
+
   body {
     /*@apply bg-gradient-to-br from-root-1 to-root-2 text-foreground;*/
     @apply bg-black text-foreground;
   }
+
   body::-webkit-scrollbar {
     @apply hidden;
-  }
-  input[type="file"] {
-  }
-
-  .main-container {
-    @apply p-5 md:px-20 lg:px-36
   }
 
   .hero {
@@ -105,5 +101,19 @@
 
   textarea::-webkit-scrollbar {
     display: none;
+  }
+}
+
+@layer utilities {
+  .container-x {
+    @apply px-5 md:px-20 lg:px-24 w-full
+  }
+
+  .container-y {
+    @apply py-5
+  }
+
+  .main-container {
+    @apply container-x container-y
   }
 }

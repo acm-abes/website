@@ -47,6 +47,10 @@ export async function middleware(
 
   if (pathname.includes(adminPage) && (!session || !isAdmin))
     return NextResponse.redirect(new URL(`/`, request.url));
+
+  if (!session && pathname.includes("quiz")) {
+    return NextResponse.redirect(new URL("/auth/login", request.url));
+  }
 }
 
 export const config = {
