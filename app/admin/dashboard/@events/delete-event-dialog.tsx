@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { EventDocument } from "@/types";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import database from "@/appwrite/database";
-import { revalidateEvents } from "@/actions/revalidate";
 import { Bucket } from "@/appwrite/bucket";
 
 interface DeleteEventDialogProps {

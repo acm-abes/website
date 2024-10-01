@@ -128,13 +128,7 @@ export const AuthProvider = ({ children }: Params) => {
       name: string,
     ) {
       try {
-        const session = await account.create(
-          ID.unique(),
-          email,
-          password,
-          name,
-        );
-        return session;
+        return await account.create(ID.unique(), email, password, name);
       } catch (error: any) {
         console.log({ ...error });
         //will catch this error where register fun is used

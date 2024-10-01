@@ -1,5 +1,5 @@
 # ABES ACM
-This is the official website of ABES ACM chapter and it aims to provide all necessary information related to the chapter and all the events.
+This is the official website of ABES ACM chapter, and it aims to provide all necessary information related to the chapter and all the events.
 
 # Contributing
 
