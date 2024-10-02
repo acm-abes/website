@@ -15,6 +15,15 @@ If you have any questions or need further information, feel free to contact:
 - [Kunal Rana](https://github.com/halomanlodestar)
 - [Aditya Pundir](https://github.com/adipundir)
 
+# Tech Stack
+- Typescript (or Javascript)
+- Next JS (v14.x)
+- ShadnCN (UI Library)
+- Appwrite (Will be changed soon)
+- Zod
+- TailwindCSS
+- Lucid React Icons
+
 # Installation
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
