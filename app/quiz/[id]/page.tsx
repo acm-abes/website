@@ -1,16 +1,30 @@
+"use client";
+
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface Props {
   params: { id: string };
 }
 
 const QuizPage = ({ params: { id } }: Props) => {
+  const router = useRouter();
+
   const quiz = {
     name: `Quiz ${id}`,
     start: Date.now(),
     end: Date.now() + 100 * 60 * 60 * 2,
     questions: 20,
+  };
+
+  const enterQuiz = async () => {
+    const res = await fetch(`/api/quiz/enter?id=${id}`);
+
+    if (res.status === 302) {
+      localStorage.setItem("end", (await res.json()).end);
+      router.push("/quiz/attempt");
+    }
   };
 
   return (
@@ -40,7 +54,7 @@ const QuizPage = ({ params: { id } }: Props) => {
         </div>
 
         <div className={"flex space-x-2 items-center"}>
-          <Button className={""}>Enter Quiz</Button>
+          <Button onClick={enterQuiz}>Enter Quiz</Button>
         </div>
       </section>
     </main>
