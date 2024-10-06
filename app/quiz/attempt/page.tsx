@@ -2,8 +2,14 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 const QuizAttempt = () => {
   const router = useRouter();
+
+  if (typeof window === "undefined") {
+    return;
+  }
 
   if (!localStorage.getItem("end")) {
     router.push("/");
