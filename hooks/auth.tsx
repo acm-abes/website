@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }: Params) => {
 
         return session;
       } catch (error: any) {
-        console.log({ ...error });
+        // console.log({ ...error });
         //will catch this error where login fun is used
         throw error; //ise wha pakad lenege wha wha lol :)
       }

@@ -1,15 +1,5 @@
 import { Schema } from "mongoose";
-
-interface Option {
-  value: string;
-  id: string;
-}
-
-interface Question {
-  id: string;
-  title: string;
-  options: Option[];
-}
+import { Question } from "@/types";
 
 export const quizSchema = new Schema({
   name: { type: String, required: true },

@@ -18,6 +18,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   }
 
   if (cookieParser.get("attempt")) {
+    console.log("Already attending");
     return NextResponse.json({}, { status: 302 });
   }
 
@@ -26,7 +27,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const end = Date.now() + 60 * 60 * 1000;
 
   cookieParser.set("attempt", attemptId, {
-    expires: end,
+    expires: new Date(Date.now() + 30 * 1000),
+    secure: true,
+    httpOnly: true,
   });
 
   return NextResponse.json({ id: attemptId, end: end }, { status: 302 });
