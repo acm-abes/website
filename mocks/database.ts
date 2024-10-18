@@ -10,10 +10,8 @@ export const database: Database = {
     {
       id: "123",
       name: "Test Quiz 1",
-      start: new Date("2024-10-07T07:37:00.954Z").toISOString(),
-      end: new Date(
-        new Date("2024-10-09T00:37:00.954Z").getTime() + 1000 * 60 * 60,
-      ).toISOString(),
+      start: "2024-10-18T15:58:15.339Z",
+      end: "2024-10-18T17:58:15.339Z",
       description: "A mock quiz",
       questions: [
         {

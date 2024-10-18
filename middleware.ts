@@ -68,10 +68,10 @@ export async function middleware(
 
     const attemptId = cookies().get("attempt");
 
-    if (!attemptId) {
-      console.log("attempt id not found");
-      return NextResponse.redirect(new URL("/", request.url));
-    }
+    // if (!attemptId) {
+    //   console.log("attempt id not found");
+    //   return NextResponse.redirect(new URL("/", request.url));
+    // }
   }
 }
 

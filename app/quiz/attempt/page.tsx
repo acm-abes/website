@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Question, Quiz } from "@/types";
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { formatDifference } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -12,17 +13,17 @@ type QuizQuestion = Question & {
 };
 
 const QuizAttempt = () => {
-  const router = useRouter();
-
-  const [selected, setSelected] = useState<string>();
-  const [questionNumber, setQuestionNumber] = useState(1);
-  const [quiz, setQuiz] = useState<Quiz>();
-  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
-  const [remainingTime, setRemainingTime] = useState<number>();
-
   if (typeof window === "undefined") {
     return;
   }
+
+  const router = useRouter();
+
+  const [selected, _setSelected] = useState<string>();
+  const [questionNumber, setQuestionNumber] = useState(1);
+  const [quiz, setQuiz] = useState<Quiz>();
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [remainingTime, setRemainingTime] = useState("");
 
   useEffect(() => {
     const res = fetch(`/api/quiz/`);
@@ -38,7 +39,7 @@ const QuizAttempt = () => {
   }, []);
 
   useEffect(() => {
-    setRemainingTime(new Date(quiz?.end!).getTime() - Date.now());
+    setRemainingTime(formatDifference(Date.now(), quiz?.end!));
   }, [quiz, questionNumber]);
 
   const nextQuestion = () => {
@@ -58,20 +59,14 @@ const QuizAttempt = () => {
   }
 
   setInterval(() => {
-    setRemainingTime(new Date(quiz.end).getTime() - Date.now());
+    setRemainingTime(formatDifference(Date.now(), quiz.end));
   }, 1000);
 
   return (
     <main className={"flex flex-col space-y-5"}>
       <div className="flex flex-col">
         <span>Time Remaining</span>
-        <span>
-          {remainingTime
-            ? `${new Date(remainingTime).getHours()}:${new Date(remainingTime).getMinutes()}:${new Date(remainingTime).getSeconds()}`
-            : "Loading Time"}
-        </span>
-        {/*<span>End Time</span>*/}
-        {/*<span>{new Date(quiz.end).toLocaleTimeString()}</span>*/}
+        <span>{remainingTime}</span>
       </div>
       <hr />
       <div className={"flex justify-between"}>

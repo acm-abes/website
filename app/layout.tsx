@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import React from "react";
 import { defaultOGConfig } from "@/lib/constants";
 import { AuthProvider } from "@/hooks/auth";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: { template: "%s | ABES ACM", default: "HOME" },
@@ -25,14 +26,13 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeProvider>
-          {/* <Navbar /> */}
           <AuthProvider>
+            <Toaster />
             <Menu />
             <div className="pt-20">{children}</div>
             <Footer />
           </AuthProvider>
         </ThemeProvider>
-        {/*<Analytics />*/}
       </body>
     </html>
   );
