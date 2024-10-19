@@ -5,12 +5,13 @@ import { Question, Quiz } from "@/types";
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDifference } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 
 export const dynamic = "force-dynamic";
 
-type QuizQuestion = Question & {
+interface QuizQuestion extends Question {
   selected: string;
-};
+}
 
 const QuizAttempt = () => {
   if (typeof window === "undefined") {
@@ -21,22 +22,21 @@ const QuizAttempt = () => {
 
   const [selected, _setSelected] = useState<string>();
   const [questionNumber, setQuestionNumber] = useState(1);
-  const [quiz, setQuiz] = useState<Quiz>();
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [remainingTime, setRemainingTime] = useState("");
 
-  useEffect(() => {
-    const res = fetch(`/api/quiz/`);
-
-    res.then(async (val) => {
-      if (val.ok) {
-        const json = ((await val.json()) as { quiz: Quiz }).quiz;
-
-        setQuiz(json);
-        setQuestions(json.questions as QuizQuestion[]);
-      }
-    });
-  }, []);
+  const {
+    data: quiz,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["quiz"],
+    queryFn: async () => {
+      const data = (await (await fetch("/api/quiz/")).json()) as Quiz;
+      setQuestions(data.questions.map((item) => ({ selected: "", ...item })));
+      return data;
+    },
+  });
 
   useEffect(() => {
     setRemainingTime(formatDifference(Date.now(), quiz?.end!));
@@ -54,8 +54,13 @@ const QuizAttempt = () => {
     router.push("/");
   }
 
-  if (!quiz) {
+  if (isLoading) {
     return <div>Loading Quiz</div>;
+  }
+
+  if (error || !quiz) {
+    console.log(error);
+    return <div>Unable to fetch quiz</div>;
   }
 
   setInterval(() => {

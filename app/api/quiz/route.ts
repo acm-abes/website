@@ -8,12 +8,14 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const attempt = cookieParser.get("attempt");
 
   if (!attempt) {
+    console.log("ATTEMPT TOKEN NOT FOUND");
     return NextResponse.json({ status: "invalid request" }, { status: 400 });
   }
 
   const quizId = attempt.value.split(":")[0];
 
   if (!quizId) {
+    console.log("INVALID TOKEN");
     return NextResponse.json({ status: "invalid token" }, { status: 400 });
   }
 

@@ -1,19 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { Quiz } from "@/types";
 import { database } from "@/mocks/database";
 import { useToast } from "@/hooks/use-toast";
-import {
-  differenceInMinutes,
-  format,
-  formatDistance,
-  getHours,
-  getMinutes,
-  subHours,
-} from "date-fns";
+import { format, formatDistance } from "date-fns";
+import { useQuery } from "@tanstack/react-query";
 
 interface Props {
   params: { id: string };
@@ -23,16 +16,20 @@ const QuizPage = ({ params: { id } }: Props) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [quiz, setQuiz] = useState<Quiz>();
 
   const { toast } = useToast();
 
-  useEffect(() => {
-    setQuiz(database.getQuiz(id));
-  }, []);
+  const {
+    data: quiz,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["quiz-meta"],
+    queryFn: () => database.getQuiz(id),
+  });
 
   const enterQuiz = async () => {
-    setLoading(false);
+    setLoading(true);
 
     const res = await fetch(`/api/quiz/enter?id=${id}`);
 
@@ -52,8 +49,12 @@ const QuizPage = ({ params: { id } }: Props) => {
     }
   };
 
-  if (!quiz) {
+  if (isLoading) {
     return <div>Loading</div>;
+  }
+
+  if (!quiz || error) {
+    throw Error("Unable to fetch quiz");
   }
 
   return (

@@ -1,5 +1,5 @@
 import "./globals.css";
-import { ThemeProvider } from "@/components/Providers";
+import { ReactQueryProvider, ThemeProvider } from "@/components/Providers";
 import Footer from "@/components/Footer";
 import Menu from "@/components/menu/Menu";
 import { Metadata } from "next";
@@ -27,10 +27,12 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <AuthProvider>
-            <Toaster />
-            <Menu />
-            <div className="pt-20">{children}</div>
-            <Footer />
+            <ReactQueryProvider>
+              <Toaster />
+              <Menu />
+              <div className="pt-20">{children}</div>
+              <Footer />
+            </ReactQueryProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

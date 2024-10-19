@@ -40,7 +40,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   //////////////////////////////////////// Steps to take
   // fetch quiz from database
-
   const quiz = database.getQuiz(id);
 
   if (!quiz) {
