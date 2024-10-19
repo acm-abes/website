@@ -32,7 +32,7 @@ const QuizAttempt = () => {
   } = useQuery({
     queryKey: ["quiz"],
     queryFn: async () => {
-      const data = (await (await fetch("/api/quiz/")).json()) as Quiz;
+      const data = (await (await fetch("/api/quiz/")).json()).quiz as Quiz;
       setQuestions(data.questions.map((item) => ({ selected: "", ...item })));
       return data;
     },

@@ -7,6 +7,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   const attempt = cookieParser.get("attempt");
 
+  console.log(attempt);
+
   if (!attempt) {
     console.log("ATTEMPT TOKEN NOT FOUND");
     return NextResponse.json({ status: "invalid request" }, { status: 400 });

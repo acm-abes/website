@@ -10,8 +10,8 @@ export const database: Database = {
     {
       id: "123",
       name: "Test Quiz 1",
-      start: "2024-10-18T15:58:15.339Z",
-      end: "2024-10-18T17:58:15.339Z",
+      start: "2024-10-19T05:50:46.575Z",
+      end: "2024-10-19T06:20:46.575Z",
       description: "A mock quiz",
       questions: [
         {

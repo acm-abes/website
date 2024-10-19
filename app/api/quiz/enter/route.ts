@@ -80,7 +80,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const end = Date.now() + 60 * 60 * 1000;
 
   cookieParser.set("attempt", attemptId, {
-    expires: new Date(Date.now() + 30 * 1000),
+    expires: new Date(endTime),
     secure: true,
     httpOnly: true,
   });

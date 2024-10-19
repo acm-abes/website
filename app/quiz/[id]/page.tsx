@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { database } from "@/mocks/database";
 import { useToast } from "@/hooks/use-toast";
-import { format, formatDistance } from "date-fns";
+import { format, formatDistance, roundToNearestMinutes } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 
 interface Props {
@@ -16,6 +16,7 @@ const QuizPage = ({ params: { id } }: Props) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [alreadyEntered, setAlreadyEntered] = useState(false);
 
   const { toast } = useToast();
 
@@ -27,6 +28,21 @@ const QuizPage = ({ params: { id } }: Props) => {
     queryKey: ["quiz-meta"],
     queryFn: () => database.getQuiz(id),
   });
+
+  useEffect(() => {
+    fetch("/api/quiz/attempt").then(async (res) => {
+      const body = await res.json();
+
+      console.log(body);
+
+      if (body.status) {
+        toast({
+          title: "You are already attempting",
+          description: "You can still enter before time runs out",
+        });
+      }
+    });
+  }, [quiz]);
 
   const enterQuiz = async () => {
     setLoading(true);
@@ -84,7 +100,10 @@ const QuizPage = ({ params: { id } }: Props) => {
           <div className={"flex flex-col w-1/2"}>
             <span className={"font-semibold"}>Duration</span>
             <span className={"text-xl"}>
-              {formatDistance(quiz.end, quiz.start)}
+              {formatDistance(
+                roundToNearestMinutes(quiz.end),
+                roundToNearestMinutes(quiz.start),
+              )}
             </span>
           </div>
         </div>
