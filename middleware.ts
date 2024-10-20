@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import * as jose from "jose";
+import { redirect } from "next/navigation";
 
 export async function middleware(
   request: NextRequest,
@@ -47,6 +48,31 @@ export async function middleware(
 
   if (pathname.includes(adminPage) && (!session || !isAdmin))
     return NextResponse.redirect(new URL(`/`, request.url));
+
+  if (!session && pathname.includes("quiz")) {
+    const url = request.nextUrl.pathname;
+
+    return NextResponse.redirect(
+      new URL(`/auth/login?callback=${url}`, request.url),
+    );
+  }
+
+  if (pathname.includes("quiz/attempt")) {
+    if (!session) {
+      const url = request.nextUrl.pathname;
+
+      return NextResponse.redirect(
+        new URL(`/auth/login?callback=${url}`, request.url),
+      );
+    }
+
+    const attemptId = cookies().get("attempt");
+
+    // if (!attemptId) {
+    //   console.log("attempt id not found");
+    //   return NextResponse.redirect(new URL("/", request.url));
+    // }
+  }
 }
 
 export const config = {

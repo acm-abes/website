@@ -1,11 +1,12 @@
 import "./globals.css";
-import { ThemeProvider } from "@/components/Providers";
+import { ReactQueryProvider, ThemeProvider } from "@/components/Providers";
 import Footer from "@/components/Footer";
 import Menu from "@/components/menu/Menu";
 import { Metadata } from "next";
 import React from "react";
 import { defaultOGConfig } from "@/lib/constants";
 import { AuthProvider } from "@/hooks/auth";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: { template: "%s | ABES ACM", default: "HOME" },
@@ -25,14 +26,15 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeProvider>
-          {/* <Navbar /> */}
           <AuthProvider>
-            <Menu />
-            <div className="pt-20">{children}</div>
-            <Footer />
+            <ReactQueryProvider>
+              <Toaster />
+              <Menu />
+              <div className="pt-20">{children}</div>
+              <Footer />
+            </ReactQueryProvider>
           </AuthProvider>
         </ThemeProvider>
-        {/*<Analytics />*/}
       </body>
     </html>
   );

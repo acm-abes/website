@@ -85,14 +85,14 @@
   * {
     @apply border-border;
   }
+
   body {
     /*@apply bg-gradient-to-br from-root-1 to-root-2 text-foreground;*/
     @apply bg-black text-foreground;
   }
+
   body::-webkit-scrollbar {
     @apply hidden;
-  }
-  input[type="file"] {
   }
 
   .hero {

@@ -7,6 +7,8 @@ const env = z.object({
   NEXT_PUBLIC_BUCKET_ID: z.string(),
 
   TOKEN_SECRET: z.string(),
+
+  MONGODB_URI: z.string(),
 });
 
 try {
