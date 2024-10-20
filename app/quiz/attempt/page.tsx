@@ -59,7 +59,6 @@ const QuizAttempt = () => {
   }
 
   if (error || !quiz) {
-    console.log(error);
     return <div>Unable to fetch quiz</div>;
   }
 

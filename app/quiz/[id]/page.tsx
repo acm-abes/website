@@ -16,7 +16,6 @@ const QuizPage = ({ params: { id } }: Props) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [alreadyEntered, setAlreadyEntered] = useState(false);
 
   const { toast } = useToast();
 
@@ -32,8 +31,6 @@ const QuizPage = ({ params: { id } }: Props) => {
   useEffect(() => {
     fetch("/api/quiz/attempt").then(async (res) => {
       const body = await res.json();
-
-      console.log(body);
 
       if (body.status) {
         toast({
