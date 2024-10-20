@@ -33,7 +33,6 @@ interface ContextData {
     email: string,
     password: string,
     name: string,
-    router: AppRouterInstance,
   ) => Promise<Models.User<Models.Preferences>>;
 
   isAdmin: boolean;
@@ -127,16 +126,9 @@ export const AuthProvider = ({ children }: Params) => {
       email: string,
       password: string,
       name: string,
-      router: AppRouterInstance,
     ) {
       try {
-        const session = await account.create(
-          ID.unique(),
-          email,
-          password,
-          name,
-        );
-        return session;
+        return await account.create(ID.unique(), email, password, name);
       } catch (error: any) {
         console.log({ ...error });
         //will catch this error where register fun is used
