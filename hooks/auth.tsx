@@ -24,7 +24,7 @@ interface ContextData {
     email: string,
     password: string,
     router: AppRouterInstance,
-    callbackURL?: string
+    callbackURL?: string,
   ) => Promise<Models.Session>;
 
   logout: () => Promise<void>;
@@ -33,7 +33,7 @@ interface ContextData {
     email: string,
     password: string,
     name: string,
-    router: AppRouterInstance
+    router: AppRouterInstance,
   ) => Promise<Models.User<Models.Preferences>>;
 
   isAdmin: boolean;
@@ -44,8 +44,9 @@ export const AuthContext = createContext<ContextData | null>(null);
 export const AuthProvider = ({ children }: Params) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<Models.User<Models.Preferences> | null>(
-    null
+    null,
   );
+  const [verified, setVerified] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -57,6 +58,18 @@ export const AuthProvider = ({ children }: Params) => {
           .get()
           .then((res) => {
             setUser(res);
+            setIsAdmin(res.labels.includes("admin"));
+
+            fetch("/api/auth", {
+              body: JSON.stringify({ session: res }),
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }).then((res) => {
+              setVerified(true);
+              return res;
+            });
           })
           .catch((res) => res);
       }
@@ -67,21 +80,16 @@ export const AuthProvider = ({ children }: Params) => {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (user) {
-      setIsAdmin(user.labels.includes("admin"));
-
-      fetch("/api/auth", {
-        body: JSON.stringify({ session: user }),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res);
-    }
-
-    if (!user) setIsAdmin(false);
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     setIsAdmin(user.labels.includes("admin"));
+  //
+  //     if (!verified)
+  //
+  //   }
+  //
+  //   if (!user) setIsAdmin(false);
+  // }, [user]);
 
   const contextData = {
     user,
@@ -91,13 +99,13 @@ export const AuthProvider = ({ children }: Params) => {
       email: string,
       password: string,
       router: AppRouterInstance,
-      callbackURL: string = "/"
+      callbackURL: string = "/",
     ) {
       try {
         console.log("Trying to loginnn");
         const session = await account.createEmailPasswordSession(
           email,
-          password
+          password,
         );
 
         const res = await account.get();
@@ -127,14 +135,14 @@ export const AuthProvider = ({ children }: Params) => {
       email: string,
       password: string,
       name: string,
-      router: AppRouterInstance
+      router: AppRouterInstance,
     ) {
       try {
         const session = await account.create(
           ID.unique(),
           email,
           password,
-          name
+          name,
         );
         return session;
       } catch (error: any) {

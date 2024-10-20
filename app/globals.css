@@ -95,15 +95,25 @@
   input[type="file"] {
   }
 
-  .main-container {
-    @apply p-5 md:px-20 lg:px-36
-  }
-
   .hero {
     font-family: "Poppins", serif;
   }
 
   textarea::-webkit-scrollbar {
     display: none;
+  }
+}
+
+@layer utilities {
+  .container-x {
+    @apply px-5 md:px-20 lg:px-24 w-full
+  }
+
+  .container-y {
+    @apply py-5
+  }
+
+  .main-container {
+    @apply container-x container-y
   }
 }
