@@ -33,6 +33,7 @@ interface ContextData {
     email: string,
     password: string,
     name: string,
+    router: AppRouterInstance,
   ) => Promise<Models.User<Models.Preferences>>;
 
   isAdmin: boolean;
@@ -45,6 +46,7 @@ export const AuthProvider = ({ children }: Params) => {
   const [user, setUser] = useState<Models.User<Models.Preferences> | null>(
     null,
   );
+  const [verified, setVerified] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -56,6 +58,18 @@ export const AuthProvider = ({ children }: Params) => {
           .get()
           .then((res) => {
             setUser(res);
+            setIsAdmin(res.labels.includes("admin"));
+
+            fetch("/api/auth", {
+              body: JSON.stringify({ session: res }),
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }).then((res) => {
+              setVerified(true);
+              return res;
+            });
           })
           .catch((res) => res);
       }
@@ -66,21 +80,16 @@ export const AuthProvider = ({ children }: Params) => {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (user) {
-      setIsAdmin(user.labels.includes("admin"));
-
-      fetch("/api/auth", {
-        body: JSON.stringify({ session: user }),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res);
-    }
-
-    if (!user) setIsAdmin(false);
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     setIsAdmin(user.labels.includes("admin"));
+  //
+  //     if (!verified)
+  //
+  //   }
+  //
+  //   if (!user) setIsAdmin(false);
+  // }, [user]);
 
   const contextData = {
     user,
