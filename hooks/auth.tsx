@@ -33,6 +33,7 @@ interface ContextData {
     email: string,
     password: string,
     name: string,
+    router: AppRouterInstance,
   ) => Promise<Models.User<Models.Preferences>>;
 
   isAdmin: boolean;
@@ -108,7 +109,7 @@ export const AuthProvider = ({ children }: Params) => {
 
         return session;
       } catch (error: any) {
-        // console.log({ ...error });
+        console.log({ ...error });
         //will catch this error where login fun is used
         throw error; //ise wha pakad lenege wha wha lol :)
       }
@@ -126,9 +127,16 @@ export const AuthProvider = ({ children }: Params) => {
       email: string,
       password: string,
       name: string,
+      router: AppRouterInstance,
     ) {
       try {
-        return await account.create(ID.unique(), email, password, name);
+        const session = await account.create(
+          ID.unique(),
+          email,
+          password,
+          name,
+        );
+        return session;
       } catch (error: any) {
         console.log({ ...error });
         //will catch this error where register fun is used
