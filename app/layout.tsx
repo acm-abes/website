@@ -7,6 +7,7 @@ import React from "react";
 import { defaultOGConfig } from "@/lib/constants";
 import { AuthProvider } from "@/hooks/auth";
 import { Toaster } from "@/components/ui/toaster";
+import { connect } from "@/database";
 
 export const metadata: Metadata = {
   title: { template: "%s | ABES ACM", default: "HOME" },
@@ -22,6 +23,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  connect();
+
   return (
     <html lang="en">
       <body>

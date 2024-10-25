@@ -1,18 +1,18 @@
 import { connect as connectMongoose, connection } from "mongoose";
 import { MongoError } from "mongodb";
 
-const getMongoURI = (database: string) => {
-  return process.env.MONGODB_URI + database;
+const getMongoURI = () => {
+  return process.env.MONGODB_URI;
 };
 
-const connect = async () => {
-  const mongodbURI = getMongoURI("acm");
+export const connect = async () => {
+  const mongodbURI = getMongoURI();
 
   try {
     await connectMongoose(mongodbURI);
 
     connection.on("connected", () => {
-      console.log("Database successfully connected with MongoDB connection.");
+      console.log("Database successfully connected with MongoDB");
     });
   } catch (error) {
     if (error instanceof MongoError) {

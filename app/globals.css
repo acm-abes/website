@@ -106,8 +106,10 @@
 
 @layer utilities {
   .container-x {
-    @apply px-5 md:px-20 lg:px-24 w-full
+    @apply px-5 md:px-20 lg:px-36 w-full
   }
+
+  /*p-5 md:py-10 md:px-20 lg:px-36*/
 
   .container-y {
     @apply py-5

@@ -1,4 +1,6 @@
-import { model } from "mongoose";
-import { quizSchema } from "@/schemas/mongoose";
+import mongoose, { model } from "mongoose";
+import { contestSchema, quizSchema } from "@/schemas/mongoose";
 
-export const Quiz = model("Quiz", quizSchema);
+export const Quiz = mongoose.models.Quiz || model("Quiz", quizSchema);
+export const Contest =
+  mongoose.models.Contest || model("Contest", contestSchema);
