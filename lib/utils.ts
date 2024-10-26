@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { format, parse } from "date-fns";
+import { differenceInSeconds, format, parse } from "date-fns";
 import database from "@/appwrite/database";
 import { EventDocument } from "@/types";
 import { events, events as oldEvents } from "@/public/data/events";
@@ -65,4 +65,21 @@ export const parseDate = (date: string) => {
   }
 
   return format(parsedDate, "do MMM yyyy");
+};
+
+export const formatDifference = (
+  start: string | Date | number,
+  end: string | Date | number,
+) => {
+  const difference = differenceInSeconds(end, start);
+
+  const hours = Math.floor(difference / 3600)
+    .toString()
+    .padStart(2, "0");
+  const minutes = Math.floor((difference % 3600) / 60)
+    .toString()
+    .padStart(2, "0");
+  const seconds = (difference % 60).toString().padStart(2, "0");
+
+  return `${hours}:${minutes}:${seconds}`;
 };

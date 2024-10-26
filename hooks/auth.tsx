@@ -24,7 +24,7 @@ interface ContextData {
     email: string,
     password: string,
     router: AppRouterInstance,
-    callbackURL?: string
+    callbackURL?: string,
   ) => Promise<Models.Session>;
 
   logout: () => Promise<void>;
@@ -33,7 +33,6 @@ interface ContextData {
     email: string,
     password: string,
     name: string,
-    router: AppRouterInstance
   ) => Promise<Models.User<Models.Preferences>>;
 
   isAdmin: boolean;
@@ -44,7 +43,7 @@ export const AuthContext = createContext<ContextData | null>(null);
 export const AuthProvider = ({ children }: Params) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<Models.User<Models.Preferences> | null>(
-    null
+    null,
   );
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -91,13 +90,13 @@ export const AuthProvider = ({ children }: Params) => {
       email: string,
       password: string,
       router: AppRouterInstance,
-      callbackURL: string = "/"
+      callbackURL: string = "/",
     ) {
       try {
         console.log("Trying to loginnn");
         const session = await account.createEmailPasswordSession(
           email,
-          password
+          password,
         );
 
         const res = await account.get();
@@ -127,16 +126,9 @@ export const AuthProvider = ({ children }: Params) => {
       email: string,
       password: string,
       name: string,
-      router: AppRouterInstance
     ) {
       try {
-        const session = await account.create(
-          ID.unique(),
-          email,
-          password,
-          name
-        );
-        return session;
+        return await account.create(ID.unique(), email, password, name);
       } catch (error: any) {
         console.log({ ...error });
         //will catch this error where register fun is used

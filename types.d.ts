@@ -12,4 +12,24 @@ export interface Event {
   venue: string;
 }
 
+export interface Quiz {
+  id: string;
+  name: string;
+  description: string;
+  start: string;
+  end: string;
+  questions: Question[];
+}
+
+export interface Option {
+  value: string;
+  id: string;
+}
+
+export interface Question {
+  id: string;
+  title: string;
+  options: Option[];
+}
+
 type EventDocument = Event & Models.Document;
