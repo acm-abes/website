@@ -8,7 +8,7 @@ interface Database {
 export const database: Database = {
   quizzes: [
     {
-      id: "123",
+      id: "test-quiz-1",
       name: "Test Quiz 1",
       start: "2024-10-19T05:50:46.575Z",
       end: "2024-10-19T06:20:46.575Z",

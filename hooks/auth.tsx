@@ -93,7 +93,6 @@ export const AuthProvider = ({ children }: Params) => {
       callbackURL: string = "/",
     ) {
       try {
-        console.log("Trying to loginnn");
         const session = await account.createEmailPasswordSession(
           email,
           password,

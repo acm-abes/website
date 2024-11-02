@@ -1,4 +1,4 @@
-import { connect as connectMongoose, connection } from "mongoose";
+import { connect as connectMongoose, Connection, connection } from "mongoose";
 import { MongoError } from "mongodb";
 
 const getMongoURI = () => {
@@ -11,7 +11,7 @@ export const connect = async () => {
   try {
     await connectMongoose(mongodbURI);
 
-    connection.on("connected", () => {
+    let con = connection.on("connected", () => {
       console.log("Database successfully connected with MongoDB");
     });
   } catch (error) {
