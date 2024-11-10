@@ -22,14 +22,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
     httpOnly: true,
     expires: Date.now() + oneMonth,
     // secure: true,
-    sameSite: "lax",
+    // sameSite: "lax",
   });
 
   cookieCreator.set("name", name, {
     httpOnly: true,
     expires: Date.now() + oneMonth,
     // secure: true,
-    sameSite: "lax",
+    // sameSite: "lax",
   });
 
   return NextResponse.json(
