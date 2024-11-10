@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+
 export const baseURL =
   process.env.NODE_ENV === "production"
     ? "https://abes-acm.vercel.app"
@@ -15,3 +16,5 @@ export const defaultOGConfig: Metadata["openGraph"] = {
     },
   ],
 };
+
+export const ONE_HOUR = 60 * 60 * 1000;
