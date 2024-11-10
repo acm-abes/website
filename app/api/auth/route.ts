@@ -22,7 +22,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     httpOnly: true,
     expires: Date.now() + oneMonth,
     secure: true,
-    sameSite: "strict",
+    sameSite: "lax",
   });
 
   cookieCreator.set("name", name, {
