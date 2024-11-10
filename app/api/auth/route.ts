@@ -21,14 +21,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
   cookieCreator.set("session", token, {
     httpOnly: true,
     expires: Date.now() + oneMonth,
-    secure: true,
+    // secure: true,
     sameSite: "lax",
   });
 
   cookieCreator.set("name", name, {
     httpOnly: true,
     expires: Date.now() + oneMonth,
-    secure: true,
+    // secure: true,
     sameSite: "lax",
   });
 
