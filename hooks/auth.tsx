@@ -76,7 +76,11 @@ export const AuthProvider = ({ children }: Params) => {
         headers: {
           "Content-Type": "application/json",
         },
-      }).then((res) => res);
+      }).then((res) => {
+        if (res.ok) console.log("verified");
+        else console.log("not verified");
+        res.json().then((data) => console.log(data));
+      });
     }
 
     if (!user) setIsAdmin(false);
