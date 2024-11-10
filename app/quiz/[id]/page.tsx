@@ -1,73 +1,18 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { database } from "@/mocks/database";
-import { useToast } from "@/hooks/use-toast";
+import React from "react";
+import { notFound } from "next/navigation";
 import { format, formatDistance, roundToNearestMinutes } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
+import EnterQuizButton from "@/components/EnterQuizButton";
+import { Quiz } from "@/database/models";
 
 interface Props {
   params: { id: string };
 }
 
-const QuizPage = ({ params: { id } }: Props) => {
-  const router = useRouter();
+const QuizPage = async ({ params: { id } }: Props) => {
+  const quiz = await Quiz.findOne({ uid: id });
 
-  const [loading, setLoading] = useState(false);
-
-  const { toast } = useToast();
-
-  const {
-    data: quiz,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["quiz-meta"],
-    queryFn: () => database.getQuiz(id),
-  });
-
-  useEffect(() => {
-    fetch("/api/quiz/attempt").then(async (res) => {
-      const body = await res.json();
-
-      if (body.status) {
-        toast({
-          title: "You are already attempting",
-          description: "You can still enter before time runs out",
-        });
-      }
-    });
-  }, [quiz]);
-
-  const enterQuiz = async () => {
-    setLoading(true);
-
-    const res = await fetch(`/api/quiz/enter?id=${id}`);
-
-    const body = await res.json();
-
-    if (res.status === 403) {
-      toast({
-        title: body.error,
-        description: body.message,
-        variant: "default",
-      });
-    }
-
-    if (res.status === 302) {
-      localStorage.setItem("end", quiz?.end!);
-      router.push("/quiz/attempt");
-    }
-  };
-
-  if (isLoading) {
-    return <div>Loading</div>;
-  }
-
-  if (!quiz || error) {
-    throw Error("Unable to fetch quiz");
+  if (!quiz) {
+    return notFound();
   }
 
   return (
@@ -106,9 +51,7 @@ const QuizPage = ({ params: { id } }: Props) => {
         </div>
 
         <div className={"flex space-x-2 items-center"}>
-          <Button disabled={loading} onClick={enterQuiz}>
-            Enter Quiz
-          </Button>
+          <EnterQuizButton id={quiz.id} end={quiz.end} />
         </div>
       </section>
     </main>

@@ -2,6 +2,7 @@ import { Schema } from "mongoose";
 import { Question } from "@/types";
 
 export const quizSchema = new Schema({
+  uid: String,
   name: { type: String, required: true },
   description: { type: String, required: true },
   start: { type: Date, required: true },

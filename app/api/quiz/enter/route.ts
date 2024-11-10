@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { database } from "@/mocks/database";
 import { format, formatDistance } from "date-fns";
+import { Quiz, QuizSubmission } from "@/database/models";
 
 /////// All possible cases ///////
 // Early
@@ -14,6 +14,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const cookieParser = cookies();
 
   const id = req.nextUrl.searchParams.get("id");
+  const user_id = req.nextUrl.searchParams.get("user_id");
+
+  if (!user_id) {
+    return redirect("/auth/login");
+  }
 
   if (!id) {
     return redirect("/");
@@ -23,12 +28,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   // Isn't logged in
   if (!session) {
-    return redirect(`/auth/register?callback=${id}`);
+    return redirect(`/auth/login?callback=${id}`);
   }
 
   // Already attempting a quiz
   if (cookieParser.get("attempt")) {
-    console.log("Already attending");
     return NextResponse.json({}, { status: 302 });
   }
 
@@ -40,10 +44,24 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   //////////////////////////////////////// Steps to take
   // fetch quiz from database
-  const quiz = database.getQuiz(id);
+  const quiz = await Quiz.findById(id);
 
   if (!quiz) {
     return NextResponse.json({ error: "invalid id" }, { status: 404 });
+  }
+
+  const existingSubmission = await QuizSubmission.findOne({
+    attempter_email: user_id,
+  });
+
+  if (existingSubmission) {
+    return NextResponse.json(
+      {
+        error: "You have already submitted",
+        message: `You can't participate now`,
+      },
+      { status: 403 },
+    );
   }
 
   const quizStart = quiz.start;

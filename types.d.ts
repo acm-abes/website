@@ -1,4 +1,5 @@
 import { Models } from "appwrite";
+import { Connection } from "mongoose";
 
 export interface Event {
   id: string;
@@ -33,3 +34,9 @@ export interface Question {
 }
 
 type EventDocument = Event & Models.Document;
+
+declare global {
+  interface MongoClient {
+    connection: Connection;
+  }
+}
