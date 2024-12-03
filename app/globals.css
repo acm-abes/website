@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Alumni+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+@import url("https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Bungee+Outline&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -81,13 +85,13 @@
   }
 }
 
-@layer base {
+/* @layer base {
   * {
     @apply border-border;
   }
 
   body {
-    /*@apply bg-gradient-to-br from-root-1 to-root-2 text-foreground;*/
+    @apply bg-gradient-to-br from-root-1 to-root-2 text-foreground;
     @apply bg-black text-foreground;
   }
 
@@ -102,14 +106,12 @@
   textarea::-webkit-scrollbar {
     display: none;
   }
-}
+} */
 
-@layer utilities {
+/* @layer utilities {
   .container-x {
     @apply px-5 md:px-20 lg:px-36 w-full
   }
-
-  /*p-5 md:py-10 md:px-20 lg:px-36*/
 
   .container-y {
     @apply py-5
@@ -118,4 +120,122 @@
   .main-container {
     @apply container-x container-y
   }
+} */
+
+:root {
+  /* Blue Tailwind */
+  --primary-color: #1d4ed8;
+  --secondary-color: #60a5fa;
+
+  /* Zinc Tailwind */
+  --background-color: #18181b;
+
+  /* especially for hero section big text */
+  --background-color-rgb: rgba(24, 24, 27, 0.242);
+  --text-color: #e4e4e7;
+  --secondary-text-color: #a1a1aa;
+  --accent-color: #ffc107;
+
+  --border-color: #27272a;
+  --grid-color: var(--border-color);
+
+  --nav-bar-color: var(--text-color);
+
+  --poster-bg: #aa0114;
 }
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* ====================== border ====================== */
+.heading_border_t_b {
+  border-bottom: 1px dashed var(--border-color);
+  border-top: 1px dashed var(--border-color);
+}
+
+.heading_border_r_l {
+  border-left: 1px dashed var(--border-color);
+  border-right: 1px dashed var(--border-color);
+}
+
+.highlight__border {
+  border: 1px dashed tomato;
+}
+
+.bottom-border {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.border-r-l {
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+}
+/* =========================================================== */
+
+/* ====================== grid background ====================== */
+.grid_background {
+  background-image: linear-gradient(
+      to right,
+      var(--grid-color) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  /* Grid cell size */
+  background-size: 14px 14px;
+
+  border-left: 0px solid var(--grid-color);
+  border-right: 1px solid var(--grid-color);
+}
+/* =========================================================== */
+
+/* ====================== Shadow Effect ====================== */
+.poster-shadow {
+  filter: drop-shadow(0 0 4em var(--poster-bg));
+}
+
+.logo-shadow {
+  filter: drop-shadow(0 0 4em var(--primary-color));
+}
+/* =========================================================== */
+
+@layer utilities {
+  /* ====================== container ====================== */
+  .container {
+    /* responsive design */
+    /* @apply w-screen md:w-[calc(100vw-100px)] xl:w-[1120px] max-w-[100vw]; */
+    @apply max-w-[100vw] min-[570px]:w-[calc(100vw-100px)] md:w-[calc(100vw-100px)] xl:w-[1120px] my-0 mx-auto;
+  }
+  /* =========================================================== */
+
+  /* ====================== Nav section ====================== */
+  .nav_login_button {
+    @apply w-[80px] h-[40px] text-center cursor-pointer rounded-full bg-[var(--primary-color)] text-[var(--text-color)] text-[14px] font-medium;
+  }
+  /* =========================================================== */
+
+  /* ====================== hero section ====================== */
+  .bg-shadow {
+    filter: drop-shadow(0 0 1em var(--primary-color));
+  }
+  .bg-shadow:hover,
+  :focus {
+    filter: drop-shadow(0 0 0.5em var(--primary-color));
+  }
+  /* =========================================================== */
+}
+
+/* ====================== Google fonts ====================== */
+.doto-01 {
+  font-family: "Doto", sans-serif;
+  font-optical-sizing: auto;
+  font-variation-settings: "ROND" 0;
+}
+
+.rubik-wet-paint-regular {
+  font-family: "Rubik Wet Paint", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+/* =========================================================== */
