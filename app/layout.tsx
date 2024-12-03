@@ -1,7 +1,9 @@
 import "./globals.css";
 import { ReactQueryProvider, ThemeProvider } from "@/components/Providers";
-import Footer from "@/components/Footer";
-import Menu from "@/components/menu/Menu";
+// import Menu from "@/components/menu/Menu";
+// import Footer from "@/components/Footer";
+import FooterNew from "@/components/FooterNew";
+import NavBarNew from "@/components/NavBarNew";
 import { Metadata } from "next";
 import React from "react";
 import { defaultOGConfig } from "@/lib/constants";
@@ -32,9 +34,11 @@ export default function RootLayout({
           <AuthProvider>
             <ReactQueryProvider>
               <Toaster />
-              <Menu />
-              <div className="pt-20">{children}</div>
-              <Footer />
+              {/* <Menu /> */}
+              <NavBarNew />
+              {/* <div className="pt-20">{children}</div> */}
+              {children}
+              <FooterNew />
             </ReactQueryProvider>
           </AuthProvider>
         </ThemeProvider>
