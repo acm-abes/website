@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { format, formatDistance } from "date-fns";
 import { Quiz, QuizSubmission } from "@/database/models";
+import { QuizDocument } from "@/schemas/mongoose";
 
 /////// All possible cases ///////
 // Early
@@ -31,6 +32,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
     return redirect(`/auth/login?callback=${id}`);
   }
 
+  console.log(`${user_id} is attempting quiz ${id} with session ${session}`);
+
   // Already attempting a quiz
   if (cookieParser.get("attempt")) {
     return NextResponse.json({}, { status: 302 });
@@ -44,13 +47,16 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   //////////////////////////////////////// Steps to take
   // fetch quiz from database
-  const quiz = await Quiz.findById(id);
+  const quiz = (await Quiz.findById(id)) as QuizDocument;
 
   if (!quiz) {
     return NextResponse.json({ error: "invalid id" }, { status: 404 });
   }
 
+  console.log("Fetched quiz", quiz);
+
   const existingSubmission = await QuizSubmission.findOne({
+    quiz_id: quiz.uid,
     attempter_email: user_id,
   });
 
@@ -99,7 +105,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   cookieParser.set("attempt", attemptId, {
     expires: new Date(endTime),
-    secure: true,
     httpOnly: true,
   });
 

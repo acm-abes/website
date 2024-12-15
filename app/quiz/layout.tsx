@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 };
 
 const QuizPageLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div className={"main-container"}>{children}</div>;
+  return <div className={"container-x container-y"}>{children}</div>;
 };
 
 export default QuizPageLayout;
