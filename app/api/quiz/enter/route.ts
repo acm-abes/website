@@ -17,6 +17,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const id = req.nextUrl.searchParams.get("id");
   const user_id = req.nextUrl.searchParams.get("user_id");
 
+  console.log(`${user_id} is attempting quiz ${id}`);
+
   if (!user_id) {
     return redirect("/auth/login");
   }
@@ -101,7 +103,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   cookieParser.set("attempt", attemptId, {
     expires: new Date(endTime),
-    secure: true,
     httpOnly: true,
   });
 
