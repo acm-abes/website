@@ -108,14 +108,16 @@
   }
 } */
 
-/* @layer utilities {
-  .container-x {
-    @apply px-5 md:px-20 lg:px-36 w-full
-  }
+.container-x {
+  @apply px-5 md:px-20 lg:px-36 w-full
+}
 
-  .container-y {
-    @apply py-5
-  }
+.container-y {
+  @apply py-5
+}
+
+/* @layer utilities {
+
 
   .main-container {
     @apply container-x container-y
