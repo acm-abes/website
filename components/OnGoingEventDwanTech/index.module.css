@@ -1,0 +1,11 @@
+.dawn_poster_bg {
+  filter: drop-shadow(0 0 4em var(--dawn-poster-bg));
+}
+
+.btn_contact {
+  border: 2px solid var(--dawn-poster-bg);
+}
+
+.btn_register_now {
+  filter: drop-shadow(0 0 1em var(--dawn-poster-bg));
+}

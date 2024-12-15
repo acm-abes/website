@@ -1,7 +1,7 @@
 import Image from "next/image";
 import GridHeading from "@/components/utils/GridHeading";
 
-const OnGoingEvent = () => {
+const OnGoingEventBlindCoding = () => {
   return (
     <>
       <section id="whoweare" className="bottom-border">
@@ -43,4 +43,4 @@ const OnGoingEvent = () => {
   );
 };
 
-export default OnGoingEvent;
+export default OnGoingEventBlindCoding;

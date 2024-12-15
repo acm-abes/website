@@ -36,7 +36,8 @@ const NavBarNew = () => {
             </ul>
             <HamBurger ham_ref={hamburgerRef} onToggle={toggleMobileNav} />
             <button className="nav_login_button">
-              <p>Login</p>
+              {/* <p>Login</p> */}
+              <Link href={"/auth/login"}>Login</Link>
             </button>
           </div>
         </section>
