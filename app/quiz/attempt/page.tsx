@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Quiz } from "@/types";
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -104,7 +104,7 @@ const QuizAttempt = () => {
     <main className={"flex flex-col space-y-5"}>
       <div className="flex flex-col">
         <span>Time Remaining</span>
-        <span>{remainingTime}</span>
+        <span suppressHydrationWarning>{remainingTime}</span>
       </div>
       <hr />
       <div className={"flex justify-between"}>

@@ -3,9 +3,11 @@
 import React, { useState, useRef } from "react";
 import Link from "next/link";
 import HamBurger from "./HamBurger";
+import { useAuth } from "@/hooks/auth";
 
 const NavBarNew = () => {
   const [showMobileNav, setShowMobileNav] = useState(false);
+  const { user } = useAuth();
 
   const hamburgerRef = useRef<HTMLDivElement | null>(null);
   const toggleMobileNav = () => {
@@ -35,9 +37,14 @@ const NavBarNew = () => {
               </li>
             </ul>
             <HamBurger ham_ref={hamburgerRef} onToggle={toggleMobileNav} />
-            <button className="nav_login_button">
-              <p>Login</p>
-            </button>
+            {!user && (
+              <Link
+                href={"/auth/login"}
+                className="nav_login_button flex items-center justify-center"
+              >
+                <p>Login</p>
+              </Link>
+            )}
           </div>
         </section>
       </header>
