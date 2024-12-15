@@ -27,7 +27,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.0.2",
-    "framer-motion": "^11.2.12",
+    "framer-motion": "^11.14.4",
     "gsap": "^3.12.5",
     "jose": "^5.4.0",
     "jsonwebtoken": "^9.0.2",
