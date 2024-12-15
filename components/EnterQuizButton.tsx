@@ -32,10 +32,19 @@ const EnterQuizButton = ({ id, end }: Props) => {
 
   const enterQuiz = async (id: string) => {
     setLoading(true);
+    let res;
+    let body;
+    try {
+      res = await fetch(`/api/quiz/enter?id=${id}&user_id=${user?.email}`);
+      body = await res.json();
+    } catch (e) {
+      toast({
+        title: "An error occurred",
+        description: "Please contact support",
+      });
 
-    const res = await fetch(`/api/quiz/enter?id=${id}&user_id=${user?.email}`);
-
-    const body = await res.json();
+      return;
+    }
 
     if (res.status === 403) {
       toast({
