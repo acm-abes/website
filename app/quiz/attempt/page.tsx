@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { HydratedDocument } from "mongoose";
 import { QuizDocument } from "@/schemas/mongoose";
+import { toast } from "@/hooks/use-toast";
 
 export const dynamic = "force-dynamic";
 
@@ -43,6 +44,11 @@ const submitQuiz = async (
   });
 
   if (res.ok) {
+    toast({
+      title: "Quiz Submitted",
+      description: "Thank you for participating. Look out for the results",
+    });
+    localStorage.setItem("selections", "{}");
     router.push("/");
   }
 };
