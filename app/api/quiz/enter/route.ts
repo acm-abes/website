@@ -52,7 +52,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     _id: id,
   })) as HydratedDocument<QuizDocument>;
 
-  console.log("Fetched quiz", quiz);
+  console.log("Fetched quiz", quiz._id);
 
   if (!quiz) {
     return NextResponse.json({ error: "invalid id" }, { status: 404 });
