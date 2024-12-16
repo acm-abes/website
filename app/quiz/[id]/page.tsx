@@ -3,13 +3,17 @@ import { notFound } from "next/navigation";
 import { format, formatDistance, roundToNearestMinutes } from "date-fns";
 import EnterQuizButton from "@/components/EnterQuizButton";
 import { Quiz } from "@/database/models";
+import { HydratedDocument } from "mongoose";
+import { QuizDocument } from "@/schemas/mongoose";
 
 interface Props {
   params: { id: string };
 }
 
 const QuizPage = async ({ params: { id } }: Props) => {
-  const quiz = await Quiz.findOne({ uid: id });
+  const quiz = (await Quiz.findOne({
+    uid: id,
+  })) as HydratedDocument<QuizDocument>;
 
   if (!quiz) {
     return notFound();

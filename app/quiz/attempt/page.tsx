@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/tooltip";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { HydratedDocument } from "mongoose";
+import { QuizDocument } from "@/schemas/mongoose";
 
 export const dynamic = "force-dynamic";
 
@@ -63,12 +65,10 @@ const QuizAttempt = () => {
     data: quiz,
     isLoading,
     error,
-  } = useQuery({
+  } = useQuery<HydratedDocument<QuizDocument>>({
     queryKey: ["quiz"],
     queryFn: async () => {
-      return (await (await fetch("/api/quiz/")).json()).quiz as Quiz & {
-        _id: string;
-      };
+      return (await (await fetch("/api/quiz/")).json()).quiz;
     },
   });
 

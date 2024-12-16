@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { format, formatDistance } from "date-fns";
 import { Quiz, QuizSubmission } from "@/database/models";
+import { HydratedDocument } from "mongoose";
 import { QuizDocument } from "@/schemas/mongoose";
 
 /////// All possible cases ///////
@@ -47,7 +48,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   //////////////////////////////////////// Steps to take
   // fetch quiz from database
-  const quiz = (await Quiz.findById(id)) as QuizDocument;
+  const quiz = (await Quiz.findById(id)) as HydratedDocument<QuizDocument>;
 
   if (!quiz) {
     return NextResponse.json({ error: "invalid id" }, { status: 404 });
@@ -56,7 +57,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   console.log("Fetched quiz", quiz);
 
   const existingSubmission = await QuizSubmission.findOne({
-    quiz_id: quiz.uid,
+    quiz_id: quiz.id,
     attempter_email: user_id,
   });
 
