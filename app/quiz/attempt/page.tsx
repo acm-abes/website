@@ -156,7 +156,7 @@ const QuizAttempt = () => {
             <TooltipTrigger>
               <Button
                 variant={answeredAllQuestions ? "default" : "secondary"}
-                onClick={() => submitQuiz(user, quiz._id, router)}
+                onClick={() => submitQuiz(user, quiz._id.toString(), router)}
               >
                 Submit
               </Button>

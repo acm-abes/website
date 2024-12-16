@@ -3,11 +3,10 @@ import React from "react";
 interface MyComponentProps {
   children: React.ReactNode;
 }
-const GridHeading: React.FC<MyComponentProps> = ({ children }) => {
+const GridTitle: React.FC<MyComponentProps> = ({ children }) => {
   return (
     <>
-      <div className="">
-      {/* <div className="mb-[40px]"> */}
+      <div className="inline-block">
         <div className="heading_border_r_l h-[20px] mx-[20px]"></div>
         <div className="heading_border_t_b px-[20px]">
           <div className="heading_border_r_l py-[10px] px-[20px]">
@@ -20,4 +19,4 @@ const GridHeading: React.FC<MyComponentProps> = ({ children }) => {
   );
 };
 
-export default GridHeading;
+export default GridTitle;
