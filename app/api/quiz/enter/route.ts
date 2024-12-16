@@ -29,7 +29,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const session = cookieParser.get("session");
 
   // Isn't logged in
-  if (!session || session.value) {
+  if (!session) {
     return redirect(`/auth/login?callback=${id}`);
   }
 
