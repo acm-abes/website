@@ -29,7 +29,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const session = cookieParser.get("session");
 
   // Isn't logged in
-  if (!session) {
+  if (!session || session.value) {
     return redirect(`/auth/login?callback=${id}`);
   }
 
@@ -48,13 +48,15 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   //////////////////////////////////////// Steps to take
   // fetch quiz from database
-  const quiz = (await Quiz.findById(id)) as HydratedDocument<QuizDocument>;
+  const quiz = (await Quiz.findOne({
+    _id: id,
+  })) as HydratedDocument<QuizDocument>;
+
+  console.log("Fetched quiz", quiz);
 
   if (!quiz) {
     return NextResponse.json({ error: "invalid id" }, { status: 404 });
   }
-
-  console.log("Fetched quiz", quiz);
 
   const existingSubmission = await QuizSubmission.findOne({
     quiz_id: quiz.id,
