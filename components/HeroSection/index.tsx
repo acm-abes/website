@@ -6,7 +6,7 @@ const HeroSection = () => {
     <>
       <section id="hero" className="bottom-border">
         <div className="grid_background container flex flex-col items-center justify-center px-[10px] md:px-[20px] py-[114px]">
-          <div className="logo-shadow rounded-xl w-56 h-56 relative overflow-hidden">
+          <div className="logo-shadow rounded-xl w-56 h-56 relative overflow-hidden transition ease-in-out delay-100 hover:scale-90">
             <Image
               src="/abes-acm-student-chapter.png"
               alt="Example Image"

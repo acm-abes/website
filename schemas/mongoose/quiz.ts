@@ -1,4 +1,4 @@
-import mongoose, { HydratedDocument, Schema } from "mongoose";
+import { Schema } from "mongoose";
 import { Question } from "@/types";
 
 export const quizSchema = new Schema({
@@ -10,11 +10,11 @@ export const quizSchema = new Schema({
   questions: { type: Array<Question>, required: true },
 });
 
-export type QuizDocument = HydratedDocument<{
+export type QuizDocument = {
   uid: string;
   name: string;
   description: string;
-  start: Date;
-  end: Date;
+  start: string;
+  end: string;
   questions: Question[];
-}>;
+};

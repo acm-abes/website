@@ -1,7 +1,8 @@
 // import { Vortex } from "@/components/ui/vortex";
 import HeroSection from "@/components/HeroSection";
 import WhoWeAre from "@/components/WhoWeAre";
-import OnGoingEvent from "@/components/OnGoingEvent";
+import OnGoingEventBlindCoding from "@/components/OnGoingEventBlindCoding";
+import OnGoingEventDwanTech from "@/components/OnGoingEventDwanTech";
 import SpaceDivider from "@/components/SpaceDivider";
 
 export default function Home() {
@@ -9,9 +10,10 @@ export default function Home() {
     <>
       <main>
         <HeroSection />
-        <SpaceDivider />
-        <OnGoingEvent />
-        <SpaceDivider />
+        <SpaceDivider/>
+        <OnGoingEventDwanTech />
+        {/* <OnGoingEventBlindCoding /> */}
+        <SpaceDivider/>
         <WhoWeAre />
         <SpaceDivider />
       </main>
