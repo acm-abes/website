@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }: Params) => {
 
         if (res) {
           setUser(res);
-          setTimeout(() => router.push(callbackURL), 1000);
+          router.push(callbackURL);
         }
 
         return session;

@@ -33,6 +33,9 @@ const NavBarNew = () => {
                 <Link href={"/team"}>Team</Link>
               </li>
               <li>
+                <Link href={"/quiz"}>Quiz</Link>
+              </li>
+              <li>
                 <Link href={"/about"}>About Us</Link>
               </li>
             </ul>
