@@ -7,7 +7,7 @@ import { useAuth } from "@/hooks/auth";
 
 const NavBarNew = () => {
   const [showMobileNav, setShowMobileNav] = useState(false);
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const hamburgerRef = useRef<HTMLDivElement | null>(null);
   const toggleMobileNav = () => {
@@ -38,6 +38,19 @@ const NavBarNew = () => {
               <li>
                 <Link href={"/about"}>About Us</Link>
               </li>
+              {user && (
+                <li>
+                  <Link
+                    href={"/"}
+                    onClick={async () => {
+                      await logout();
+                      toggleMobileNav();
+                    }}
+                  >
+                    Log Out
+                  </Link>
+                </li>
+              )}
             </ul>
             <HamBurger ham_ref={hamburgerRef} onToggle={toggleMobileNav} />
             {!user && (
@@ -74,6 +87,19 @@ const NavBarNew = () => {
                 Quiz
               </Link>
             </li>
+            {user && (
+              <li>
+                <Link
+                  href={"/"}
+                  onClick={async () => {
+                    await logout();
+                    toggleMobileNav();
+                  }}
+                >
+                  Log Out
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       ) : null}
