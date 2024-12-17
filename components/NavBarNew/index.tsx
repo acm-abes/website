@@ -69,6 +69,11 @@ const NavBarNew = () => {
                 About Us
               </Link>
             </li>
+            <li>
+              <Link href={"/quiz"} onClick={() => toggleMobileNav()}>
+                Quiz
+              </Link>
+            </li>
           </ul>
         </div>
       ) : null}
