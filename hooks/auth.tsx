@@ -10,6 +10,7 @@ import {
 import { account, ID } from "@/appwrite/client";
 import { Models } from "appwrite";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { redirect } from "next/navigation";
 
 interface Params {
   children: ReactNode;
@@ -106,7 +107,9 @@ export const AuthProvider = ({ children }: Params) => {
 
         if (res) {
           setUser(res);
+          console.log("redirecting to", callbackURL);
           router.push(callbackURL);
+          // redirect(callbackURL);
         }
 
         return session;
