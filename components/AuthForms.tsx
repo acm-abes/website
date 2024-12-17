@@ -55,16 +55,12 @@ export const LoginForm = () => {
         ? searchParams.get("callback")!
         : "/";
 
-      const res = await login(
-        values.email,
-        values.password,
-        router,
-        callbackURL,
-      );
+      const res = await login(values.email, values.password, callbackURL);
 
       if (res.$id) {
         setLoading(false);
         setSuccess(true);
+        setTimeout(() => router.push(callbackURL), 500);
       }
     } catch (error: any) {
       setAppwriteError(error);
@@ -187,10 +183,11 @@ export const RegisterForm = () => {
       setLoading(true);
       await register(values.email, values.password, values.name);
 
-      const res = await login(values.email, values.password, router);
+      const res = await login(values.email, values.password);
 
       if (res.$id) {
         setLoading(false);
+        setTimeout(() => router.push("/"), 500);
       }
     } catch (error: any) {
       setAppwriteError(error);
