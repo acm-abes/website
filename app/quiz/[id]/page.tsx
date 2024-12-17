@@ -11,16 +11,13 @@ interface Props {
 }
 
 const QuizPage = async ({ params: { id } }: Props) => {
-  // const quiz = (await Quiz.findOne({
-  //   uid: id,
-  // })) as HydratedDocument<QuizDocument>;
-  const res = await fetch("/api/quiz/find?code=" + id);
+  const quiz = (await Quiz.findOne({
+    uid: id,
+  })) as HydratedDocument<QuizDocument>;
 
-  if (res.status === 404) {
+  if (!quiz) {
     return notFound();
   }
-
-  const { quiz } = await res.json();
 
   return (
     <main className={"flex flex-col space-y-10"}>
