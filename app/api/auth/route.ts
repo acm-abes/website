@@ -7,35 +7,46 @@ import { Models } from "appwrite";
 import jwt from "jsonwebtoken";
 
 export async function POST(req: NextRequest, res: NextResponse) {
-	const oneDay = 24 * 60 * 60 * 1000;
-	const oneMonth = oneDay * 28;
+  const oneDay = 24 * 60 * 60 * 1000;
+  const oneMonth = oneDay * 28;
 
-	const body: { session: Models.User<Models.Preferences> } = await req.json();
+  const body: { session: Models.User<Models.Preferences> } = await req.json();
 
-	const name = body.session.name;
-	const role = body.session.labels[0];
-	const session = body.session.$id;
+  const name = body.session.name;
+  const role = body.session.labels[0];
+  const session = body.session.$id;
 
-	const cookieCreator = cookies();
+  const cookieCreator = cookies();
 
-	const token = jwt.sign({ session, role }, process.env.TOKEN_SECRET);
+  if (!process.env.TOKEN_SECRET) {
+    return NextResponse.json(
+      { error: "Token secret not found" },
+      { status: 500 },
+    );
+  }
 
-	cookieCreator.set("session", token, {
-		httpOnly: true,
-		expires: Date.now() + oneMonth,
-		// secure: true,
-		// sameSite: "lax",
-	});
+  if (cookieCreator.get("session")) {
+    return NextResponse.json({ error: "Already verified" }, { status: 201 });
+  }
 
-	cookieCreator.set("name", name, {
-		httpOnly: true,
-		expires: Date.now() + oneMonth,
-		// secure: true,
-		// sameSite: "lax",
-	});
+  const token = jwt.sign({ session, role }, process.env.TOKEN_SECRET);
 
-	return NextResponse.json(
-		{ message: "Verified successfully" },
-		{ status: 200 }
-	);
+  cookieCreator.set("session", token, {
+    httpOnly: true,
+    expires: Date.now() + oneMonth,
+    // secure: true,
+    // sameSite: "lax",
+  });
+
+  cookieCreator.set("name", name, {
+    httpOnly: true,
+    expires: Date.now() + oneMonth,
+    // secure: true,
+    // sameSite: "lax",
+  });
+
+  return NextResponse.json(
+    { message: "Verified successfully" },
+    { status: 200 },
+  );
 }

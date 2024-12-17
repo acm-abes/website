@@ -51,16 +51,19 @@ export const LoginForm = () => {
     try {
       setLoading(true);
 
-      const callbackURL = searchParams.has("callback")
-        ? searchParams.get("callback")!
-        : "/";
+      const callbackURL = searchParams.get("callback") || "/";
+
+      console.log(callbackURL);
 
       const res = await login(values.email, values.password, callbackURL);
 
       if (res.$id) {
         setLoading(false);
         setSuccess(true);
-        setTimeout(() => router.push(callbackURL), 500);
+        // setTimeout(() => router.prefetch(decodeURIComponent(callbackURL)), 500);
+        router.prefetch(callbackURL);
+        router.replace(callbackURL);
+        router.push(callbackURL);
       }
     } catch (error: any) {
       setAppwriteError(error);
@@ -134,7 +137,7 @@ export const LoginForm = () => {
           <p className="text-red-500">{appwriteError.message}</p>
         )}
         <Button
-          disabled={loading}
+          disabled={loading || success}
           className={`w-full space-x-1 flex items-center ${success && "bg-success text-success-foreground"}`}
           type="submit"
         >
