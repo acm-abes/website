@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Quiz } from "@/database/models";
+import { connect } from "@/database";
 
 export async function GET(req: NextRequest) {
+  await connect();
+
   const code = req.nextUrl.searchParams.get("code");
 
   if (!code) {

@@ -41,22 +41,25 @@ export const LoginForm = () => {
     },
   });
 
-  if (user) {
-    const callbackURL = searchParams.has("callback")
-      ? searchParams.get("callback")!
-      : "/";
-  }
+  // if (user) {
+  //   const callbackURL = searchParams.has("callback")
+  //     ? searchParams.get("callback")!
+  //     : "/";
+  // }
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     try {
       setLoading(true);
 
-      const callbackURL = searchParams.get("callback");
+      const callbackURL = searchParams.has("callback")
+        ? searchParams.get("callback")!
+        : "/";
+
       const res = await login(
         values.email,
         values.password,
         router,
-        callbackURL || undefined,
+        callbackURL,
       );
 
       if (res.$id) {

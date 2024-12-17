@@ -4,6 +4,7 @@ import { differenceInSeconds, format, parse } from "date-fns";
 import database from "@/appwrite/database";
 import { EventDocument } from "@/types";
 import { events, events as oldEvents } from "@/public/data/events";
+import { NextRequest, NextResponse } from "next/server";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
