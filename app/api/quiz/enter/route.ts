@@ -5,7 +5,6 @@ import { format, formatDistance } from "date-fns";
 import { Quiz, QuizSubmission } from "@/database/models";
 import { HydratedDocument } from "mongoose";
 import { QuizDocument } from "@/schemas/mongoose";
-import { connect } from "@/database";
 
 /////// All possible cases ///////
 // Early
@@ -15,7 +14,6 @@ import { connect } from "@/database";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   const cookieParser = cookies();
-  await connect();
 
   const id = req.nextUrl.searchParams.get("id");
   const user_id = req.nextUrl.searchParams.get("user_id");

@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { Contest } from "@/app/contests/page";
+import { Contest } from "@/app/contests/_page";
 
 export const contestSchema: Schema<Contest> = new Schema({
   name: String,
