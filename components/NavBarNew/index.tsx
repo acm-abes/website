@@ -53,7 +53,8 @@ const NavBarNew = () => {
               {session && (
                 <li>
                   <Button
-                    variant={"link"}
+                    variant={"ghost"}
+                    className={"font-normal font-medium"}
                     onClick={async () => {
                       await handleSignOut();
                       toggleMobileNav();
@@ -102,7 +103,8 @@ const NavBarNew = () => {
             {session && (
               <li>
                 <Button
-                  variant={"link"}
+                  variant={"ghost"}
+                  className={"font-normal text-xl"}
                   onClick={async () => {
                     await handleSignOut();
                     toggleMobileNav();

@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { format, formatDistance } from "date-fns";
 import { Quiz, QuizSubmission } from "@/database/models";
 import { HydratedDocument } from "mongoose";
 import { QuizDocument } from "@/schemas/mongoose";
+import { auth } from "@/auth";
 
 /////// All possible cases ///////
 // Early
@@ -26,14 +26,17 @@ export async function GET(req: NextRequest, res: NextResponse) {
     return NextResponse.json({ error: "Invalid id" }, { status: 400 });
   }
 
-  const session = cookieParser.get("authjs.session-token");
+  const session = await auth();
+  const user = session?.user;
+
+  console.log(session);
 
   // Isn't logged in
-  if (!session) {
+  if (!session || !user) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 403 });
   }
 
-  console.log(`${user_id} is attempting quiz ${id} with session ${session}`);
+  console.log(`${user_id} is attempting quiz ${id} with session ${user.email}`);
 
   // Already attempting a quiz
   if (cookieParser.get("attempt")) {
@@ -103,7 +106,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   // generate an attempt token to prevent multiple attempts
   // pass attemptId in cookie and end time, to be stored on the client
-  const attemptId = id + ":" + session.value.slice(0, session.value.length / 2);
+  const attemptId = id + ":" + Date.now().toString();
 
   const end = Date.now() + 60 * 60 * 1000;
 
