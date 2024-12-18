@@ -1,6 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { format, formatDistance, roundToNearestMinutes } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import EnterQuizButton from "@/components/EnterQuizButton";
 import { Quiz } from "@/database/models";
 import { HydratedDocument } from "mongoose";
@@ -19,6 +20,18 @@ const QuizPage = async ({ params: { id } }: Props) => {
     return notFound();
   }
 
+  const quizStart = formatInTimeZone(
+    quiz.start,
+    "Asia/Kolkata",
+    "dd MMM hh:mm aaa",
+  );
+
+  const quizEnd = formatInTimeZone(
+    quiz.end,
+    "Asia/Kolkata",
+    "dd MMM hh:mm aaa",
+  );
+
   return (
     <main className={"flex flex-col space-y-10"}>
       <h1 className={"text-4xl"}>{quiz.name}</h1>
@@ -27,13 +40,15 @@ const QuizPage = async ({ params: { id } }: Props) => {
           <div className={"flex flex-col w-1/2"}>
             <span className={"font-semibold"}>Start</span>
             <span className={"text-xl"}>
-              {format(quiz.start, "dd MMM hh:mm aaa")}
+              {/*{format(quiz.start, "dd MMM hh:mm aaa")}*/}
+              {quizStart}
             </span>
           </div>
           <div className={"flex flex-col w-1/2"}>
             <span className={"font-semibold"}>End</span>
             <span className={"text-xl"}>
-              {format(quiz.end, "dd MMM hh:mm aaa")}
+              {/*{format(quiz.end, "dd MMM hh:mm aaa")}*/}
+              {quizEnd}
             </span>
           </div>
         </div>
