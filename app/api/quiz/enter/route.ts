@@ -19,18 +19,18 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const user_id = req.nextUrl.searchParams.get("user_id");
 
   if (!user_id) {
-    return redirect("/auth/login");
+    return NextResponse.json({ error: "Invalid user_id" }, { status: 400 });
   }
 
   if (!id) {
-    return redirect("/");
+    return NextResponse.json({ error: "Invalid id" }, { status: 400 });
   }
 
-  const session = cookieParser.get("session");
+  const session = cookieParser.get("authjs.session-token");
 
   // Isn't logged in
   if (!session) {
-    return redirect(`/auth/login?callback=${id}`);
+    return NextResponse.json({ error: "Not authenticated" }, { status: 403 });
   }
 
   console.log(`${user_id} is attempting quiz ${id} with session ${session}`);

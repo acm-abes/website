@@ -2,82 +2,34 @@ import { NextResponse, NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import * as jose from "jose";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
-export async function middleware(
-  request: NextRequest,
-): Promise<NextResponse | undefined> {
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const basePath = request.url;
+  const session = await auth();
 
   const adminPage = "/admin";
+  const quizPage = "/quiz";
+  const loginPage = "/api/auth/signin";
 
-  const session = cookies().get("session")?.value;
-
-  const loggedIn = !!session;
-
-  let tokenPayload;
-
-  if (loggedIn) {
-    try {
-      const decoded = await jose.jwtVerify<{ session: string; role: string }>(
-        session,
-        new TextEncoder().encode(process.env.TOKEN_SECRET),
-      );
-
-      tokenPayload = decoded.payload;
-    } catch (e) {
-      console.log("Error : ", e);
-    }
-  }
-
-  const { session: payloadSession, role } = tokenPayload || {};
-
-  const isAuthPage =
-    pathname === "/auth/login" || pathname === "/auth/register";
-
-  const isAdmin = role && role === "admin";
-
-  if (adminPage === pathname)
-    return NextResponse.redirect(new URL("/admin/dashboard", request.url));
-
-  if (session && isAuthPage) {
-    const callbackURL = new URLSearchParams(request.nextUrl.search).get(
-      "callback",
-    );
-    return NextResponse.redirect(new URL(callbackURL || "/", request.url));
-  }
-
-  if (pathname.includes(adminPage) && (!session || !isAdmin))
-    return NextResponse.redirect(new URL(`/`, request.url));
-
-  if (!session && pathname.includes("quiz")) {
-    const url = request.nextUrl.pathname;
-
-    return NextResponse.redirect(
-      new URL(`/auth/login?callback=${url}`, request.url),
-    );
-  }
-
-  if (pathname.includes("quiz/attempt")) {
+  if (pathname.startsWith(adminPage) || pathname.includes(quizPage)) {
     if (!session) {
-      const url = request.nextUrl.pathname;
-
       return NextResponse.redirect(
-        new URL(`/auth/login?callback=${url}`, request.url),
+        new URL(`/api/auth/signin?callbackUrl=${pathname}`, basePath),
       );
     }
+  }
 
-    const attemptId = cookies().get("attempt");
-
-    // if (!attemptId) {
-    //   console.log("attempt id not found");
-    //   return NextResponse.redirect(new URL("/", request.url));
-    // }
+  if (pathname.startsWith(loginPage) && session) {
+    return NextResponse.redirect(new URL("/", basePath));
   }
 }
 
 export const config = {
   matcher: [
     "/",
+    "/api/auth/signin",
     "/auth/login",
     "/auth/register",
     "/admin/:path*",

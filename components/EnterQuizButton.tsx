@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/auth";
+import { useSession } from "next-auth/react";
 
 interface Props {
   id: string;
@@ -15,7 +15,7 @@ const EnterQuizButton = ({ id, end }: Props) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { data } = useSession();
 
   useEffect(() => {
     fetch("/api/quiz/attempt").then(async (res) => {
@@ -35,7 +35,9 @@ const EnterQuizButton = ({ id, end }: Props) => {
     let res;
     let body;
     try {
-      res = await fetch(`/api/quiz/enter?id=${id}&user_id=${user?.email}`);
+      res = await fetch(
+        `/api/quiz/enter?id=${id}&user_id=${data?.user?.email}`,
+      );
       body = await res.json();
     } catch (e) {
       toast({

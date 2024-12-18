@@ -5,7 +5,6 @@ import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDifference } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/auth";
 import { Models } from "appwrite";
 import { usePersistedState } from "@/hooks/use-persisted-state";
 import {
@@ -19,11 +18,13 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { HydratedDocument } from "mongoose";
 import { QuizDocument } from "@/schemas/mongoose";
 import { toast } from "@/hooks/use-toast";
+import { useSession } from "next-auth/react";
+import { User } from "next-auth";
 
 export const dynamic = "force-dynamic";
 
 const submitQuiz = async (
-  user: Models.User<Models.Preferences>,
+  user: User,
   quiz_id: string,
   router: AppRouterInstance,
 ) => {
@@ -65,7 +66,9 @@ const QuizAttempt = () => {
   const [answeredAllQuestions, setAnsweredAllQuestions] = useState(false);
 
   const router = useRouter();
-  const { user } = useAuth();
+  const { data } = useSession();
+
+  data?.user;
 
   const {
     data: quiz,
@@ -94,7 +97,7 @@ const QuizAttempt = () => {
     setQuestionNumber(questionNumber - 1 || 1);
   };
 
-  if (isLoading || !user) {
+  if (isLoading || !data?.user) {
     return <div>Loading Quiz</div>;
   }
 
@@ -162,7 +165,9 @@ const QuizAttempt = () => {
             <TooltipTrigger>
               <Button
                 variant={answeredAllQuestions ? "default" : "secondary"}
-                onClick={() => submitQuiz(user, quiz._id.toString(), router)}
+                onClick={() =>
+                  submitQuiz(data?.user!, quiz._id.toString(), router)
+                }
               >
                 Submit
               </Button>

@@ -5,8 +5,8 @@ import NavBarNew from "@/components/NavBarNew";
 import { Metadata } from "next";
 import React from "react";
 import { defaultOGConfig } from "@/lib/constants";
-import { AuthProvider } from "@/hooks/auth";
 import { Toaster } from "@/components/ui/toaster";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: { template: "%s | ABES ACM", default: "HOME" },
@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeProvider>
-          <AuthProvider>
+          <SessionProvider>
             <ReactQueryProvider>
               <Toaster />
               {/* <Menu /> */}
@@ -35,7 +35,7 @@ export default function RootLayout({
               {children}
               <FooterNew />
             </ReactQueryProvider>
-          </AuthProvider>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

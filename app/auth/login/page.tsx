@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { LoginForm } from "@/components/AuthForms";
 import { defaultOGConfig } from "@/lib/constants";
+import { providerMap, signIn } from "@/auth";
 
 export const metadata = {
   title: "Login",

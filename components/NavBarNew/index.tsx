@@ -3,18 +3,30 @@
 import React, { useState, useRef } from "react";
 import Link from "next/link";
 import HamBurger from "./HamBurger";
-import { useAuth } from "@/hooks/auth";
+import { useSession, signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 const NavBarNew = () => {
   const [showMobileNav, setShowMobileNav] = useState(false);
-  const { user, logout } = useAuth();
+
+  const { status } = useSession();
+
+  const session = status === "authenticated";
 
   const hamburgerRef = useRef<HTMLDivElement | null>(null);
+
   const toggleMobileNav = () => {
     setShowMobileNav(!showMobileNav);
     if (hamburgerRef.current) {
       hamburgerRef.current.click();
     }
+  };
+
+  const handleSignOut = async () => {
+    await fetch("/api/auth/signout");
+    await signOut({
+      redirectTo: "/",
+    });
   };
 
   return (
@@ -38,24 +50,24 @@ const NavBarNew = () => {
               <li>
                 <Link href={"/about"}>About Us</Link>
               </li>
-              {user && (
+              {session && (
                 <li>
-                  <Link
-                    href={"/"}
+                  <Button
+                    variant={"link"}
                     onClick={async () => {
-                      await logout();
+                      await handleSignOut();
                       toggleMobileNav();
                     }}
                   >
                     Log Out
-                  </Link>
+                  </Button>
                 </li>
               )}
             </ul>
             <HamBurger ham_ref={hamburgerRef} onToggle={toggleMobileNav} />
-            {!user && (
+            {!session && (
               <Link
-                href={"/auth/login"}
+                href={"/api/auth/signin"}
                 className="nav_login_button flex items-center justify-center"
               >
                 <p>Login</p>
@@ -87,17 +99,17 @@ const NavBarNew = () => {
                 Quiz
               </Link>
             </li>
-            {user && (
+            {session && (
               <li>
-                <Link
-                  href={"/"}
+                <Button
+                  variant={"link"}
                   onClick={async () => {
-                    await logout();
+                    await handleSignOut();
                     toggleMobileNav();
                   }}
                 >
                   Log Out
-                </Link>
+                </Button>
               </li>
             )}
           </ul>
