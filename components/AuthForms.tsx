@@ -61,8 +61,8 @@ export const LoginForm = () => {
         setLoading(false);
         setSuccess(true);
         // setTimeout(() => router.prefetch(decodeURIComponent(callbackURL)), 500);
+        router.refresh();
         router.prefetch(callbackURL);
-        router.replace(callbackURL);
         router.push(callbackURL);
       }
     } catch (error: any) {
