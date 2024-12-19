@@ -1,11 +1,9 @@
 "use client";
-import React, { Suspense, useEffect, useState } from "react";
-import { Quiz } from "@/types";
+import React, { useEffect, useState } from "react";
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDifference } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { Models } from "appwrite";
 import { usePersistedState } from "@/hooks/use-persisted-state";
 import {
   Tooltip,

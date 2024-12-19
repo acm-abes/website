@@ -29,8 +29,7 @@ const providers: Provider[] = [
 
       return {
         email,
-        name,
-        login,
+        name: name || login || "Anonymous",
         avatar_url,
         type,
       };

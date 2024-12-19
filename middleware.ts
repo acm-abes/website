@@ -6,6 +6,8 @@ export async function middleware(request: NextRequest) {
   const basePath = request.url;
   const session = await auth();
 
+  // console.log(session?.user);
+
   const adminPage = "/admin";
   const quizPage = "/quiz";
   const loginPage = "/api/auth/signin";
