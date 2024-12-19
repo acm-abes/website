@@ -23,7 +23,19 @@ const providers: Provider[] = [
   //     return user;
   //   },
   // }),
-  GitHub,
+  GitHub({
+    profile(data) {
+      const { email, name, login, avatar_url, type } = data;
+
+      return {
+        email,
+        name,
+        login,
+        avatar_url,
+        type,
+      };
+    },
+  }),
 ];
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -32,6 +44,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   //   signIn: "/auth/login",
   //   newUser: "/auth/register",
   // },
+  callbacks: {
+    async session({ session, token }) {
+      session.user.id = token.id as string;
+      return session;
+    },
+    async jwt({ token, user, profile }) {
+      if (user) {
+        token.id = user.id || profile?.id; // Add `profile.id` if `user.id` isn't available.
+      }
+      return token;
+    },
+  },
 });
 
 export const providerMap = providers

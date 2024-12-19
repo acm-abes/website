@@ -22,21 +22,21 @@ export async function GET(req: NextRequest, res: NextResponse) {
     return NextResponse.json({ error: "Invalid user_id" }, { status: 400 });
   }
 
-  if (!id) {
+  if (!id || id === "undefined") {
     return NextResponse.json({ error: "Invalid id" }, { status: 400 });
   }
 
   const session = await auth();
   const user = session?.user;
 
-  console.log(session);
+  console.log(id, user_id);
 
   // Isn't logged in
   if (!session || !user) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 403 });
   }
 
-  console.log(`${user_id} is attempting quiz ${id} with session ${user.email}`);
+  // console.log(`${user_id} is attempting quiz ${id} with session ${user.email}`);
 
   // Already attempting a quiz
   if (cookieParser.get("attempt")) {
@@ -56,7 +56,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     _id: id,
   })) as HydratedDocument<QuizDocument>;
 
-  console.log("Fetched quiz", quiz._id);
+  // console.log("Fetched quiz", quiz._id);
 
   if (!quiz) {
     return NextResponse.json({ error: "invalid id" }, { status: 404 });

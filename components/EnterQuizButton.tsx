@@ -35,9 +35,7 @@ const EnterQuizButton = ({ id, end }: Props) => {
     let res;
     let body;
     try {
-      res = await fetch(
-        `/api/quiz/enter?id=${id}&user_id=${data?.user?.email}`,
-      );
+      res = await fetch(`/api/quiz/enter?id=${id}&user_id=${data?.user?.id}`);
       body = await res.json();
     } catch (e) {
       toast({

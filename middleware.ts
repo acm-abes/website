@@ -1,7 +1,4 @@
 import { NextResponse, NextRequest } from "next/server";
-import { cookies } from "next/headers";
-import * as jose from "jose";
-import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 
 export async function middleware(request: NextRequest) {
@@ -13,8 +10,9 @@ export async function middleware(request: NextRequest) {
   const quizPage = "/quiz";
   const loginPage = "/api/auth/signin";
 
-  if (pathname.startsWith(adminPage) || pathname.includes(quizPage)) {
+  if (pathname.startsWith(adminPage) || pathname.startsWith(quizPage)) {
     if (!session) {
+      console.log("Redirecting to login");
       return NextResponse.redirect(
         new URL(`/api/auth/signin?callbackUrl=${pathname}`, basePath),
       );
@@ -22,8 +20,18 @@ export async function middleware(request: NextRequest) {
   }
 
   if (pathname.startsWith(loginPage) && session) {
+    console.log("Hit login page");
     return NextResponse.redirect(new URL("/", basePath));
   }
+
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-url", basePath);
+
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 }
 
 export const config = {

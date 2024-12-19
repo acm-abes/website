@@ -1,20 +1,29 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import { format, formatDistance, roundToNearestMinutes } from "date-fns";
+import { formatDistance, roundToNearestMinutes } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import EnterQuizButton from "@/components/EnterQuizButton";
-import { Quiz } from "@/database/models";
 import { HydratedDocument } from "mongoose";
 import { QuizDocument } from "@/schemas/mongoose";
+import { headers } from "next/headers";
 
 interface Props {
   params: { id: string };
 }
 
 const QuizPage = async ({ params: { id } }: Props) => {
-  const quiz = (await Quiz.findOne({
-    uid: id,
-  })) as HydratedDocument<QuizDocument>;
+  const headersList = headers();
+  const baseURL = headersList.get("x-url");
+
+  const res = await fetch(new URL(`/api/quiz/find?code=${id}`, baseURL || ""));
+
+  if (res.status === 404) {
+    return notFound();
+  }
+
+  const { quiz } = (await res.json()) as {
+    quiz: HydratedDocument<QuizDocument>;
+  };
 
   if (!quiz) {
     return notFound();
@@ -31,6 +40,7 @@ const QuizPage = async ({ params: { id } }: Props) => {
     "Asia/Kolkata",
     "dd MMM hh:mm aaa",
   );
+  // const quizStart = quiz
 
   return (
     <main className={"flex flex-col space-y-10"}>
@@ -70,7 +80,7 @@ const QuizPage = async ({ params: { id } }: Props) => {
         </div>
 
         <div className={"flex space-x-2 items-center"}>
-          <EnterQuizButton id={quiz.id} end={quiz.end} />
+          <EnterQuizButton id={quiz._id.toString()} end={quiz.end} />
         </div>
       </section>
     </main>

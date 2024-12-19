@@ -31,13 +31,13 @@ const submitQuiz = async (
   const selections = localStorage.getItem("selections");
 
   const body = {
-    attempter_email: user.email,
+    attempter_email: user.id,
     attempter_name: user.name,
     quiz_id,
     selections: JSON.parse(selections || "{}"),
   };
 
-  console.log(body);
+  // console.log(body);
 
   const res = await fetch("/api/quiz", {
     method: "POST",
@@ -67,8 +67,6 @@ const QuizAttempt = () => {
 
   const router = useRouter();
   const { data } = useSession();
-
-  data?.user;
 
   const {
     data: quiz,

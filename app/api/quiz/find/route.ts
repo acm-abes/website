@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
   }
 
   const quiz = await Quiz.findOne({ uid: code });
+  // console.log(quiz);
 
   if (!quiz) {
     return NextResponse.json({ error: "Quiz not found" }, { status: 404 });
