@@ -30,7 +30,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const user = session?.user;
 
   console.log(
-    `Enter Quiz = Quiz ID: ${id}, User ID: ${user?.id}, User Name: ${user?.name}`,
+    `Enter Quiz = Quiz ID: ${id}, User ID: ${user?.id}, User Email: ${user?.email} User Name: ${user?.name}`,
   );
 
   // Isn't logged in
@@ -66,7 +66,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   const existingSubmission = await QuizSubmission.findOne({
     quiz_id: quiz.id,
-    attempter_email: user.id,
+    attempter_email: user.email,
   });
 
   if (existingSubmission) {

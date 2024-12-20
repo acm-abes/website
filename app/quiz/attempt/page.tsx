@@ -29,7 +29,7 @@ const submitQuiz = async (
   const selections = localStorage.getItem("selections");
 
   const body = {
-    attempter_email: user.id,
+    attempter_email: user.email,
     attempter_name: user.name,
     quiz_id,
     selections: JSON.parse(selections || "{}"),

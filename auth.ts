@@ -1,38 +1,29 @@
 import NextAuth from "next-auth";
 import GitHub from "@auth/core/providers/github";
 import { Provider } from "@auth/core/providers";
+import Google from "@auth/core/providers/google";
 
 const providers: Provider[] = [
-  // Credentials({
-  //   type: "credentials",
-  //   name: "",
-  //   credentials: {
-  //     email: {
-  //       label: "Email",
-  //       type: "email",
-  //       placeholder: "user@example.com",
-  //     },
-  //     password: { label: "Password", type: "password" },
-  //   },
+  // GitHub({
+  //   profile(data) {
+  //     const { email, name, login, avatar_url, type } = data;
   //
-  //   async authorize(credentials, d) {
-  //     const { email, password } = credentials;
-  //
-  //     const user = { email: "John Doe", password: "" };
-  //
-  //     return user;
+  //     return {
+  //       email,
+  //       name: name || login || "Anonymous",
+  //       avatar_url,
+  //       type,
+  //     };
   //   },
   // }),
-  GitHub({
-    profile(data) {
-      const { email, name, login, avatar_url, type } = data;
 
-      return {
-        email,
-        name: name || login || "Anonymous",
-        avatar_url,
-        type,
-      };
+  Google({
+    authorization: {
+      params: {
+        prompt: "consent",
+        access_type: "offline",
+        response_type: "code",
+      },
     },
   }),
 ];
