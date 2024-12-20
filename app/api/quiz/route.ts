@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (Date.now() > new Date(quiz.end).getTime()) {
+  if (Date.now() >= new Date(quiz.end).getTime() + 1000 * 5) {
     return NextResponse.json(
       { status: "Quiz is already over" },
       { status: 403 },

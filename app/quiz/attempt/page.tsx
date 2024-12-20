@@ -35,8 +35,6 @@ const submitQuiz = async (
     selections: JSON.parse(selections || "{}"),
   };
 
-  // console.log(body);
-
   const res = await fetch("/api/quiz", {
     method: "POST",
     body: JSON.stringify(body),
