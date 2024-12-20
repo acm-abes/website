@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import { LoginForm } from "@/components/AuthForms";
 import { defaultOGConfig } from "@/lib/constants";
 import { providerMap, signIn } from "@/auth";
+import { Button } from "@/components/ui/button";
+import { AuthError } from "next-auth";
 
 export const metadata = {
   title: "Login",
@@ -11,11 +13,18 @@ export const metadata = {
   },
 };
 
-const LoginPage = () => {
+interface LoginPageProps {
+  searchParams: {
+    redirect?: string;
+  };
+}
+
+const LoginPage = (props: LoginPageProps) => {
   return (
-    <Suspense>
-      <LoginForm />
-    </Suspense>
+    <div></div>
+    // <Suspense>
+    //   <LoginForm />
+    // </Suspense>
   );
 };
 

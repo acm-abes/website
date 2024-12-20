@@ -1,22 +1,8 @@
 import NextAuth from "next-auth";
-import GitHub from "@auth/core/providers/github";
 import { Provider } from "@auth/core/providers";
 import Google from "@auth/core/providers/google";
 
 const providers: Provider[] = [
-  // GitHub({
-  //   profile(data) {
-  //     const { email, name, login, avatar_url, type } = data;
-  //
-  //     return {
-  //       email,
-  //       name: name || login || "Anonymous",
-  //       avatar_url,
-  //       type,
-  //     };
-  //   },
-  // }),
-
   Google({
     authorization: {
       params: {

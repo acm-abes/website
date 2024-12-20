@@ -74,9 +74,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // cookieParse.set("attempt", "", {
-  //   maxAge: 0,
-  // });
   cookieParse.delete("attempt");
 
   return NextResponse.json({}, { status: 201 });
