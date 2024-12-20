@@ -85,6 +85,15 @@ const QuizAttempt = () => {
       );
   }, [quiz, questionNumber, selected]);
 
+  useEffect(() => {
+    const now = Date.now();
+    const end = new Date(quiz?.end!).getTime();
+
+    if (now > end) {
+      submitQuiz(data?.user!, quiz?._id.toString()!, router).then();
+    }
+  }, [questionNumber, selected]);
+
   const nextQuestion = () => {
     setQuestionNumber(Math.min(questionNumber + 1, quiz?.questions.length!));
   };
