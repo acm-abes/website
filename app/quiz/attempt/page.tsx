@@ -55,10 +55,14 @@ const submitQuiz = async (
 const QuizAttempt = () => {
   if (typeof window === "undefined") return;
 
-  const [selected, setSelected] = usePersistedState<Record<number, string>>(
+  const [selected, setSelected] = usePersistedState<Record<string, string>>(
     "selections",
     {},
   );
+
+  const [questions, setQuestions] = usePersistedState<
+    QuizDocument["questions"]
+  >("questions", []);
   const [questionNumber, setQuestionNumber] = useState(1);
   const [remainingTime, setRemainingTime] = useState("");
   const [answeredAllQuestions, setAnsweredAllQuestions] = useState(false);
@@ -72,8 +76,23 @@ const QuizAttempt = () => {
     error,
   } = useQuery<HydratedDocument<QuizDocument>>({
     queryKey: ["quiz"],
+    staleTime: 10000,
     queryFn: async () => {
-      return (await (await fetch("/api/quiz/")).json()).quiz;
+      const quiz = (await (await fetch("/api/quiz/")).json())
+        .quiz as HydratedDocument<QuizDocument>;
+
+      if (questions.length > 0) {
+        quiz.questions = questions;
+        return quiz;
+      }
+
+      const unShuffledQuestions = quiz.questions;
+      quiz.questions = unShuffledQuestions.sort(() => Math.random() - 0.5);
+      setQuestions(quiz.questions);
+
+      // console.log(quiz);
+
+      return quiz;
     },
   });
 
@@ -171,20 +190,22 @@ const QuizAttempt = () => {
 
       <div className={"flex flex-col space-y-2.5"}>
         <span className={"text-xl font-semibold"}>
-          {quiz.questions[questionNumber - 1].title}
+          {questions[questionNumber - 1].title}
         </span>
         <ul className={"flex flex-col space-y-2"}>
-          {quiz.questions[questionNumber - 1].options.map((option, i) => (
+          {questions[questionNumber - 1].options.map((option, i) => (
             <li>
               <Button
                 onClick={() => {
                   setSelected({
                     ...selected,
-                    [questionNumber]: option.id,
+                    [questions[questionNumber - 1].id]: option.id,
                   });
                 }}
                 variant={
-                  selected[questionNumber] === option.id ? "outline" : "ghost"
+                  selected[questions[questionNumber - 1].id] === option.id
+                    ? "outline"
+                    : "ghost"
                 }
                 className={`w-full flex justify-start items-center`}
               >
@@ -206,7 +227,7 @@ const QuizAttempt = () => {
         <div>Question {questionNumber}</div>
 
         <Button
-          disabled={questionNumber >= quiz.questions.length}
+          disabled={questionNumber >= questions.length}
           variant={"outline"}
           onClick={nextQuestion}
         >

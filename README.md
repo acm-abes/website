@@ -1,7 +1,7 @@
 # ABES ACM
 This is the official website of ABES ACM chapter, and it aims to provide all necessary information related to the chapter and all the events.
 
-# Contributing
+## Contributing
 
 We welcome contributions from everyone. Here are some ways you can contribute:
 
@@ -9,22 +9,23 @@ Report bugs: If you find a bug, please open an issue.
 Suggest features: If you have an idea, please open an issue or submit a pull request.
 Code contributions: If you'd like to contribute code, please fork the repository and submit a pull request.
 
-# Contact
+## Contact
 If you have any questions or need further information, feel free to contact:
 
 - [Kunal Rana](https://github.com/halomanlodestar)
-- [Aditya Pundir](https://github.com/adipundir)
+- [Saket Maurya](https://github.com/SaketV8)
 
-# Tech Stack
+## Tech Stack
 - Typescript (or Javascript)
 - Next JS (v14.x)
-- ShadnCN (UI Library)
+- ShadCN (UI Library)
 - Appwrite (Will be changed soon)
+- MongoDB
 - Zod
 - TailwindCSS
 - Lucid React Icons
 
-# Installation
+## Installation
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
