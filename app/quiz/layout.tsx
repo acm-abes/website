@@ -14,7 +14,9 @@ const QuizPageLayout = ({ children }: { children: React.ReactNode }) => {
     return redirect("/api/auth/signin");
   }
 
-  return <div className={"container-x container-y"}>{children}</div>;
+  return (
+    <div className={"container-x container-y min-h-[95dvh]"}>{children}</div>
+  );
 };
 
 export default QuizPageLayout;

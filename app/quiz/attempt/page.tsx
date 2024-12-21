@@ -90,8 +90,6 @@ const QuizAttempt = () => {
       quiz.questions = unShuffledQuestions.sort(() => Math.random() - 0.5);
       setQuestions(quiz.questions);
 
-      // console.log(quiz);
-
       return quiz;
     },
   });
@@ -234,7 +232,6 @@ const QuizAttempt = () => {
           <ArrowRightCircle />
         </Button>
       </div>
-      {/*<div className={"flex w-full items-center justify-end"}></div>*/}
     </main>
   );
 };

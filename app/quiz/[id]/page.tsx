@@ -43,7 +43,7 @@ const QuizPage = async ({ params: { id } }: Props) => {
   // const quizStart = quiz
 
   return (
-    <main className={"flex flex-col space-y-10"}>
+    <main className={"flex flex-col space-y-10 "}>
       <h1 className={"text-4xl"}>{quiz.name}</h1>
       <section className={"flex flex-col space-y-10"}>
         <div className={"flex justify-between"}>
