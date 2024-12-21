@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Loading from "./Loading";
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDifference } from "@/lib/utils";
@@ -120,7 +121,7 @@ const QuizAttempt = () => {
   };
 
   if (isLoading || !data?.user) {
-    return <div>Loading Quiz</div>;
+    return <Loading />;
   }
 
   if (error || !quiz) {
