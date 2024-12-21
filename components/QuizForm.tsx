@@ -15,6 +15,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { LoadingButton } from "@/components/LoadingButton";
 
 const QuizForm = () => {
   const quizFormSchema = z.object({
@@ -22,6 +23,8 @@ const QuizForm = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState("");
+
   const router = useRouter();
 
   const { toast } = useToast();
@@ -30,17 +33,20 @@ const QuizForm = () => {
 
   const onSubmit = async (data: z.infer<typeof quizFormSchema>) => {
     setLoading(true);
+    setLoadingStatus("Finding quiz...");
+
     const res = await fetch(`/api/quiz/find?code=${data.quizCode}`);
-    setLoading(false);
 
     if (res.ok) {
+      setLoadingStatus("Redirecting...");
       router.push(`/quiz/${data.quizCode}`);
-      return;
+    } else {
+      toast({
+        title: "Quiz not found",
+        description: "Please enter a valid quiz code",
+      });
+      setLoading(false);
     }
-    toast({
-      title: "Quiz not found",
-      description: "Please enter a valid quiz code",
-    });
   };
 
   return (
@@ -62,9 +68,14 @@ const QuizForm = () => {
             </FormItem>
           )}
         />
-        <Button disabled={loading} type="submit">
+        <LoadingButton
+          className={"w-full sm:max-w-[200px]"}
+          loadingText={loadingStatus}
+          loading={loading}
+          type="submit"
+        >
           Submit
-        </Button>
+        </LoadingButton>
       </form>
     </Form>
   );
