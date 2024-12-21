@@ -1,17 +1,18 @@
-import React from "react";
+import React, { cache } from "react";
 import { notFound } from "next/navigation";
 import { formatDistance, roundToNearestMinutes } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import EnterQuizButton from "@/components/EnterQuizButton";
+import { Metadata } from "next";
+import { headers } from "next/headers";
 import { HydratedDocument } from "mongoose";
 import { QuizDocument } from "@/schemas/mongoose";
-import { headers } from "next/headers";
 
 interface Props {
   params: { id: string };
 }
 
-const QuizPage = async ({ params: { id } }: Props) => {
+const fetchQuizData = cache(async (id: string) => {
   const headersList = headers();
   const baseURL = headersList.get("x-url");
 
@@ -24,6 +25,22 @@ const QuizPage = async ({ params: { id } }: Props) => {
   const { quiz } = (await res.json()) as {
     quiz: HydratedDocument<QuizDocument>;
   };
+
+  return quiz;
+});
+
+const QuizPage = async ({ params: { id } }: Props) => {
+  // const res = await fetch(new URL(`/api/quiz/find?code=${id}`, baseURL || ""));
+
+  // if (res.status === 404) {
+  //   return notFound();
+  // }
+
+  // const { quiz } = (await res.json()) as {
+  //   quiz: HydratedDocument<QuizDocument>;
+  // };
+
+  const quiz = await fetchQuizData(id);
 
   if (!quiz) {
     return notFound();
@@ -85,6 +102,17 @@ const QuizPage = async ({ params: { id } }: Props) => {
       </section>
     </main>
   );
+};
+
+export const generateMetadata = async ({
+  params: { id },
+}: Props): Promise<Metadata> => {
+  const quiz = await fetchQuizData(id);
+
+  return {
+    title: quiz.name,
+    description: quiz.description,
+  };
 };
 
 export default QuizPage;
