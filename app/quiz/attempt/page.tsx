@@ -6,12 +6,6 @@ import { formatDifference } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { usePersistedState } from "@/hooks/use-persisted-state";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -122,55 +116,11 @@ const QuizAttempt = () => {
 
   return (
     <main className={"flex flex-col space-y-5"}>
-      <div className="flex flex-col">
-        <span>Time Remaining</span>
-        <span suppressHydrationWarning>{remainingTime}</span>
-      </div>
-      <hr />
-      <div className={"flex justify-between"}>
-        <Button
-          disabled={questionNumber <= 1}
-          variant={"outline"}
-          onClick={prevQuestion}
-        >
-          <ArrowLeftCircle />
-        </Button>
-        <div>Question {questionNumber}</div>
-
-        <Button
-          disabled={questionNumber >= quiz.questions.length}
-          variant={"outline"}
-          onClick={nextQuestion}
-        >
-          <ArrowRightCircle />
-        </Button>
-      </div>
-      <div className={"flex flex-col space-y-2.5"}>
-        <span className={"text-xl font-semibold"}>
-          {quiz.questions[questionNumber - 1].title}
-        </span>
-        <ul className={"flex flex-col space-y-2"}>
-          {quiz.questions[questionNumber - 1].options.map((option, i) => (
-            <li>
-              <Button
-                onClick={() => {
-                  setSelected({
-                    ...selected,
-                    [questionNumber]: option.id,
-                  });
-                }}
-                variant={
-                  selected[questionNumber] === option.id ? "outline" : "ghost"
-                }
-                className={`w-full flex justify-start items-center`}
-              >
-                <span>{`${i + 1}. ${option.value}`}</span>
-              </Button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className={"flex w-full items-center justify-end"}>
+      <div className={"flex justify-between items-center"}>
+        <div className="flex flex-col">
+          <span>Time Remaining</span>
+          <span suppressHydrationWarning>{remainingTime}</span>
+        </div>
         <Dialog>
           <DialogTrigger>
             <Button variant={answeredAllQuestions ? "default" : "secondary"}>
@@ -217,6 +167,53 @@ const QuizAttempt = () => {
           </DialogContent>
         </Dialog>
       </div>
+      <hr />
+
+      <div className={"flex flex-col space-y-2.5"}>
+        <span className={"text-xl font-semibold"}>
+          {quiz.questions[questionNumber - 1].title}
+        </span>
+        <ul className={"flex flex-col space-y-2"}>
+          {quiz.questions[questionNumber - 1].options.map((option, i) => (
+            <li>
+              <Button
+                onClick={() => {
+                  setSelected({
+                    ...selected,
+                    [questionNumber]: option.id,
+                  });
+                }}
+                variant={
+                  selected[questionNumber] === option.id ? "outline" : "ghost"
+                }
+                className={`w-full flex justify-start items-center`}
+              >
+                <span>{`${i + 1}. ${option.value}`}</span>
+              </Button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <hr />
+      <div className={"flex justify-between"}>
+        <Button
+          disabled={questionNumber <= 1}
+          variant={"outline"}
+          onClick={prevQuestion}
+        >
+          <ArrowLeftCircle />
+        </Button>
+        <div>Question {questionNumber}</div>
+
+        <Button
+          disabled={questionNumber >= quiz.questions.length}
+          variant={"outline"}
+          onClick={nextQuestion}
+        >
+          <ArrowRightCircle />
+        </Button>
+      </div>
+      {/*<div className={"flex w-full items-center justify-end"}></div>*/}
     </main>
   );
 };

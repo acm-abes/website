@@ -55,6 +55,7 @@ const EnterQuizButton = ({ id, end }: Props) => {
         description: body.message,
         variant: "default",
       });
+      setLoading(false);
     }
 
     if (res.status === 302) {
@@ -62,8 +63,6 @@ const EnterQuizButton = ({ id, end }: Props) => {
       localStorage.setItem("end", end);
       router.push("/quiz/attempt");
     }
-
-    setLoading(false);
   };
 
   return (
