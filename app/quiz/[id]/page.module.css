@@ -1,0 +1,11 @@
+@tailwind utilities;
+
+@layer utilities {
+  .quiz_sub_heading {
+    @apply text-xl md:text-2xl text-[var(--primary-color)] font-medium;
+}
+
+.quiz_sub_text {
+    @apply text-[1rem] md:text-[1.2rem];
+  }
+}
