@@ -32,16 +32,6 @@ const fetchQuizData = cache(async (id: string) => {
 });
 
 const QuizPage = async ({ params: { id } }: Props) => {
-  // const res = await fetch(new URL(`/api/quiz/find?code=${id}`, baseURL || ""));
-
-  // if (res.status === 404) {
-  //   return notFound();
-  // }
-
-  // const { quiz } = (await res.json()) as {
-  //   quiz: HydratedDocument<QuizDocument>;
-  // };
-
   const quiz = await fetchQuizData(id);
 
   if (!quiz) {
@@ -59,7 +49,6 @@ const QuizPage = async ({ params: { id } }: Props) => {
   //   "Asia/Kolkata",
   //   "dd MMM hh:mm aaa",
   // );
-  // const quizStart = quiz
 
   return (
     <main className={"flex flex-col space-y-10"}>
