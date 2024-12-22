@@ -1,6 +1,6 @@
 import React, { cache } from "react";
 import { notFound } from "next/navigation";
-import { formatDistance, roundToNearestMinutes } from "date-fns";
+import { format, formatDistance, roundToNearestMinutes } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import EnterQuizButton from "@/components/EnterQuizButton";
 import { Metadata } from "next";
@@ -48,17 +48,17 @@ const QuizPage = async ({ params: { id } }: Props) => {
     return notFound();
   }
 
-  const quizStart = formatInTimeZone(
-    quiz.start,
-    "Asia/Kolkata",
-    "dd MMM hh:mm aaa",
-  );
-
-  const quizEnd = formatInTimeZone(
-    quiz.end,
-    "Asia/Kolkata",
-    "dd MMM hh:mm aaa",
-  );
+  // const quizStart = formatInTimeZone(
+  //   quiz.start,
+  //   "Asia/Kolkata",
+  //   "dd MMM hh:mm aaa",
+  // );
+  //
+  // const quizEnd = formatInTimeZone(
+  //   quiz.end,
+  //   "Asia/Kolkata",
+  //   "dd MMM hh:mm aaa",
+  // );
   // const quizStart = quiz
 
   return (
@@ -69,14 +69,17 @@ const QuizPage = async ({ params: { id } }: Props) => {
           <div className={"flex flex-col w-1/2"}>
             <span className={clsx(style.quiz_sub_heading)}>Start</span>
             <span className={clsx(style.quiz_sub_text, "md:hidden")}>
-              {format(quiz.start, "dd MMM yyy")}
+              {formatInTimeZone(quiz.start, "Asia/Kolkata", "dd MMM yyy")}
             </span>
             <span className={clsx(style.quiz_sub_text, "md:hidden")}>
-              {format(quiz.start, "hh:mm aaa")}
+              {formatInTimeZone(quiz.start, "Asia/Kolkata", "hh:mm aaa")}
             </span>
             <span className={clsx(style.quiz_sub_text, "hidden md:block")}>
-              {format(quiz.start, "dd MMM yyyy, hh:mm aaa")}
-
+              {formatInTimeZone(
+                quiz.start,
+                "Asia/Kolkata",
+                "dd MMM yyyy, hh:mm aaa",
+              )}
             </span>
             {/* <span className={clsx(style.quiz_sub_text)}>
               {format(quiz.start, "dd MMM hh:mm aaa")}
@@ -85,13 +88,13 @@ const QuizPage = async ({ params: { id } }: Props) => {
           <div className={"flex flex-col w-1/2"}>
             <span className={clsx(style.quiz_sub_heading)}>End</span>
             <span className={clsx(style.quiz_sub_text, "md:hidden")}>
-              {format(quiz.end, "dd MMM yyy")}
+              {formatInTimeZone(quiz.end, "Asia/Kolkata", "dd MMM yyy")}
             </span>
             <span className={clsx(style.quiz_sub_text, "md:hidden")}>
-              {format(quiz.end, "hh:mm aaa")}
+              {formatInTimeZone(quiz.end, "Asia/Kolkata", "hh:mm aaa")}
             </span>
             <span className={clsx(style.quiz_sub_text, "hidden md:block")}>
-              {format(quiz.end, "dd MMM yyyy, hh:mm aaa")}
+              {formatInTimeZone(quiz.end, "Asia/Kolkata", "dd MMM yyyy")}
             </span>
             {/* <span className={clsx(style.quiz_sub_text)}>
               {format(quiz.end, "dd MMM hh:mm aaa")}
@@ -111,7 +114,7 @@ const QuizPage = async ({ params: { id } }: Props) => {
             <span className={clsx(style.quiz_sub_text)}>
               {formatDistance(
                 roundToNearestMinutes(quiz.end),
-                roundToNearestMinutes(quiz.start)
+                roundToNearestMinutes(quiz.start),
               )}
             </span>
           </div>
