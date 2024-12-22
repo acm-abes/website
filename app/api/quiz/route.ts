@@ -14,12 +14,16 @@ export async function GET() {
 
   const quizId = attempt.value.split(":")[0];
 
+  // console.log(quizId);
+
   if (!quizId) {
     console.log("INVALID TOKEN");
     return NextResponse.json({ status: "invalid token" }, { status: 400 });
   }
 
   const quiz = await Quiz.findById(quizId);
+
+  // console.log(quiz);
 
   if (!quiz) {
     return NextResponse.json({ status: "quiz not found" }, { status: 404 });
