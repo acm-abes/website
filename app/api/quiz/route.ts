@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { Quiz, QuizSubmission } from "@/database/models";
-import { connect } from "@/database";
 
 export async function GET() {
   const cookieParser = cookies();
-  await connect();
 
   const attempt = cookieParser.get("attempt");
 
@@ -60,7 +58,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (Date.now() > new Date(quiz.end).getTime()) {
+  if (Date.now() >= new Date(quiz.end).getTime() + 1000 * 5) {
     return NextResponse.json(
       { status: "Quiz is already over" },
       { status: 403 },
@@ -76,9 +74,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // cookieParse.set("attempt", "", {
-  //   maxAge: 0,
-  // });
   cookieParse.delete("attempt");
 
   return NextResponse.json({}, { status: 201 });

@@ -3,13 +3,18 @@
 import React, { useState, useRef } from "react";
 import Link from "next/link";
 import HamBurger from "./HamBurger";
-import { useAuth } from "@/hooks/auth";
+import { useSession, signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 const NavBarNew = () => {
   const [showMobileNav, setShowMobileNav] = useState(false);
-  const { user } = useAuth();
+
+  const { status } = useSession();
+
+  const session = status === "authenticated";
 
   const hamburgerRef = useRef<HTMLDivElement | null>(null);
+
   const toggleMobileNav = () => {
     setShowMobileNav(!showMobileNav);
     if (hamburgerRef.current) {
@@ -17,9 +22,16 @@ const NavBarNew = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    await fetch("/api/auth/signout");
+    await signOut({
+      redirectTo: "/",
+    });
+  };
+
   return (
     <>
-      <header className="bottom-border">
+      <header>
         <section className="container border-r-l flex items-center justify-between py-2 px-[24px]">
           <Link href="/" className="text-lg font-bold">
             ACM X ABES
@@ -38,11 +50,25 @@ const NavBarNew = () => {
               <li>
                 <Link href={"/about"}>About Us</Link>
               </li>
+              {session && (
+                <li>
+                  <Button
+                    variant={"outline"}
+                    size={"sm"}
+                    className={"font-medium"}
+                    onClick={async () => {
+                      await handleSignOut();
+                    }}
+                  >
+                    Log Out
+                  </Button>
+                </li>
+              )}
             </ul>
             <HamBurger ham_ref={hamburgerRef} onToggle={toggleMobileNav} />
-            {!user && (
+            {!session && (
               <Link
-                href={"/auth/login"}
+                href={"/api/auth/signin"}
                 className="nav_login_button flex items-center justify-center"
               >
                 <p>Login</p>
@@ -74,6 +100,20 @@ const NavBarNew = () => {
                 Quiz
               </Link>
             </li>
+            {session && (
+              <li>
+                <Button
+                  variant={"ghost"}
+                  className={"font-normal text-xl"}
+                  onClick={async () => {
+                    await handleSignOut();
+                    toggleMobileNav();
+                  }}
+                >
+                  Log Out
+                </Button>
+              </li>
+            )}
           </ul>
         </div>
       ) : null}

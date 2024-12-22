@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { format, formatDistance } from "date-fns";
 import { Quiz, QuizSubmission } from "@/database/models";
 import { HydratedDocument } from "mongoose";
 import { QuizDocument } from "@/schemas/mongoose";
-import { connect } from "@/database";
+import { auth } from "@/auth";
 
 /////// All possible cases ///////
 // Early
@@ -15,27 +14,31 @@ import { connect } from "@/database";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   const cookieParser = cookies();
-  await connect();
 
   const id = req.nextUrl.searchParams.get("id");
   const user_id = req.nextUrl.searchParams.get("user_id");
 
   if (!user_id) {
-    return redirect("/auth/login");
+    return NextResponse.json({ error: "Invalid user_id" }, { status: 400 });
   }
 
-  if (!id) {
-    return redirect("/");
+  if (!id || id === "undefined") {
+    return NextResponse.json({ error: "Invalid id" }, { status: 400 });
   }
 
-  const session = cookieParser.get("session");
+  const session = await auth();
+  const user = session?.user;
+
+  console.log(
+    `Enter Quiz = Quiz ID: ${id}, User ID: ${user?.id}, User Email: ${user?.email} User Name: ${user?.name}`,
+  );
 
   // Isn't logged in
-  if (!session) {
-    return redirect(`/auth/login?callback=${id}`);
+  if (!session || !user) {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 403 });
   }
 
-  console.log(`${user_id} is attempting quiz ${id} with session ${session}`);
+  // console.log(`${user_id} is attempting quiz ${id} with session ${user.email}`);
 
   // Already attempting a quiz
   if (cookieParser.get("attempt")) {
@@ -55,7 +58,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     _id: id,
   })) as HydratedDocument<QuizDocument>;
 
-  console.log("Fetched quiz", quiz._id);
+  // console.log("Fetched quiz", quiz._id);
 
   if (!quiz) {
     return NextResponse.json({ error: "invalid id" }, { status: 404 });
@@ -63,7 +66,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   const existingSubmission = await QuizSubmission.findOne({
     quiz_id: quiz.id,
-    attempter_email: user_id,
+    attempter_email: user.email,
   });
 
   if (existingSubmission) {
@@ -105,7 +108,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   // generate an attempt token to prevent multiple attempts
   // pass attemptId in cookie and end time, to be stored on the client
-  const attemptId = id + ":" + session.value.slice(0, session.value.length / 2);
+  const attemptId = id + ":" + Date.now().toString();
 
   const end = Date.now() + 60 * 60 * 1000;
 

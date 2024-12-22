@@ -14,16 +14,16 @@ const HeroSection = () => {
               objectFit="cover"
             />
           </div>
- 
+
           <h1 className="bg-shadow doto-01 w-full mb-[30px] font-[900] text-[36px] md:text-[44px] lg:text-[56px] xl:text-[64px] text-center text-balance cursor-pointer">
             Igniting Algorithmic Minds
           </h1>
           <p className="w-full font-normal text-center text-[14px] md:text-[16px] text-balance">
             Master the fundamentals, ace the contests, and shape your future.
           </p>
-          <button className="bg-shadow mt-[80px] w-[160px] h-[40px] text-center cursor-pointer rounded-[8px] bg-[var(--primary-color)] text-[var(--text-color)] text-[18px] font-medium">
-            <Link href={"/auth/register"}>Join us</Link>
-          </button>
+          {/*<button className="bg-shadow mt-[80px] w-[160px] h-[40px] text-center cursor-pointer rounded-[8px] bg-[var(--primary-color)] text-[var(--text-color)] text-[18px] font-medium">*/}
+          {/*  <Link href={"/auth/register"}>Join us</Link>*/}
+          {/*</button>*/}
         </div>
       </section>
     </>

@@ -1,55 +1,27 @@
-// import { connect as connectMongoose, Connection, connection } from "mongoose";
-// import { MongoError } from "mongodb";
-//
-// const getMongoURI = () => {
-//   return process.env.MONGODB_URI;
-// };
+import { connect } from "mongoose";
 
-// export const connect = async () => {
-//   const mongodbURI = getMongoURI();
-//
-//   try {
-//     await connectMongoose(mongodbURI);
-//
-//     let con = connection.on("connected", () => {
-//       console.log("Database successfully connected with MongoDB");
-//     });
-//   } catch (error) {
-//     if (error instanceof MongoError) {
-//       throw new Error("Unable to connect to database", error);
-//     }
-//   }
-// };
+type ConnectionObject = {
+  isConnected?: number;
+};
 
-import { connect as connectMongoose, Connection } from "mongoose";
+const connection: ConnectionObject = {};
 
-declare global {
-  var mongoose: {
-    promise: Promise<typeof import("mongoose")> | null;
-    conn: typeof import("mongoose") | null;
-  };
-}
-
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI environment variable.");
-}
-
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
-
-export async function connect() {
-  if (cached.conn) {
-    return cached.conn;
+export async function dbConnect() {
+  if (connection.isConnected) {
+    return;
   }
 
-  if (!cached.promise) {
-    cached.promise = connectMongoose(MONGODB_URI);
+  if (!process.env.MONGODB_URI) {
+    console.log("MONGODB_URI is missing");
+    process.exit(1);
   }
-  cached.conn = await cached.promise;
-  return cached.conn;
+
+  try {
+    const db = await connect(process.env.MONGODB_URI);
+    connection.isConnected = db.connections[0].readyState;
+    console.log("Connected to MongoDB successfully");
+  } catch (error) {
+    console.error("Error connecting to database", (error as Error).stack);
+    // process.exit(1);
+  }
 }
