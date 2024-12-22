@@ -7,4 +7,5 @@ export const quizSubmissionSchema = new Schema({
   selections: {
     type: Map<Number, String>,
   },
+  submittedAt: Date,
 });
