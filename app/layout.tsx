@@ -2,12 +2,12 @@ import "./globals.css";
 import { ReactQueryProvider, ThemeProvider } from "@/components/Providers";
 import FooterNew from "@/components/FooterNew";
 import NavBarNew from "@/components/NavBarNew";
-import SpaceDivider from "@/components/SpaceDivider";
 import { Metadata } from "next";
 import React from "react";
 import { defaultOGConfig } from "@/lib/constants";
 import { Toaster } from "@/components/ui/toaster";
 import { SessionProvider } from "next-auth/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: { template: "%s | ABES ACM", default: "HOME" },
@@ -30,10 +30,9 @@ export default function RootLayout({
           <SessionProvider>
             <ReactQueryProvider>
               <Toaster />
-              {/* <Menu /> */}
               <NavBarNew />
-              {/* <div className="pt-20">{children}</div> */}
               {children}
+              <SpeedInsights />
               <FooterNew />
             </ReactQueryProvider>
           </SessionProvider>
