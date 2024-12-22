@@ -35,6 +35,7 @@ const submitQuiz = async (
     attempter_email: user.email,
     attempter_name: user.name,
     quiz_id,
+    submittedAt: new Date().toISOString(),
     selections: JSON.parse(selections || "{}"),
   };
 
@@ -61,6 +62,7 @@ const QuizAttempt = () => {
     {},
   );
 
+  const [submitted, setSubmitted] = useState(false);
   const [questions, setQuestions] = usePersistedState<
     QuizDocument["questions"]
   >("questions", []);
@@ -104,13 +106,19 @@ const QuizAttempt = () => {
   }, [quiz, questionNumber, selected]);
 
   useEffect(() => {
+    if (submitted) return;
+
     const now = Date.now();
     const end = new Date(quiz?.end!).getTime();
 
-    if (now > end) {
+    // console.log(now, end);
+
+    if (now + 1000 >= end) {
+      console.log("Ended");
       submitQuiz(data?.user!, quiz?._id.toString()!, router).then();
+      setSubmitted(true);
     }
-  }, [questionNumber, selected]);
+  }, [questionNumber, selected, remainingTime]);
 
   const nextQuestion = () => {
     setQuestionNumber(Math.min(questionNumber + 1, quiz?.questions.length!));
