@@ -188,7 +188,7 @@ const QuizAttempt = () => {
       <hr />
 
       <div className={"flex flex-col space-y-2.5"}>
-        <span className={"text-xl font-semibold"}>
+        <span className={"text-xl font-semibold secure"}>
           {questions[questionNumber - 1].title}
         </span>
         <ul className={"flex flex-col space-y-2"}>
@@ -208,7 +208,7 @@ const QuizAttempt = () => {
                 }
                 className={`w-full flex justify-start items-center`}
               >
-                <span>{`${i + 1}. ${option.value}`}</span>
+                <span className={"secure"}>{`${i + 1}. ${option.value}`}</span>
               </Button>
             </li>
           ))}

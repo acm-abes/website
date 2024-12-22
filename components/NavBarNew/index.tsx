@@ -54,10 +54,10 @@ const NavBarNew = () => {
                 <li>
                   <Button
                     variant={"outline"}
+                    size={"sm"}
                     className={"font-medium"}
                     onClick={async () => {
                       await handleSignOut();
-                      toggleMobileNav();
                     }}
                   >
                     Log Out
