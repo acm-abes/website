@@ -32,7 +32,7 @@ const NavBarNew = () => {
   return (
     <>
       <header>
-        <section className="container border-r-l flex items-center justify-between py-2 px-[24px]">
+        <section className="container border-r-l flex h-14 sm:h-16 items-center justify-between py-2 px-[24px]">
           <Link href="/" className="text-lg font-bold">
             ACM X ABES
           </Link>
