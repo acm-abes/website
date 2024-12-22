@@ -31,16 +31,17 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const cookieParse = cookies();
 
-  if (!cookieParse.get("attempt")) {
-    return NextResponse.json(
-      { status: "Quiz is already over" },
-      { status: 403 },
-    );
-  }
+  // if (!cookieParse.get("attempt")) {
+  //   return NextResponse.json(
+  //     { status: "Quiz is already over" },
+  //     { status: 403 },
+  //   );
+  // }
 
   const body = (await req.json()) as {
     attempter_email: string;
     attempter_name: string;
+    submittedAt: string;
     quiz_id: string;
     selections: Record<number, string>;
   };
@@ -58,7 +59,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (Date.now() >= new Date(quiz.end).getTime() + 1000 * 5) {
+  if (new Date(body.submittedAt).getTime() >= new Date(quiz.end).getTime()) {
     return NextResponse.json(
       { status: "Quiz is already over" },
       { status: 403 },
