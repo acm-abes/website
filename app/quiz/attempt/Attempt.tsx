@@ -49,7 +49,8 @@ const submitQuiz = async (
       title: "Quiz Submitted",
       description: "Thank you for participating. Look out for the results",
     });
-    localStorage.setItem("selections", "{}");
+    localStorage.removeItem("selections");
+    localStorage.removeItem("questions");
     router.push("/");
   }
 };
