@@ -22,11 +22,9 @@ import { useTheme } from "next-themes";
 import { TailSpin } from "react-loader-spinner";
 import { CheckIcon } from "lucide-react";
 import { useAuth } from "@/hooks/auth";
+import { signIn } from "next-auth/react";
 
 export const LoginForm = () => {
-  const { login, user, loading: loginStatusLoading } = useAuth();
-
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
   const [success, setSuccess] = useState(false);
@@ -41,36 +39,19 @@ export const LoginForm = () => {
     },
   });
 
-  // if (user) {
-  //   const callbackURL = searchParams.has("callback")
-  //     ? searchParams.get("callback")!
-  //     : "/";
-  // }
-
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
-    try {
-      setLoading(true);
+    setLoading(true);
+    const redirectTo = searchParams.get("redirect") || "/";
 
-      const callbackURL = searchParams.has("callback")
-        ? searchParams.get("callback")!
-        : "/";
+    console.log(`redirectTo: ${redirectTo}`);
 
-      const res = await login(
-        values.email,
-        values.password,
-        router,
-        callbackURL,
-      );
+    await signIn("credentials", {
+      ...values,
+      redirectTo,
+    });
 
-      if (res.$id) {
-        setLoading(false);
-        setSuccess(true);
-      }
-    } catch (error: any) {
-      setAppwriteError(error);
-      setLoading(false);
-      setSuccess(false);
-    }
+    setLoading(false);
+    setSuccess(true);
   };
 
   return (
@@ -81,18 +62,18 @@ export const LoginForm = () => {
       >
         <div className={"flex space-x-3 items-center"}>
           <h1 className={"text-4xl font-semibold"}>Login</h1>
-          {loginStatusLoading && (
-            <TailSpin
-              visible={true}
-              height="20"
-              width="20"
-              strokeWidth={5}
-              color={theme === "dark" ? "black" : "white"}
-              ariaLabel="tail-spin-loading"
-              wrapperStyle={{}}
-              wrapperClass={``}
-            />
-          )}
+          {/*{loading && (*/}
+          {/*  <TailSpin*/}
+          {/*    visible={true}*/}
+          {/*    height="20"*/}
+          {/*    width="20"*/}
+          {/*    strokeWidth={5}*/}
+          {/*    color={theme === "dark" ? "black" : "white"}*/}
+          {/*    ariaLabel="tail-spin-loading"*/}
+          {/*    wrapperStyle={{}}*/}
+          {/*    wrapperClass={``}*/}
+          {/*  />*/}
+          {/*)}*/}
         </div>
         <FormField
           control={form.control}
@@ -138,7 +119,7 @@ export const LoginForm = () => {
           <p className="text-red-500">{appwriteError.message}</p>
         )}
         <Button
-          disabled={loading}
+          disabled={loading || success}
           className={`w-full space-x-1 flex items-center ${success && "bg-success text-success-foreground"}`}
           type="submit"
         >
@@ -166,10 +147,10 @@ export const LoginForm = () => {
 };
 
 export const RegisterForm = () => {
-  const { register, login } = useAuth();
-  const [appwriteError, setAppwriteError] = useState<any>({});
+  // const { register, login } = useAuth();
+  // const [appwriteError, setAppwriteError] = useState<any>({});
 
-  const router = useRouter();
+  // const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
 
@@ -182,21 +163,7 @@ export const RegisterForm = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
-    try {
-      setLoading(true);
-      await register(values.email, values.password, values.name);
-
-      const res = await login(values.email, values.password, router);
-
-      if (res.$id) {
-        setLoading(false);
-      }
-    } catch (error: any) {
-      setAppwriteError(error);
-      setLoading(false);
-    }
-  };
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {};
 
   return (
     <Form {...form}>
@@ -258,9 +225,6 @@ export const RegisterForm = () => {
             Login
           </Link>
         </FormDescription>
-        {appwriteError && (
-          <p className="text-red-500">{appwriteError.message}</p>
-        )}
         <Button
           disabled={loading}
           className={`w-full flex items-center`}

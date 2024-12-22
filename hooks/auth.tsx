@@ -24,7 +24,7 @@ interface ContextData {
   login: (
     email: string,
     password: string,
-    router: AppRouterInstance,
+    // router: AppRouterInstance,
     callbackURL?: string,
   ) => Promise<Models.Session>;
 
@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }: Params) => {
     async login(
       email: string,
       password: string,
-      router: AppRouterInstance,
+      // router: AppRouterInstance,
       callbackURL: string = "/",
     ) {
       try {
@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }: Params) => {
         if (res) {
           setUser(res);
           console.log("redirecting to", callbackURL);
-          router.push(callbackURL);
+          // router.push(callbackURL);
           // redirect(callbackURL);
         }
 

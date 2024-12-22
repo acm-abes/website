@@ -15,6 +15,11 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    instrumentationHook: true,
+    esmExternals: "loose",
+    serverComponentsExternalPackages: ["mongoose"],
+  },
 };
 
 export default nextConfig;

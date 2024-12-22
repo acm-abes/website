@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/auth";
+import { useSession } from "next-auth/react";
+import { LoadingButton } from "@/components/LoadingButton";
 
 interface Props {
   id: string;
@@ -14,8 +15,9 @@ interface Props {
 const EnterQuizButton = ({ id, end }: Props) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("");
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { data } = useSession();
 
   useEffect(() => {
     fetch("/api/quiz/attempt").then(async (res) => {
@@ -32,10 +34,11 @@ const EnterQuizButton = ({ id, end }: Props) => {
 
   const enterQuiz = async (id: string) => {
     setLoading(true);
+    setLoadingText("Entering quiz...");
     let res;
     let body;
     try {
-      res = await fetch(`/api/quiz/enter?id=${id}&user_id=${user?.email}`);
+      res = await fetch(`/api/quiz/enter?id=${id}&user_id=${data?.user?.id}`);
       body = await res.json();
     } catch (e) {
       toast({
@@ -52,18 +55,25 @@ const EnterQuizButton = ({ id, end }: Props) => {
         description: body.message,
         variant: "default",
       });
+      setLoading(false);
     }
 
     if (res.status === 302) {
+      setLoadingText("Redirecting...");
       localStorage.setItem("end", end);
       router.push("/quiz/attempt");
     }
   };
 
   return (
-    <Button disabled={loading} onClick={() => enterQuiz(id)}>
+    <LoadingButton
+      className={"w-full sm:max-w-[200px]"}
+      loading={loading}
+      loadingText={loadingText}
+      onClick={() => enterQuiz(id)}
+    >
       Enter Quiz
-    </Button>
+    </LoadingButton>
   );
 };
 

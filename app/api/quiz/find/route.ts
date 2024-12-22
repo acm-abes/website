@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Quiz } from "@/database/models";
-import { connect } from "@/database";
 
 export async function GET(req: NextRequest) {
-  await connect();
-
   const code = req.nextUrl.searchParams.get("code");
 
   if (!code) {
@@ -12,6 +9,7 @@ export async function GET(req: NextRequest) {
   }
 
   const quiz = await Quiz.findOne({ uid: code });
+  // console.log(quiz);
 
   if (!quiz) {
     return NextResponse.json({ error: "Quiz not found" }, { status: 404 });
