@@ -32,11 +32,11 @@ export default function RootLayout({
               <Toaster />
               <NavBarNew />
               {children}
-              <SpeedInsights />
               <FooterNew />
             </ReactQueryProvider>
           </SessionProvider>
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
