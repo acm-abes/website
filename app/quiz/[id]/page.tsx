@@ -1,6 +1,6 @@
 import React, { cache } from "react";
 import { notFound } from "next/navigation";
-import { format, formatDistance, roundToNearestMinutes } from "date-fns";
+import { formatDistance, roundToNearestMinutes } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import EnterQuizButton from "@/components/EnterQuizButton";
 import { Metadata } from "next";
@@ -94,11 +94,15 @@ const QuizPage = async ({ params: { id } }: Props) => {
               {formatInTimeZone(quiz.end, "Asia/Kolkata", "hh:mm aaa")}
             </span>
             <span className={clsx(style.quiz_sub_text, "hidden md:block")}>
-              {formatInTimeZone(quiz.end, "Asia/Kolkata", "dd MMM yyyy")}
+              {formatInTimeZone(
+                quiz.end,
+                "Asia/Kolkata",
+                "dd MMM yyyy, hh:mm aaa",
+              )}
             </span>
-            {/* <span className={clsx(style.quiz_sub_text)}>
-              {format(quiz.end, "dd MMM hh:mm aaa")}
-            </span> */}
+            {/*<span className={clsx(style.quiz_sub_text)}>*/}
+            {/*  {formatInTimeZone(quiz.end, "Asia/Kolkata", "dd MMM hh:mm aaa")}*/}
+            {/*</span>*/}
           </div>
         </div>
 
