@@ -197,9 +197,9 @@ const QuizAttempt = () => {
       <hr />
 
       <div className={"flex flex-col space-y-2.5"}>
-        <span className={"text-xl font-semibold secure"}>
+        <p className={"text-lg font-semibold secure whitespace-pre-wrap"}>
           {questions[questionNumber - 1].title}
-        </span>
+        </p>
         <ul className={"flex flex-col space-y-2"}>
           {questions[questionNumber - 1].options.map((option, i) => (
             <li>
@@ -215,9 +215,13 @@ const QuizAttempt = () => {
                     ? "outline"
                     : "ghost"
                 }
-                className={`w-full flex justify-start items-center`}
+                className={`w-full flex break-words h-fit justify-start items-center`}
               >
-                <span className={"secure"}>{`${i + 1}. ${option.value}`}</span>
+                <span
+                  className={
+                    "secure h-fit break-words whitespace-normal text-left"
+                  }
+                >{`${option.value}`}</span>
               </Button>
             </li>
           ))}
