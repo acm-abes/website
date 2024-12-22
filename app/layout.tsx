@@ -2,6 +2,7 @@ import "./globals.css";
 import { ReactQueryProvider, ThemeProvider } from "@/components/Providers";
 import FooterNew from "@/components/FooterNew";
 import NavBarNew from "@/components/NavBarNew";
+import SpaceDivider from "@/components/SpaceDivider";
 import { Metadata } from "next";
 import React from "react";
 import { defaultOGConfig } from "@/lib/constants";
