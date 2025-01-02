@@ -1,10 +1,22 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { GameRoomDocument } from "@/schemas/mongoose/game-room";
+import { PlayerDocument } from "@/schemas/mongoose/player";
 
 // TODO - Make sure to add correct properties to the context
+
 interface GameContextData {
-  question: string;
+  question: {
+    id: string;
+    text: string;
+  };
   hint: string;
-  hintsCount: number;
+  // isPlaying: boolean;
   useHint: () => void;
   submitAnswer: (answer: string) => void;
   score: number;
@@ -14,9 +26,9 @@ interface GameContextData {
   startGame: () => void;
 }
 
-interface HookParams {
-  name: string;
-}
+// interface HookParams {
+//   name: string;
+// }
 
 interface ProviderParams {
   children: ReactNode;
@@ -25,9 +37,13 @@ interface ProviderParams {
 export const GameContext = createContext<GameContextData | null>(null);
 
 export const GameProvider = ({ children }: ProviderParams) => {
-  const [question, setQuestion] = useState("");
+  const [question, setQuestion] = useState<GameContextData["question"]>({
+    id: "",
+    text: "",
+  });
   const [hint, setHint] = useState("");
   const [hintsCount, setHintsCount] = useState(0);
+  const [currentRoom, setCurrentRoom] = useState(0);
   const [score, setScore] = useState(0);
   const [time, setTime] = useState("");
   const [isGameOver, setIsGameOver] = useState(false);
@@ -41,6 +57,28 @@ export const GameProvider = ({ children }: ProviderParams) => {
     setHint("This is a hint");
   };
 
+  useEffect(() => {
+    (async () => {
+      const progress = await fetch("/api/progress");
+
+      if (progress.status === 401) return;
+      if (progress.status === 404) return;
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const room = await fetch("/api/room");
+
+      if (room.status === 401) return;
+      if (room.status === 404) return;
+
+      const data = (await room.json()) as GameRoomDocument;
+
+      setQuestion({ id: data.question.id, text: data.question.text });
+    })();
+  }, [currentRoom]);
+
   const submitAnswer = (answer: string) => {};
 
   const startGame = () => {
@@ -51,7 +89,6 @@ export const GameProvider = ({ children }: ProviderParams) => {
     <GameContext.Provider
       value={{
         endTime,
-        hintsCount,
         question,
         hint,
         useHint,
@@ -67,7 +104,7 @@ export const GameProvider = ({ children }: ProviderParams) => {
   );
 };
 
-export const useGame = ({}: HookParams) => {
+export const useGame = (name: string) => {
   const context = useContext(GameContext);
 
   if (!context) {

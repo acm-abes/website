@@ -1,7 +1,7 @@
 import React from "react";
 
 const StartGamePage = () => {
-  return <div></div>;
+  return <div>{isPlaying ? "Continue" : "Play"}</div>;
 };
 
 export default StartGamePage;
