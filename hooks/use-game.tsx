@@ -6,10 +6,8 @@ import {
   useState,
 } from "react";
 import { GameRoomDocument } from "@/schemas/mongoose/game-room";
-import { PlayerDocument } from "@/schemas/mongoose/player";
 
 // TODO - Make sure to add correct properties to the context
-
 interface GameContextData {
   question: {
     id: string;
