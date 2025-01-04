@@ -15,10 +15,14 @@ export async function POST(req: NextRequest) {
   const session = await auth();
 
   if (!session) {
-    return NextResponse.json({
-      status: 401,
-      json: { message: "Unauthorized" },
-    });
+    return NextResponse.json(
+      {
+        json: { message: "Unauthorized" },
+      },
+      {
+        status: 401,
+      },
+    );
   }
 
   const { user } = session;
@@ -31,10 +35,12 @@ export async function POST(req: NextRequest) {
   const game = await GameRoom.findById<GameRoomDocument>(gameId);
 
   if (!game) {
-    return NextResponse.json({
-      status: 404,
-      json: { message: "Game not found" },
-    });
+    return NextResponse.json(
+      {
+        json: { message: "Game not found" },
+      },
+      { status: 404 },
+    );
   }
 
   if (player) {

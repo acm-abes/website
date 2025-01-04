@@ -4,7 +4,7 @@ import { ObjectId } from "bson";
 export const playerSchema = new Schema({
   name: String,
   email: String,
-  score: Number,
+  hintsUsed: Array<String>,
   gameId: {
     type: ObjectId,
     ref: "GameRoom",
@@ -16,7 +16,7 @@ export const playerSchema = new Schema({
 export type PlayerDocument = HydratedDocument<{
   name: string;
   email: string;
-  score: number;
+  hintsUsed: string[];
   gameId: string;
   currentRoom: number;
   updatedAt: Date;
