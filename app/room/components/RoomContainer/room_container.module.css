@@ -1,0 +1,16 @@
+.room_container {
+  /* height: 100vh; */
+  /* width: 100%; */
+  position: relative;
+   /* background-image: url("/assets/room/air_core_room.jpg"); */
+  /* background:
+    linear-gradient(rgba(3, 7, 18, 0.5), rgba(3, 7, 18, 0.5)),
+    url("/assets/room/air_core_room.jpg") center/cover no-repeat; */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed; /* Keeps the background image still */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
