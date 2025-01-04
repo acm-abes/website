@@ -11,7 +11,8 @@ export const metadata: Metadata = {
 };
 
 const RoomLayout = ({ children }: Props) => {
-  return <div className={"container-x container-y"}>{children}</div>;
+  // return <div className={"container-x container-y"}>{children}</div>;
+  return <>{children}</>;
 };
 
 export default RoomLayout;

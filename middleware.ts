@@ -9,7 +9,8 @@ export async function middleware(request: NextRequest) {
   const adminPage = "/admin";
   const quizPage = "/quiz";
   const loginPage = "/api/auth/signin";
-  const roomPage = "/room";
+  // const roomPage = "/room";
+  const roomPage = "/quiz";
 
   if (
     pathname.startsWith(adminPage) ||
