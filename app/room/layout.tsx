@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import { Metadata } from "next";
+import { GameProvider } from "@/hooks/use-game";
 
 interface Props {
   children: ReactNode;
@@ -11,7 +12,11 @@ export const metadata: Metadata = {
 };
 
 const RoomLayout = ({ children }: Props) => {
-  return <div className={"container-x container-y"}>{children}</div>;
+  return (
+    <GameProvider>
+      <div className={"container-x container-y"}>{children}</div>
+    </GameProvider>
+  );
 };
 
 export default RoomLayout;

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   createContext,
   ReactNode,
@@ -6,27 +8,21 @@ import {
   useState,
 } from "react";
 import { GameRoomDocument } from "@/schemas/mongoose/game-room";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 // TODO - Make sure to add correct properties to the context
 interface GameContextData {
-  question: {
-    id: string;
-    text: string;
-  };
+  question: string;
   hint: string;
-  // isPlaying: boolean;
+  isPlaying: boolean;
   useHint: () => void;
   submitAnswer: (answer: string) => void;
-  score: number;
-  time: string;
   endTime: string;
   isGameOver: boolean;
   startGame: () => void;
+  loading: boolean;
 }
-
-// interface HookParams {
-//   name: string;
-// }
 
 interface ProviderParams {
   children: ReactNode;
@@ -35,64 +31,100 @@ interface ProviderParams {
 export const GameContext = createContext<GameContextData | null>(null);
 
 export const GameProvider = ({ children }: ProviderParams) => {
-  const [question, setQuestion] = useState<GameContextData["question"]>({
-    id: "",
-    text: "",
-  });
+  const [question, setQuestion] = useState<GameContextData["question"]>("");
   const [hint, setHint] = useState("");
-  const [hintsCount, setHintsCount] = useState(0);
   const [currentRoom, setCurrentRoom] = useState(0);
-  const [score, setScore] = useState(0);
-  const [time, setTime] = useState("");
   const [isGameOver, setIsGameOver] = useState(false);
   const [endTime, setEndTime] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  const useHint = () => {
-    if (hintsCount > 0) {
-      setHintsCount((prev) => prev - 1);
-    }
+  const router = useRouter();
+  const { toast } = useToast();
 
-    setHint("This is a hint");
+  const useHint = async () => {
+    const { hint } = await (
+      await fetch("/api/room/hint", {
+        method: "PATCH",
+        body: {
+          roomId: currentRoom,
+        },
+      })
+    ).json();
+
+    setHint(hint);
   };
 
   useEffect(() => {
-    (async () => {
-      const progress = await fetch("/api/progress");
+    setLoading(true);
 
-      if (progress.status === 401) return;
-      if (progress.status === 404) return;
-    })();
+    fetch("/api/room/playing").then(async (res) => {
+      const response = await res.json();
+      // console.log(response);
+      setCurrentRoom(response.currentRoom);
+      setIsPlaying(response.isPlaying);
+
+      const room = await fetch("/api/room", {
+        method: "POST",
+        body: JSON.stringify({
+          currentRoom: response.currentRoom,
+        }),
+      });
+
+      const data = await room.json();
+
+      setQuestion(data.room.question);
+    });
+
+    setLoading(false);
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      const room = await fetch("/api/room");
-
-      if (room.status === 401) return;
-      if (room.status === 404) return;
-
-      const data = (await room.json()) as GameRoomDocument;
-
-      setQuestion({ id: data.question.id, text: data.question.text });
-    })();
-  }, [currentRoom]);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   (async () => {
+  //     const room = await fetch("/api/room");
+  //
+  //     if (room.status === 401) return;
+  //     if (room.status === 404) return;
+  //
+  //     const data = (await room.json()) as GameRoomDocument;
+  //
+  //     setQuestion({ id: data.question.id, text: data.question.text });
+  //   })();
+  //   setLoading(false);
+  // }, [currentRoom]);
 
   const submitAnswer = (answer: string) => {};
 
   const startGame = () => {
-    console.log("Game started");
+    fetch("/api/room/start", {
+      method: "POST",
+      body: JSON.stringify({ gameId: "dawn" }),
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          setIsPlaying(true);
+        }
+        router.push("/room/play");
+      })
+      .catch((err) => {
+        toast({
+          title: "Error",
+          description: err.message,
+        });
+      });
   };
 
   return (
     <GameContext.Provider
       value={{
+        isPlaying,
+        loading,
         endTime,
         question,
         hint,
         useHint,
         submitAnswer,
-        score,
-        time,
         isGameOver,
         startGame,
       }}

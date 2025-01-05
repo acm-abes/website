@@ -4,8 +4,7 @@ import { GameRoom, Player } from "@/database/models";
 import { GameRoomDocument } from "@/schemas/mongoose/game-room";
 import { PlayerDocument } from "@/schemas/mongoose/player";
 import { cookies } from "next/headers";
-import { SignJWT } from "jose";
-import { createSecretKey } from "node:crypto";
+import jwt from "jsonwebtoken";
 
 /**
  * Start a new game
@@ -28,11 +27,13 @@ export async function POST(req: NextRequest) {
   const { user } = session;
   const { name, email } = user!;
 
-  const { gameId } = (await req.json()) as { gameId: string };
+  // const { gameId } = (await req.json()) as { gameId: string };
 
   // Check if player is already playing
-  const player = await Player.findOne<PlayerDocument>({ email, gameId });
-  const game = await GameRoom.findById<GameRoomDocument>(gameId);
+  const player = await Player.findOne<PlayerDocument>({ email });
+  const game = await GameRoom.findOne<GameRoomDocument>({ index: 0 });
+
+  console.log(player, game);
 
   if (!game) {
     return NextResponse.json(
@@ -43,6 +44,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const token = cookies().get("game_token");
+
   if (player) {
     // Check if game has still time left.
     if (new Date(game.endTime) < new Date()) {
@@ -52,26 +55,40 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    return NextResponse.json({
-      status: 499,
-      json: { message: "Player already playing" },
-    });
+    if (token?.value)
+      return NextResponse.json({
+        status: 499,
+        json: { message: "Player already playing" },
+      });
   }
 
   // Create a new player
   const currentRoom = 0;
   const score = 0;
   const updatedAt = new Date().toISOString();
-  const data = { name, email, gameId, currentRoom, score, updatedAt };
-  const newPlayer = await new Player(data).save();
+  const data = {
+    name,
+    email,
+    gameId: "dawn",
+    currentRoom,
+    score,
+    updatedAt,
+    hintsUsed: [],
+  };
 
-  const key = createSecretKey(Buffer.from(process.env.JWT_SECRET!));
-  const gameToken = await new SignJWT(data).sign(key);
+  const newPlayer = player || (await new Player(data).save());
+  console.log("Trying to create key");
+  // const key = createSecretKey(Buffer.from(process.env.TOKEN_SECRET!));
+  const key = process.env.TOKEN_SECRET!;
+  const gameToken = jwt.sign(JSON.stringify(data), key);
 
   cookies().set("game_token", gameToken);
 
-  return NextResponse.json({
-    status: 201,
-    json: { message: "Player registered successfully" },
-  });
+  return NextResponse.json(
+    {
+      status: 201,
+      json: { message: "Player registered successfully" },
+    },
+    { status: 201 },
+  );
 }

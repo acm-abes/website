@@ -5,10 +5,7 @@ export const playerSchema = new Schema({
   name: String,
   email: String,
   hintsUsed: Array<String>,
-  gameId: {
-    type: ObjectId,
-    ref: "GameRoom",
-  },
+  gameId: String,
   currentRoom: Number,
   updatedAt: Date,
 });

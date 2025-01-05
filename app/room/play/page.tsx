@@ -1,12 +1,24 @@
+"use client";
+
 import React, { useState } from "react";
 import { useGame } from "@/hooks/use-game";
+import { Button } from "@/components/ui/button";
 
 const PlayGame = () => {
-  const { submitAnswer, hint, question, useHint, score } = useGame("dawn");
+  const { submitAnswer, hint, question, useHint, loading } = useGame("dawn");
 
-  const [hintUsed, setHintUsed] = useState(false);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  return <div></div>;
+  console.log(question);
+
+  return (
+    <div>
+      {question} {hint}
+      <Button onClick={useHint}>use hint</Button>
+    </div>
+  );
 };
 
 export default PlayGame;

@@ -4,9 +4,8 @@ import { GameRoom, Player } from "@/database/models";
 import { type PlayerDocument } from "@/schemas/mongoose/player";
 import { GameRoomDocument } from "@/schemas/mongoose/game-room";
 import { cookies } from "next/headers";
-import { jwtVerify } from "jose";
-import { createSecretKey } from "crypto";
 import { gameTokenSchema } from "@/schemas/game-token";
+import jwt from "jsonwebtoken";
 
 /**
  * Returns player's current progress inferred from the token
@@ -31,10 +30,7 @@ export async function GET(req: NextRequest) {
   }
 
   const stats = gameTokenSchema.parse(
-    await jwtVerify(
-      gameToken,
-      createSecretKey(Buffer.from(process.env.JWT_SECRET!)),
-    ),
+    jwt.verify(gameToken, process.env.TOKEN_SECRET),
   );
 
   return NextResponse.json(stats);
@@ -99,7 +95,6 @@ export async function PATCH(req: NextRequest) {
     }
 
     // Update player stats
-    currentPlayer.score += room.points;
     currentPlayer.currentRoom += 1;
     currentPlayer.updatedAt = new Date();
     const newPlayer = await currentPlayer.save();

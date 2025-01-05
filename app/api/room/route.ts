@@ -5,6 +5,7 @@ import { createSecretKey } from "node:crypto";
 import { gameTokenSchema } from "@/schemas/game-token";
 import { GameRoomDocument } from "@/schemas/mongoose/game-room";
 import { GameRoom } from "@/database/models";
+import jwt from "jsonwebtoken";
 
 /**
  * Get all details of a room
@@ -13,32 +14,39 @@ import { GameRoom } from "@/database/models";
  * game_token will be used to get the room details
  * return room details
  */
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const gameToken = cookies().get("game_token");
 
   if (!gameToken) {
-    return {
-      status: 401,
-      json: { message: "Unauthorized" },
-    };
+    return NextResponse.json(
+      {
+        json: { message: "Unauthorized" },
+      },
+      { status: 401 },
+    );
   }
 
-  const key = createSecretKey(Buffer.from(process.env.JWT_SECRET!));
+  const key = process.env.TOKEN_SECRET!;
 
-  const data = await jwtVerify(gameToken.value, key);
+  const data = jwt.verify(gameToken.value, key);
 
-  const { currentRoom, gameId } = gameTokenSchema.parse(data.payload);
+  const { currentRoom } = gameTokenSchema.parse(data);
+
+  console.log(currentRoom);
 
   const room = await GameRoom.findOne<GameRoomDocument>({
-    gameId,
-    currentRoom,
+    index: currentRoom,
   });
 
   if (!room) {
-    return NextResponse.json({
-      status: 404,
-      message: "Room not found",
-    });
+    return NextResponse.json(
+      {
+        message: "Room not found",
+      },
+      {
+        status: 404,
+      },
+    );
   }
 
   return NextResponse.json({

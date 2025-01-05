@@ -14,7 +14,7 @@ import { HintDocument } from "@/schemas/mongoose/hint";
  */
 export async function PATCH(req: NextRequest) {
   const session = await auth();
-  const { gameId, roomId } = await req.json();
+  const { roomId } = await req.json();
 
   if (!session) {
     return NextResponse.json(
@@ -43,7 +43,6 @@ export async function PATCH(req: NextRequest) {
 
   const player = await Player.findOne<PlayerDocument>({
     email: user.email,
-    gameId,
   });
 
   if (!player) {
