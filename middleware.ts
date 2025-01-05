@@ -6,13 +6,16 @@ export async function middleware(request: NextRequest) {
   const basePath = request.url;
   const session = await auth();
 
-  // console.log(session?.user);
-
   const adminPage = "/admin";
   const quizPage = "/quiz";
   const loginPage = "/api/auth/signin";
+  const roomPage = "/room";
 
-  if (pathname.startsWith(adminPage) || pathname.startsWith(quizPage)) {
+  if (
+    pathname.startsWith(adminPage) ||
+    pathname.startsWith(quizPage) ||
+    pathname.startsWith(roomPage)
+  ) {
     if (!session) {
       console.log("Redirecting to login");
       return NextResponse.redirect(
