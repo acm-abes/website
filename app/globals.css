@@ -123,6 +123,10 @@
   @apply py-5
 }
 
+#description > a {
+  color: var(--primary-color);
+}
+
 /* @layer utilities {
 
 
