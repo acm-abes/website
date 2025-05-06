@@ -15,7 +15,7 @@ const PosterImage = () => {
         )}
       >
         <Image
-          src="/images/dawn-tech-unplug/dawn-tech-unplug.jpg"
+          src="/images/recruitment-acm/navrohan-new.png"
           alt="Example Image"
           layout="fill"
           // objectFit="cover
