@@ -1,7 +1,7 @@
 import { Models } from "appwrite";
 import { Connection } from "mongoose";
 
-export interface Event {
+export interface EventType {
   id: string;
   name: string;
   banners?: string[];
@@ -33,7 +33,7 @@ export interface Question {
   options: Option[];
 }
 
-type EventDocument = Event & Models.Document;
+type EventDocument = EventType & Models.Document;
 
 declare global {
   interface MongoClient {

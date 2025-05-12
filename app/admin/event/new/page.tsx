@@ -68,44 +68,49 @@ const Page = () => {
     const bannerFiles = Array.from(bannerInput.files!);
 
     try {
-      const eventImage = await bucket.createItem(file, id);
 
-      const eventImageURL = bucket.getItem(eventImage.$id);
+      // Todo: Upload files to AWS S3 bucket
+      // const eventImage = await bucket.createItem(file, id);
 
-      const bannerImages = await Promise.all(
-        bannerFiles.map(async (banner) => {
-          const res = await bucket.createItem(banner, ID.unique());
-          return bucket.getItem(res.$id).toString();
-        }),
-      );
+      // const eventImageURL = bucket.getItem(eventImage.$id);
+
+      // const bannerImages = await Promise.all(
+      //   bannerFiles.map(async (banner) => {
+      //     const res = await bucket.createItem(banner, ID.unique());
+      //     return bucket.getItem(res.$id).toString();
+      //   }),
+      // );
 
       const eventData = {
         ...values,
         id,
-        logo: eventImageURL.toString(),
-        banners: bannerImages,
+        // logo: eventImageURL.toString(),
+        // banners: bannerImages,
       };
 
-      const res = await database.events?.create(eventData, id);
+      const res = await fetch("/api/event", {
+        method: "POST",
+        body: JSON.stringify(eventData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
 
-      if (res?.$id) {
+      if (data?.id) {
         // await revalidateEvents();
         await fetch("/api/revalidate?path=/events");
         setLoading(false);
         setSuccess(true);
         setTimeout(() => {
-          router.push("/events/" + id);
+          router.push("/events/" + data.id);
         }, 2000);
       } else {
         setError(true);
         setLoading(false);
       }
     } catch (err) {
-      if (err instanceof AppwriteException) {
-        console.log(err);
-        setError(true);
-        setLoading(false);
-      }
+      console.log("Error occured", err);
     }
   };
 

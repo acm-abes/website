@@ -5,6 +5,8 @@ import database from "@/appwrite/database";
 import { EventDocument } from "@/types";
 import { events, events as oldEvents } from "@/public/data/events";
 
+import { connectToDB } from "./mongodb";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -13,30 +15,40 @@ export const getRandomGradient = (arr: string[]) => {
 };
 
 export const getAllEvents = async () => {
-  const { documents } = await database.events?.list<EventDocument>()!;
+  // const { documents } = await database.events?.list<EventDocument>()!;
+  await connectToDB();
+  const { Event } = await import("@/database/models/event");
+  const documents = await Event.find({});
 
   return [...documents, ...oldEvents];
 };
 
 export const getEvent = async (id: string): Promise<EventDocument | null> => {
-  // const URL = baseURL + "/api/event?id=" + id;
+  try {
+    let event: EventDocument | null | undefined;
 
-  let event: EventDocument | null | undefined;
+    event = events.find((e) => e.id === id)! as EventDocument;
 
-  event = events.find((e) => e.id === id)! as EventDocument;
+    if (!event) {
+      await connectToDB();
+      const { Event } = await import("@/database/models/event");
+      event = await Event.findOne({ id });
+    }
 
-  if (!event) event = await database.events?.search<EventDocument>(id);
+    if (!event) return null;
 
-  if (!event) return null;
-
-  return event;
+    return event;
+  } catch (error) {
+    console.error("Error fetching event:", error);
+    return null;
+  }
 };
 
 export const parseDate = (date: string) => {
   let parsedDate = parse(
     date,
     "yyyy-MM-dd'T'HH:mm:ss.SSSxxx",
-    new Date(),
+    new Date()
   ).toString();
 
   if (parsedDate === "Invalid Date") {
@@ -69,7 +81,7 @@ export const parseDate = (date: string) => {
 
 export const formatDifference = (
   start: string | Date | number,
-  end: string | Date | number,
+  end: string | Date | number
 ) => {
   const difference = differenceInSeconds(end, start);
 

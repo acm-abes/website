@@ -139,7 +139,7 @@ export async function generateMetadata({
   return {
     title: event.name,
     icons: {
-      icon: event.logo,
+      icon: event.logo ? event.logo : "/favicon.ico", // Ensure a fallback icon
     },
     openGraph: {
       ...defaultOGConfig,

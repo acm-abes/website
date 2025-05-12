@@ -1,4 +1,4 @@
 import { z } from "zod";
-import { Event } from "@/types";
+import { EventType } from "@/types";
 
-export const EventSchema = z.custom<Event>();
+export const EventSchema = z.custom<EventType>();
