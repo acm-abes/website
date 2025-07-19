@@ -39,6 +39,9 @@ const NavBarNew = () => {
           <div className="flex items-center justify-between gap-4">
             <ul className="hidden md:flex md:items-center md:justify-between md:gap-4 md:p-2 text-[14px] font-medium">
               <li>
+                <Link href="/">Home</Link>
+              </li>
+              <li>
                 <Link href={"/events"}>Events</Link>
               </li>
               <li>
