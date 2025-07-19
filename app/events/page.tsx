@@ -4,6 +4,7 @@ import { events as oldEvents } from "@/public/data/events";
 import { Metadata } from "next";
 import database from "@/appwrite/database";
 import { EventDocument } from "@/types";
+import { connectToDB } from "@/lib/mongodb";
 
 export const metadata: Metadata = {
   title: "EVENTS",
@@ -12,13 +13,32 @@ export const metadata: Metadata = {
 };
 
 const getAllEvents = async () => {
-  const { documents } = await database.events?.list<EventDocument>()!;
+  // const { documents } = await database.events?.list<EventDocument>()!;
+  await connectToDB();
+  const { Event } = await import("@/database/models/event");
+  const documents = await Event.find({});
+  const event = documents.map((event) => {
+    return {
+      id: event.id,
+      name: event.name,
+      date: event.date,
+      description: event.description,
+      sponsors: event.sponsors,
+      prizes: event.prizes,
+      venue: event.venue,
+      logo: event.logo,
+      banners: event.banners,
+    };
+  }
+  );
+  const allEvents = [...event, ...oldEvents];
 
-  return [...documents, ...oldEvents];
+  return allEvents;
 };
 
 const Events = async () => {
   const events = await getAllEvents();
+  // console.log(events);
 
   return (
     <main className="p-5 md:px-20 lg:px-36 space-y-5">

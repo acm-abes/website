@@ -1,6 +1,6 @@
-import { Event } from "@/types";
+import { EventType } from "@/types";
 
-export const events: Event[] = [
+export const events: EventType[] = [
   {
     id: "acpc",
     name: "ACPC 2k24",

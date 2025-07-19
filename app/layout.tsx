@@ -3,6 +3,7 @@ import { ReactQueryProvider, ThemeProvider } from "@/components/Providers";
 import FooterNew from "@/components/FooterNew";
 import NavBarNew from "@/components/NavBarNew";
 import { Metadata } from "next";
+import Head from "next/head";
 import React from "react";
 import { defaultOGConfig } from "@/lib/constants";
 import { Toaster } from "@/components/ui/toaster";
@@ -16,6 +17,9 @@ export const metadata: Metadata = {
   openGraph: {
     ...defaultOGConfig,
   },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -25,11 +29,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link 
-           
-            href="https://fonts.googleapis.com/css2?family=Eater&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Nosifer&display=swap" rel="stylesheet" />
-      </head>
+      <Head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Eater&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Nosifer&display=swap"
+          rel="stylesheet"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <body>
         <ThemeProvider>
           <SessionProvider>

@@ -105,7 +105,8 @@ const EventPage = async ({ params: { id } }: EventProps) => {
           <h3 className="text-2xl text-primary/45 font-bold">
             About the event
           </h3>
-          <p className={"whitespace-break-spaces"}>{event.description}</p>
+          <p id="description" className={"whitespace-break-spaces"} dangerouslySetInnerHTML={{__html: event.description}}
+          ></p>
         </div>
         <div className="flex justify-between rounded bg-secondary/40 drop-shadow-lg w-full">
           <div className="flex flex-col p-4">
@@ -138,7 +139,7 @@ export async function generateMetadata({
   return {
     title: event.name,
     icons: {
-      icon: event.logo,
+      icon: event.logo ? event.logo : "/favicon.ico", // Ensure a fallback icon
     },
     openGraph: {
       ...defaultOGConfig,
