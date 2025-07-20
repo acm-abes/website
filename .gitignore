@@ -30,9 +30,13 @@ yarn-error.log*
 .env.local
 .env
 
+.vscode/
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/generated/prisma
