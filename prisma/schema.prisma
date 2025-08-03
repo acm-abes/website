@@ -64,6 +64,8 @@ model User {
  // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  Blogs Blogs[]
 }
 
 model VerificationToken {
@@ -96,7 +98,6 @@ model Event {
 model ResearchPaper {
   id String   @id @default(cuid())
 
-
   // Research paper details
   title           String
   pictures      String[]
@@ -110,10 +111,30 @@ model ResearchPaper {
   // Relationships
   userResearchPaper UserResearchPaper[]
 
-
   // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Blogs {
+  id String @id @default(cuid())
+
+  authorId String
+  author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  title String
+  tldr String
+  content String
+  tags String[]
+  views Int @default(0)
+
+  poster String
+  banner String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  relatedTo String?
 }
 
 model UserResearchPaper {
