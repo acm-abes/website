@@ -13,7 +13,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
- 
+
 model Account {
   userId            String
   type              String
@@ -26,53 +26,60 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@id([provider, providerAccountId])
 }
- 
+
 model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+enum UserRole {
+  VISITOR
+  MEMBER
+  ALUMINI
+}
+
 model User {
-  id            String          @id @default(cuid())
+  id String @id @default(cuid())
 
   // User details
   name          String?
-  email         String          @unique
+  email         String    @unique
   emailVerified DateTime?
 
   // Images
-  image         String?
+  image String?
 
   // Relationships
-  accounts      Account[]
-  sessions      Session[]
+  accounts          Account[]
+  sessions          Session[]
   userResearchPaper UserResearchPaper[]
- 
- // Timestamps
+  blogs             Blogs[]
+
+  role UserRole
+
+  // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  Blogs Blogs[]
 }
 
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@id([identifier, token])
 }
 
@@ -84,11 +91,11 @@ model Event {
   poster String?
 
   // Event details
-  name String
+  name        String
   description String?
-  venue String?
-  startDate DateTime
-  endDate DateTime
+  venue       String?
+  startDate   DateTime
+  endDate     DateTime
 
   // Timestamps
   createdAt DateTime @default(now())
@@ -96,17 +103,17 @@ model Event {
 }
 
 model ResearchPaper {
-  id String   @id @default(cuid())
+  id String @id @default(cuid())
 
   // Research paper details
-  title           String
-  pictures      String[]
-  doi            String   @unique
-  link           String   @unique
-  publishedAt    DateTime
-  conference     String?
-  track         String?
-  description   String?
+  title       String
+  pictures    String[]
+  doi         String   @unique
+  link        String   @unique
+  publishedAt DateTime
+  conference  String?
+  track       String?
+  description String?
 
   // Relationships
   userResearchPaper UserResearchPaper[]
@@ -120,13 +127,13 @@ model Blogs {
   id String @id @default(cuid())
 
   authorId String
-  author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
-  title String
-  tldr String
+  title   String
+  tldr    String
   content String
-  tags String[]
-  views Int @default(0)
+  tags    String[]
+  views   Int      @default(0)
 
   poster String
   banner String
