@@ -139,11 +139,12 @@ model ResearchPaper {
 model Blogs {
   id String @id @default(cuid())
 
-  title   String
-  tldr    String
-  content String
-  tags    String[]
-  views   Int      @default(0)
+  readTime Int // in minutes
+  title    String
+  tldr     String
+  content  String
+  tags     String[]
+  views    Int      @default(0)
 
   poster String
   banner String
