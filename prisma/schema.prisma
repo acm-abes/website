@@ -51,6 +51,13 @@ enum UserRole {
   ALUMINI
 }
 
+enum ContentType {
+  BLOG
+  RESEARCH_PAPER
+  PROJECT
+  EVENT
+}
+
 model User {
   id String @id @default(cuid())
 
@@ -63,12 +70,11 @@ model User {
   image String?
 
   // Relationships
-  accounts          Account[]
-  sessions          Session[]
-  userResearchPaper UserResearchPaper[]
-  blogs             Blogs[]
+  accounts Account[]
+  sessions Session[]
 
-  role UserRole
+  role                UserRole
+  userContentRelation UserContentRelation[]
 
   // Timestamps
   createdAt DateTime @default(now())
@@ -81,6 +87,16 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model UserContentRelation {
+  userId String
+  User   User   @relation(fields: [userId], references: [id])
+
+  contentId   String
+  contentType ContentType
+
+  @@id([userId, contentId])
 }
 
 model Event {
@@ -115,9 +131,6 @@ model ResearchPaper {
   track       String?
   description String?
 
-  // Relationships
-  userResearchPaper UserResearchPaper[]
-
   // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -125,9 +138,6 @@ model ResearchPaper {
 
 model Blogs {
   id String @id @default(cuid())
-
-  authorId String
-  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   title   String
   tldr    String
@@ -142,13 +152,19 @@ model Blogs {
   updatedAt DateTime @updatedAt
 
   relatedTo String?
+  type      ContentType?
 }
 
-model UserResearchPaper {
-  userId          String
-  researchPaperId String
-  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  researchPaper   ResearchPaper @relation(fields: [researchPaperId], references: [id], onDelete: Cascade)
+model Project {
+  id String @id @default(cuid())
 
-  @@id([userId, researchPaperId])
+  title       String
+  description String
+  link        String   @unique
+  repo        String   @unique
+  techStack   String[]
+  images      String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
