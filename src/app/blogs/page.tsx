@@ -20,7 +20,7 @@ const bigShoulders = Big_Shoulders_Inline({ subsets: ["latin"] });
 
 const BlogsPage = () => {
   return (
-    <div className="flex flex-col gap-18 px-8 pt-28 md:px-16 lg:px-32">
+    <main className="flex flex-col gap-18 px-8 pt-28 md:px-16 lg:px-32">
       <div className={bigShoulders.className}>
         <h1 className={"text-8xl"}>Blogs</h1>{" "}
         {/* <span className="text-2xl">by our team</span> */}
@@ -29,9 +29,9 @@ const BlogsPage = () => {
         <Image
           src={blog.image}
           alt="Blog Image"
-          width={720}
-          height={300}
-          className="h-96 w-2/3 object-cover"
+          width={480}
+          height={240}
+          className="h-96 w-140 object-cover"
         />
         <div className="flex flex-col gap-2">
           <h3 className="w-full text-3xl">
@@ -50,7 +50,7 @@ const BlogsPage = () => {
           <BlogCard key={index} />
         ))}
       </ul>
-    </div>
+    </main>
   );
 };
 

@@ -1,5 +1,6 @@
 import { BlogCardData } from "@/types/blog";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const blog: BlogCardData = {
@@ -25,9 +26,11 @@ const BlogCard = () => {
         className="h-52 object-cover"
       />
       <div className="flex flex-col gap-2">
-        <h3 className="w-full text-lg">
-          {blog.title.split(" ").slice(0, 10).join(" ")}...
-        </h3>
+        <Link href={`/blogs/${blog.id}`}>
+          <h3 className="w-full text-lg">
+            {blog.title.split(" ").slice(0, 10).join(" ")}...
+          </h3>
+        </Link>
         <span className="text-muted-foreground">{blog.authors}</span>
         <div className="flex items-center gap-2 text-xs">
           <span className="text-muted-foreground">{blog.date}</span>

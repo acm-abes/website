@@ -1,14 +1,4 @@
-import { Menu, XIcon } from "lucide-react";
-import React from "react";
-import { Button } from "./ui/button";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "./ui/sheet";
+import NavigationSheet from "./NavigationSheet";
 
 const Navbar = () => {
   return (
@@ -18,24 +8,7 @@ const Navbar = () => {
           ACM
         </h1>
         <nav>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant={"ghost"}
-                className="w-fit cursor-pointer rounded-full border bg-neutral-700/50 p-4 text-xl font-semibold backdrop-blur-2xl"
-              >
-                <Menu size={32} />
-              </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader className="mr-5 flex items-end">
-                <SheetTitle></SheetTitle>
-                <SheetClose>
-                  <XIcon />
-                </SheetClose>
-              </SheetHeader>
-            </SheetContent>
-          </Sheet>
+          <NavigationSheet />
         </nav>
       </nav>
     </header>
