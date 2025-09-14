@@ -2,7 +2,9 @@
 
 import type { Metadata } from "next";
 import "./globals.css";
+import "lenis/dist/lenis.css";
 import Navbar from "@/components/Navbar";
+import { SmoothScrollWrapper } from "@/components/SmoothScrollWrapper";
 import { Poppins } from "next/font/google";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600", "700"] });
@@ -21,7 +23,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`antialiased ${poppins.className}`}>
         <Navbar />
-        {children}
+        <SmoothScrollWrapper>{children}</SmoothScrollWrapper>
       </body>
     </html>
   );
