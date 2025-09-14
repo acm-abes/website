@@ -90,6 +90,7 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
                 : "none",
           }}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="absolute inset-0 h-[120%] w-[120%] object-cover opacity-100 transition-opacity duration-600 ease-in-out"
             style={{
