@@ -1,11 +1,14 @@
 /** @format */
 
 import { BlogCardData } from "@/types/blog";
-import { Big_Shoulders_Inline } from "next/font/google";
+import { Old_Standard_TT } from "next/font/google";
 import Image from "next/image";
 import React from "react";
 
-const bigShoulders = Big_Shoulders_Inline({ subsets: ["latin"] });
+const oldStandardTT = Old_Standard_TT({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 const blog: BlogCardData = {
   id: "1",
@@ -29,7 +32,7 @@ const BlogPage = () => {
           height={240}
           className="h-105 w-full object-cover"
         />
-        <h1 className={`text-6xl ${bigShoulders.className}`}>{blog.title}</h1>
+        <h1 className={`text-6xl ${oldStandardTT.className}`}>{blog.title}</h1>
         <hr />
         <article className="text-lg">{blog.content}</article>
       </section>

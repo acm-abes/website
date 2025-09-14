@@ -1,5 +1,5 @@
 import React from "react";
-import { Big_Shoulders_Inline } from "next/font/google";
+import { Old_Standard_TT } from "next/font/google";
 import BlogCard from "@/components/BlogCard";
 import Image from "next/image";
 import { BlogCardData } from "@/types/blog";
@@ -16,13 +16,16 @@ const blog: BlogCardData = {
   readTime: "5 min read",
 };
 
-const bigShoulders = Big_Shoulders_Inline({ subsets: ["latin"] });
+const oldStandardTT = Old_Standard_TT({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 const BlogsPage = () => {
   return (
-    <main className="flex flex-col gap-18 px-8 pt-28 md:px-16 lg:px-32">
-      <div className={bigShoulders.className}>
-        <h1 className={"text-8xl"}>Blogs</h1>{" "}
+    <main className="flex flex-col gap-12 px-8 pt-28 md:px-16 lg:px-32">
+      <div className={oldStandardTT.className}>
+        <h1 className={"text-7xl"}>Blogs</h1>{" "}
         {/* <span className="text-2xl">by our team</span> */}
       </div>
       <div className="flex w-full gap-4">
@@ -34,6 +37,7 @@ const BlogsPage = () => {
           className="h-96 w-140 object-cover"
         />
         <div className="flex flex-col gap-2">
+          <div className="bg-orb absolute top-20 left-10 -z-10 h-60 w-60 rounded-full blur-3xl"></div>
           <h3 className="w-full text-3xl">
             {blog.title.split(" ").slice(0, 10).join(" ")}...
           </h3>
