@@ -394,9 +394,9 @@ export function GlobalArcExplorer() {
   ];
 
   return (
-    <div className="flex h-[800px] w-full items-center justify-start px-28">
+    <div className="flex h-[800px] w-full flex-col-reverse items-center justify-start md:flex-row md:px-28">
       <div className="flex max-w-xl flex-col space-y-4 text-left">
-        <h1 className="text-4xl leading-tight font-semibold md:text-5xl">
+        <h1 className="text-4xl leading-tight md:text-5xl">
           From Campus to the World
         </h1>
         <p className="text-muted-foreground text-lg">

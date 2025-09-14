@@ -15,7 +15,7 @@ const Home = () => {
         gradientBackgroundStart="rgb(9, 9, 26)"
         gradientBackgroundEnd="rgb(9, 9, 26)"
       >
-        <div className="pointer-events-none absolute inset-0 z-50 flex items-center px-28 text-start text-3xl font-bold text-white md:text-4xl lg:text-7xl">
+        <div className="pointer-events-none absolute inset-0 z-10 flex items-center px-28 text-start text-3xl font-bold text-white md:text-4xl lg:text-7xl">
           <div className="text-6xl font-normal text-neutral-600 dark:text-neutral-400">
             At ACM, <br />
             We Build
