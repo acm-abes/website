@@ -19,7 +19,7 @@ const Home = () => {
           <div className="text-6xl font-normal text-neutral-600 dark:text-neutral-400">
             At ACM, <br />
             We Build
-            <FlipWords words={words} duration={1500} /> <br />
+            <FlipWords words={words} duration={2000} /> <br />
             For a Better Tomorrow
           </div>
         </div>
