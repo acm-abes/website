@@ -77,8 +77,10 @@ model User {
   userContentRelation UserContentRelation[]
 
   // Timestamps
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  ResearchPaper   ResearchPaper? @relation(fields: [researchPaperId], references: [id])
+  researchPaperId String?
 }
 
 model VerificationToken {
@@ -122,10 +124,11 @@ model ResearchPaper {
   id String @id @default(cuid())
 
   // Research paper details
+  image       String
   title       String
   pictures    String[]
+  authors     User[]
   doi         String   @unique
-  link        String   @unique
   publishedAt DateTime
   conference  String?
   track       String?
