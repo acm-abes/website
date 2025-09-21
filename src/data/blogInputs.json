@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "ai-in-education-2025",
+    "title": "The Future of AI in Education: 2025 and Beyond",
+    "tldr": "How artificial intelligence is transforming classrooms, learning, and student engagement in the next decade.",
+    "content": "Artificial intelligence (AI) is rapidly changing the landscape of education. From personalized learning platforms to intelligent tutoring systems, AI is making education more accessible, efficient, and engaging. In this article, we explore the latest trends, challenges, and opportunities for AI in education, and what the future holds for students and educators alike.\n\nKey areas of impact include adaptive learning, automated grading, and data-driven insights for teachers. As AI continues to evolve, ethical considerations and the need for digital literacy become increasingly important.",
+    "readTime": 7,
+    "tags": ["ai", "education", "future", "technology"],
+    "categories": ["Technology", "Education"],
+    "poster": "/public/events/navrohan-25.png",
+    "banner": "/public/img.jpg",
+    "authorId": "cll1user1",
+    "relatedTo": "ai-in-schools-2024",
+    "type": "BLOG"
+  },
+  {
+    "slug": "open-source-contributions-guide",
+    "title": "A Practical Guide to Open Source Contributions",
+    "tldr": "Step-by-step strategies for making your first open source contribution and joining the global developer community.",
+    "content": "Contributing to open source can be intimidating for beginners, but it is one of the most rewarding ways to learn and grow as a developer. This guide covers how to find beginner-friendly projects, understand contribution guidelines, and make your first pull request.\n\nWe also discuss the importance of communication, code reviews, and building a portfolio through open source work.",
+    "readTime": 5,
+    "tags": ["open-source", "guide", "community"],
+    "categories": ["Programming", "Community"],
+    "poster": "/public/events/acpc-25.png",
+    "banner": "/public/events/more-events.jpg",
+    "authorId": "cll1user2",
+    "relatedTo": "github-for-beginners",
+    "type": "BLOG"
+  },
+  {
+    "slug": "quantum-computing-basics",
+    "title": "Quantum Computing: The Basics Explained",
+    "tldr": "An accessible introduction to quantum computing, qubits, and why it matters for the future of technology.",
+    "content": "Quantum computing is no longer science fiction. With major tech companies investing in quantum research, it's important to understand the basics. This article explains what qubits are, how quantum computers differ from classical ones, and the potential applications in cryptography, optimization, and beyond.\n\nWe also address common misconceptions and the current limitations of quantum hardware.",
+    "readTime": 6,
+    "tags": ["quantum", "computing", "basics"],
+    "categories": ["Technology", "Science"],
+    "poster": "/public/events/navrohan-25.png",
+    "banner": "/public/img.jpg",
+    "authorId": "cll1user3",
+    "relatedTo": "future-of-computing",
+    "type": "BLOG"
+  },
+  {
+    "slug": "mental-health-for-developers",
+    "title": "Mental Health Matters: A Developer's Perspective",
+    "tldr": "Tips and resources for maintaining mental well-being in the fast-paced world of software development.",
+    "content": "Software development can be stressful, with tight deadlines, long hours, and constant learning. This article shares practical advice for managing stress, avoiding burnout, and building a supportive work environment.\n\nWe highlight resources, communities, and strategies for developers to prioritize their mental health.",
+    "readTime": 4,
+    "tags": ["mental-health", "wellness", "developers"],
+    "categories": ["Lifestyle", "Programming"],
+    "poster": "/public/events/acpc-25.png",
+    "banner": "/public/events/more-events.jpg",
+    "authorId": "cll1user4",
+    "relatedTo": "work-life-balance-tech",
+    "type": "BLOG"
+  },
+  {
+    "slug": "web3-beyond-the-hype",
+    "title": "Web3: Beyond the Hype",
+    "tldr": "A critical look at the promises and realities of Web3, blockchain, and decentralized applications.",
+    "content": "Web3 is touted as the next evolution of the internet, but what does it really mean for users and developers? This article examines the core concepts of decentralization, smart contracts, and token economies, separating hype from substance.\n\nWe discuss real-world use cases, challenges, and the future outlook for Web3 technologies.",
+    "readTime": 8,
+    "tags": ["web3", "blockchain", "decentralization"],
+    "categories": ["Technology", "Blockchain"],
+    "poster": "/public/events/navrohan-25.png",
+    "banner": "/public/img.jpg",
+    "authorId": "cll1user5",
+    "relatedTo": "blockchain-intro",
+    "type": "BLOG"
+  }
+]
