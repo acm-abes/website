@@ -12,6 +12,8 @@ const oldStandardTT = Old_Standard_TT({
 const EventsPage = async () => {
   const events = await getEvents();
 
+  // console.log(JSON.stringify(d));
+
   const ongoingEvent = events.find(
     (event) => event.startDate < new Date() && event.endDate > new Date(),
   );
