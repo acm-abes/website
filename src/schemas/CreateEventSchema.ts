@@ -8,7 +8,7 @@ export const CreateEventSchema = z.array(
     startDate: z.string().default(new Date().toISOString()),
     name: z.string().min(2).max(100),
     poster: z.string(),
-    venue: z.string().max(100),
+    venue: z.string().max(100).optional(),
     updatedAt: z.string().default(new Date().toISOString()),
   }),
 );

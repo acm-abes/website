@@ -102,7 +102,8 @@ model UserContentRelation {
 }
 
 model Event {
-  id String @id @default(cuid())
+  id   String @id @default(cuid())
+  slug String @unique
 
   // Images
   banner String
@@ -111,7 +112,7 @@ model Event {
   // Event details
   name        String
   description String
-  venue       String
+  venue       String   @default("ABES Engineering College, Ghaziabad")
   startDate   DateTime
   endDate     DateTime
 

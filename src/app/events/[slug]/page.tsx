@@ -1,7 +1,7 @@
 /** @format */
 
 import React from "react";
-import { getEventDetails } from "@/actions/events";
+import { getEventBySlug } from "@/actions/events";
 import { notFound } from "next/navigation";
 import { Old_Standard_TT } from "next/font/google";
 import Image from "next/image";
@@ -12,13 +12,13 @@ const oldStandardTT = Old_Standard_TT({
 });
 
 interface EventPageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 const EventPage = async ({ params }: EventPageProps) => {
-  const { id } = await params;
+  const { slug } = await params;
 
-  const event = await getEventDetails(id);
+  const event = await getEventBySlug(slug);
 
   if (!event) {
     return notFound();

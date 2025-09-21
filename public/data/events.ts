@@ -33,6 +33,7 @@ export const events: Event[] = [
     endDate: parseDate("2024-04-27T00:00:00.000Z"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "navrohan-2k24-1.0",
@@ -46,6 +47,7 @@ export const events: Event[] = [
     endDate: parseDate("5-2-2024"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "cps",
@@ -59,6 +61,7 @@ export const events: Event[] = [
     endDate: parseDate("20 Feb 2023"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "navrohan-2k23",
@@ -72,6 +75,7 @@ export const events: Event[] = [
     endDate: parseDate("20 Feb 2023"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "ems",
@@ -85,6 +89,7 @@ export const events: Event[] = [
     endDate: parseDate("10 Feb 2023"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "5th-acm-w",
@@ -98,6 +103,7 @@ export const events: Event[] = [
     endDate: parseDate("19 Dec 2022"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "web-weaver",
@@ -111,6 +117,7 @@ export const events: Event[] = [
     endDate: parseDate("10 Dec 2022"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "smart-abes",
@@ -124,6 +131,7 @@ export const events: Event[] = [
     endDate: parseDate("5 Oct 2022"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "acm-distinguished-speaker",
@@ -137,6 +145,7 @@ export const events: Event[] = [
     endDate: parseDate("8 July 2022"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "marg-darshan-11",
@@ -150,6 +159,7 @@ export const events: Event[] = [
     endDate: parseDate("23 March 2022"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "acm-eminent",
@@ -163,6 +173,7 @@ export const events: Event[] = [
     endDate: parseDate("25 February 2022"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "opd",
@@ -176,6 +187,7 @@ export const events: Event[] = [
     endDate: parseDate("21 February 2022"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "1w-virtual-workshop-web-dev",
@@ -189,6 +201,7 @@ export const events: Event[] = [
     endDate: parseDate("21 February 2022"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "code-your-way",
@@ -202,6 +215,7 @@ export const events: Event[] = [
     endDate: parseDate("11 September 2021"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "placement-workshop",
@@ -215,6 +229,7 @@ export const events: Event[] = [
     endDate: parseDate("13 Dec 2020"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "dev-x",
@@ -228,6 +243,7 @@ export const events: Event[] = [
     endDate: parseDate("12 Dec 2020"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "quizsom",
@@ -241,6 +257,7 @@ export const events: Event[] = [
     endDate: parseDate("10 Dec 2020"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   // {
 
@@ -262,6 +279,7 @@ export const events: Event[] = [
     endDate: parseDate("5 Dec 2020"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "ace-hackathon",
@@ -275,6 +293,7 @@ export const events: Event[] = [
     endDate: parseDate("5 Oct 2020"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
   {
     id: "internal-hackathon",
@@ -288,6 +307,7 @@ export const events: Event[] = [
     endDate: parseDate("5 Oct 2020"),
     createdAt: new Date(),
     updatedAt: new Date(),
+    slug: "",
   },
 ];
 
