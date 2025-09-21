@@ -8,6 +8,10 @@ import { Old_Standard_TT } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 
 const oldStandardTT = Old_Standard_TT({
   subsets: ["latin"],
@@ -49,7 +53,11 @@ const BlogPage = async ({ params }: BlogPageProps) => {
         {/* Categories */}
         <div className="flex flex-wrap gap-2">
           {blog.categories.map((category) => (
-            <Badge key={category} variant="secondary">
+            <Badge
+              key={category}
+              variant="outline"
+              className="border-accent/20 bg-accent/10"
+            >
               {category}
             </Badge>
           ))}
@@ -109,13 +117,74 @@ const BlogPage = async ({ params }: BlogPageProps) => {
 
       {/* Blog Content */}
       <div className="flex flex-col gap-6">
-        <div className="prose prose-lg max-w-none">
-          <div
-            className="leading-relaxed"
-            dangerouslySetInnerHTML={{
-              __html: blog.content.replace(/\n/g, "<br />"),
+        <div className="prose prose-lg dark:prose-invert max-w-none">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw, rehypeSanitize]}
+            components={{
+              img: ({ ...props }) => (
+                <Image
+                  src={(props.src as string) || ""}
+                  alt={props.alt || ""}
+                  width={800}
+                  height={400}
+                  className="rounded-lg object-cover"
+                />
+              ),
+              h1: ({ ...props }) => (
+                <h1 className="mb-4 text-3xl font-semibold" {...props} />
+              ),
+              h2: ({ ...props }) => (
+                <h2 className="mb-3 text-2xl font-semibold" {...props} />
+              ),
+              h3: ({ ...props }) => (
+                <h3 className="mb-2 text-xl font-medium" {...props} />
+              ),
+              p: ({ ...props }) => (
+                <p className="mb-4 leading-relaxed" {...props} />
+              ),
+              blockquote: ({ ...props }) => (
+                <blockquote
+                  className="border-primary my-4 border-l-4 pl-4 italic"
+                  {...props}
+                />
+              ),
+              code: ({ ...props }) => (
+                <code
+                  className="bg-muted rounded px-1 py-0.5 text-sm"
+                  {...props}
+                />
+              ),
+              pre: ({ ...props }) => (
+                <pre
+                  className="bg-muted overflow-x-auto rounded-lg p-4"
+                  {...props}
+                />
+              ),
+              ul: ({ ...props }) => (
+                <ul
+                  className="mb-4 list-inside list-disc space-y-1"
+                  {...props}
+                />
+              ),
+              ol: ({ ...props }) => (
+                <ol
+                  className="mb-4 list-inside list-decimal space-y-1"
+                  {...props}
+                />
+              ),
+              a: ({ ...props }) => (
+                <a
+                  className="text-primary hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  {...props}
+                />
+              ),
             }}
-          />
+          >
+            {blog.content}
+          </ReactMarkdown>
         </div>
       </div>
 
@@ -128,7 +197,11 @@ const BlogPage = async ({ params }: BlogPageProps) => {
           </div>
           <div className="flex flex-wrap gap-2">
             {blog.tags.map((tag) => (
-              <Badge key={tag} variant="outline" className="text-xs">
+              <Badge
+                key={tag}
+                variant="outline"
+                className="text-xs font-normal"
+              >
                 #{tag}
               </Badge>
             ))}
