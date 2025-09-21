@@ -1,4 +1,10 @@
 import { fetchPapers } from "@/actions/papers";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Old_Standard_TT } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +17,8 @@ const oldStandardTT = Old_Standard_TT({
 
 const PapersPage = async () => {
   const papers = await fetchPapers();
+
+  // papers.forEach((paper) => console.log(paper.authors));
 
   return (
     <main className="mb-20 flex flex-col gap-28 px-8 pt-28 md:px-16 lg:px-32">
@@ -29,9 +37,9 @@ const PapersPage = async () => {
           impact in the world.
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {papers.map((paper) => (
-          <div key={paper.id} className="mb-8 flex flex-col gap-4 border">
+          <div key={paper.id} className="mb-8 flex flex-col gap-4">
             <Image
               src={paper.image}
               alt={paper.title}
@@ -41,13 +49,30 @@ const PapersPage = async () => {
             />
             <Link
               href={`/research/${paper.id}`}
-              className="text-3xl font-semibold"
+              className="text-2xl font-semibold"
             >
               {paper.title}
             </Link>
-            <p className="text-sm text-gray-500">
-              {paper.authors.map((author) => author.name).join(", ")}
-            </p>
+
+            <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring-2">
+              {paper.authors.map((author) => (
+                <Avatar key={author.id}>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <AvatarImage
+                        className="cursor-pointer grayscale duration-200 hover:grayscale-0"
+                        src={author.image || "/avatar.png"}
+                        alt={author.name || "User Avatar"}
+                      />
+                      <AvatarFallback>{author.name![0] || "U"}</AvatarFallback>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{author.name}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </Avatar>
+              ))}
+            </div>
           </div>
         ))}
       </div>
