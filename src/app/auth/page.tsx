@@ -1,9 +1,11 @@
 /** @format */
+"use client";
 
 import React from "react";
 import { Old_Standard_TT } from "next/font/google";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
 
 const oldStandardTT = Old_Standard_TT({
   subsets: ["latin"],
@@ -16,7 +18,15 @@ const AuthPage = () => {
       <section className="flex h-full w-1/2 flex-col items-center justify-center">
         <div className="flex w-full max-w-xl flex-col gap-3">
           <h3 className={"text-4xl " + oldStandardTT.className}>Login with</h3>
-          <Button variant={"outline"} className="h-12 w-full">
+          <Button
+            onClick={() =>
+              signIn("google", {
+                redirectTo: "/",
+              })
+            }
+            variant={"outline"}
+            className="h-12 w-full"
+          >
             <Image
               src={"/google.svg"}
               width={24}
