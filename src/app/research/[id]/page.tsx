@@ -1,10 +1,12 @@
 import { getPaperById } from "@/actions/papers";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ChevronLeft } from "lucide-react";
 import { Old_Standard_TT } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -132,16 +134,16 @@ const ResearchPaperPage = async ({ params }: ResearchPaperPageProps) => {
 
       {/* Description */}
       {paper.description && (
-        <div className="flex flex-col gap-4">
-          <h2 className="text-2xl font-semibold">Abstract</h2>
+        <div className="flex flex-col gap-3">
+          <h2 className={"text-2xl font-medium"}>Abstract</h2>
           <p className="leading-relaxed">{paper.description}</p>
         </div>
       )}
 
       {/* Pictures Gallery */}
       {paper.pictures && paper.pictures.length > 0 && (
-        <div className="flex flex-col gap-6">
-          <h2 className="text-2xl font-semibold">Research Images</h2>
+        <div className="flex flex-col gap-4">
+          <h2 className="text-2xl">Research Images</h2>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {paper.pictures.map((picture, index) => (
               <div
@@ -161,12 +163,11 @@ const ResearchPaperPage = async ({ params }: ResearchPaperPageProps) => {
       )}
 
       {/* Back to Research */}
-      <div className="flex justify-center pt-8">
-        <Link
-          href="/research"
-          className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-6 py-3 transition-colors"
-        >
-          ← Back to All Research Papers
+      <div className="flex justify-start pt-8">
+        <Link href="/research">
+          <Button variant={"outline"}>
+            <ChevronLeft /> Back to All Research Papers
+          </Button>
         </Link>
       </div>
     </main>

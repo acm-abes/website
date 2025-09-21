@@ -39,7 +39,7 @@ const PapersPage = async () => {
       </div>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {papers.map((paper) => (
-          <div key={paper.id} className="mb-8 flex flex-col gap-4">
+          <div key={paper.id} className="mb-8 flex flex-col gap-3">
             <Image
               src={paper.image}
               alt={paper.title}
@@ -49,7 +49,7 @@ const PapersPage = async () => {
             />
             <Link
               href={`/research/${paper.id}`}
-              className="text-2xl font-semibold"
+              className="text-2xl font-medium"
             >
               {paper.title}
             </Link>
