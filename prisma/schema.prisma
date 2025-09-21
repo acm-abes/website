@@ -105,13 +105,13 @@ model Event {
   id String @id @default(cuid())
 
   // Images
-  banner String?
-  poster String?
+  banner String
+  poster String
 
   // Event details
   name        String
-  description String?
-  venue       String?
+  description String
+  venue       String
   startDate   DateTime
   endDate     DateTime
 

@@ -16,10 +16,6 @@ const providers: Provider[] = [
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers,
-  // pages: {
-  //   signIn: "/auth/login",
-  //   newUser: "/auth/register",
-  // },
   callbacks: {
     async session({ session, token }) {
       session.user.id = token.id as string;
