@@ -35,16 +35,6 @@ model Account {
   @@id([provider, providerAccountId])
 }
 
-model Session {
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 enum UserRole {
   VISITOR
   MEMBER
@@ -71,9 +61,8 @@ model User {
 
   // Relationships
   accounts Account[]
-  sessions Session[]
 
-  role                UserRole
+  role                UserRole              @default(VISITOR)
   userContentRelation UserContentRelation[]
 
   // Timestamps
@@ -81,14 +70,6 @@ model User {
   updatedAt       DateTime       @updatedAt
   ResearchPaper   ResearchPaper? @relation(fields: [researchPaperId], references: [id])
   researchPaperId String?
-}
-
-model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
-
-  @@id([identifier, token])
 }
 
 model UserContentRelation {
