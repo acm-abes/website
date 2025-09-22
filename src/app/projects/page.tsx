@@ -23,11 +23,9 @@ const ProjectsPage = async () => {
           Our Projects
         </h1>
         <p className="text-muted-foreground mb-8 text-lg">
-          At ABES ACM, we&apos;re not just coding, we&apos;re creating. Our
-          open-source projects tackle real problems we face every day, turning
-          ideas into tools that make life easier for students and the community.
-          Built by passionate minds, shared with the world, and open for anyone
-          to use, learn from, and improve.
+          At ABES ACM, we&apos;re not just coding, we&apos;re creating.
+          Transforming ideas into open-source solutions that empower communities
+          and drive innovation forward.
         </p>
 
         {/* Stats */}

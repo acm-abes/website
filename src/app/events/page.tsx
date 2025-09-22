@@ -41,14 +41,15 @@ const EventsPage = async () => {
   return (
     <main className="mb-20 flex flex-col gap-16 px-8 pt-28 md:px-16 lg:px-32">
       {/* Header */}
-      <div className="text-center">
+      <div className="mx-auto max-w-4xl text-center">
         <h1
-          className={`text-5xl font-bold md:text-7xl ${oldStandardTT.className}`}
+          className={`text-5xl font-bold md:text-7xl ${oldStandardTT.className} mb-6`}
         >
           Events
         </h1>
-        <p className="text-muted-foreground mt-4 text-lg">
-          Discover our latest events, workshops, and competitions
+        <p className="text-muted-foreground text-lg">
+          Discover our latest events, workshops, and competitions where
+          innovation meets collaboration
         </p>
       </div>
 
@@ -232,6 +233,32 @@ const EventsPage = async () => {
               </Card>
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="from-primary/5 to-secondary/5 rounded-2xl bg-gradient-to-br py-16 text-center">
+        <h2 className={`text-3xl font-bold ${oldStandardTT.className} mb-4`}>
+          Want to Make Future Events Even Better?
+        </h2>
+        <p className="text-muted-foreground mx-auto mb-6 max-w-2xl">
+          Join our vibrant community as a participant or help us create amazing
+          experiences as a sponsor. Every event is an opportunity to learn,
+          grow, and connect.
+        </p>
+        <div className="flex flex-col justify-center gap-4 sm:flex-row">
+          <a
+            href="/team"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-lg px-6 py-3 transition-colors"
+          >
+            Participate
+          </a>
+          <a
+            href="mailto:sponsor@acm-abes.org"
+            className="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex items-center justify-center rounded-lg border px-6 py-3 transition-colors"
+          >
+            Sponsor Events
+          </a>
         </div>
       </section>
     </main>
