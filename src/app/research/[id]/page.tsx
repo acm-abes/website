@@ -19,13 +19,14 @@ const oldStandardTT = Old_Standard_TT({
 });
 
 interface ResearchPaperPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 const ResearchPaperPage = async ({ params }: ResearchPaperPageProps) => {
-  const paper = await getPaperById(params.id);
+  const { id } = await params;
+  const paper = await getPaperById(id);
 
   if (!paper) {
     notFound();

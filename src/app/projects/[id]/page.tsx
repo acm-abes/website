@@ -22,13 +22,14 @@ const oldStandardTT = Old_Standard_TT({
 });
 
 interface ProjectPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 const ProjectPage = async ({ params }: ProjectPageProps) => {
-  const project = await getProjectById(params.id);
+  const { id } = await params;
+  const project = await getProjectById(id);
 
   if (!project) {
     notFound();
