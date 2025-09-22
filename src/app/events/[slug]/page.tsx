@@ -164,7 +164,7 @@ const EventPage = async ({ params }: EventPageProps) => {
             <p className="text-sm">
               {new Date(event.createdAt).toLocaleDateString("en-US", {
                 year: "numeric",
-                month: "long",
+                month: "short",
                 day: "numeric",
               })}
             </p>

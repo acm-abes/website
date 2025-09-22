@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import ProjectTimeline from "@/components/ProjectTimeline";
 import {
   ChevronLeft,
-  ExternalLink,
   Github,
   Calendar,
   Code,
   Users,
+  ArrowUpRight,
 } from "lucide-react";
 import { Old_Standard_TT } from "next/font/google";
 import Image from "next/image";
@@ -36,7 +36,7 @@ const ProjectPage = async ({ params }: ProjectPageProps) => {
   }
 
   return (
-    <main className="mb-20 flex flex-col justify-center gap-8 px-8 pt-28 md:px-16 lg:px-[10%]">
+    <main className="mb-20 flex flex-col justify-center gap-8 px-8 pt-28 md:px-16 lg:px-60">
       {/* Hero Section */}
       <div className="relative aspect-video w-full overflow-hidden rounded-lg">
         <Image
@@ -49,15 +49,15 @@ const ProjectPage = async ({ params }: ProjectPageProps) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
         <div className="absolute right-6 bottom-6 left-6 text-white">
           <div className="mb-2 flex items-center gap-2">
-            <Badge
+            {/* <Badge
               variant="secondary"
               className="border-white/30 bg-white/20 text-white"
             >
               Open Source Project
-            </Badge>
+            </Badge> */}
           </div>
           <h1
-            className={`text-4xl font-bold md:text-6xl ${oldStandardTT.className}`}
+            className={`text-4xl font-semibold md:text-6xl ${oldStandardTT.className}`}
           >
             {project.title}
           </h1>
@@ -74,13 +74,13 @@ const ProjectPage = async ({ params }: ProjectPageProps) => {
           <div className="flex flex-wrap gap-4">
             <Link href={project.link} target="_blank" rel="noopener noreferrer">
               <Button className="group">
-                <ExternalLink className="mr-2 h-4 w-4" />
                 Live Demo
+                <ArrowUpRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
             <Link href={project.repo} target="_blank" rel="noopener noreferrer">
               <Button variant="outline" className="group">
-                <Github className="mr-2 h-4 w-4" />
+                <Github className="ml-2 h-4 w-4" />
                 View Source
               </Button>
             </Link>
@@ -140,7 +140,7 @@ const ProjectPage = async ({ params }: ProjectPageProps) => {
         <div className="flex flex-col gap-8">
           <div className="text-center">
             <h2
-              className={`text-3xl font-bold ${oldStandardTT.className} mb-4`}
+              className={`text-3xl font-semibold ${oldStandardTT.className} mb-4`}
             >
               Development Timeline
             </h2>

@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Calendar, FileText } from "lucide-react";
+import { Calendar, FileText, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -23,26 +23,26 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({ items }) => {
   return (
     <div className="relative">
       {/* Timeline line */}
-      <div className="from-primary/50 via-primary to-primary/50 absolute top-0 bottom-0 left-8 w-0.5 bg-gradient-to-b" />
+      <div className="from-primary/50 via-primary to-primary/50 absolute top-0 bottom-0 left-5 mt-4 w-0.5 bg-gradient-to-b" />
 
       <div className="space-y-12">
         {items.map((item, index) => (
           <div key={item.id} className="relative flex items-start gap-8">
             {/* Timeline dot */}
-            <div className="bg-background border-primary relative z-10 flex h-16 w-16 items-center justify-center rounded-full border-4 shadow-lg">
-              <div className="bg-primary h-6 w-6 animate-pulse rounded-full" />
+            <div className="bg-background border-primary relative z-10 mt-4 flex h-10 w-10 items-center justify-center rounded-full border-4 shadow-lg">
+              <div className="bg-primary h-4 w-4 animate-pulse rounded-full" />
             </div>
 
             {/* Content */}
             <div className="min-w-0 flex-1">
-              <Card className="group transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <Card className="group p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                 <CardContent className="p-6">
                   <div className="flex flex-col gap-6 lg:flex-row">
                     {/* Text content */}
                     <div className="flex-1">
                       <div className="mb-4 flex items-start justify-between gap-4">
                         <div>
-                          <h3 className="group-hover:text-primary text-xl font-bold transition-colors">
+                          <h3 className="group-hover:text-primary text-xl font-semibold transition-colors">
                             {item.title}
                           </h3>
                           <div className="text-muted-foreground mt-2 flex items-center gap-2 text-sm">
@@ -77,7 +77,7 @@ const ProjectTimeline: React.FC<ProjectTimelineProps> = ({ items }) => {
                         >
                           <FileText className="mr-2 h-4 w-4" />
                           Read Blog Post
-                          <ExternalLink className="ml-2 h-3 w-3 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                          <ArrowUpRight className="ml-2 h-3 w-3 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                         </Button>
                       </Link>
                     </div>

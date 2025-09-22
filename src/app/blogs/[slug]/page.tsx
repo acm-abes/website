@@ -99,7 +99,7 @@ const BlogPage = async ({ params }: BlogPageProps) => {
               <Calendar className="h-4 w-4" />
               {new Date(blog.createdAt).toLocaleDateString("en-US", {
                 year: "numeric",
-                month: "long",
+                month: "short",
                 day: "numeric",
               })}
             </div>
@@ -218,11 +218,11 @@ const BlogPage = async ({ params }: BlogPageProps) => {
               Published
             </span>
             <p className="text-sm">
-              {new Date(blog.createdAt).toLocaleDateString("en-US", {
+              {Intl.DateTimeFormat("en-US", {
                 year: "numeric",
-                month: "long",
+                month: "short",
                 day: "numeric",
-              })}
+              }).format(new Date(blog.createdAt))}
             </p>
           </div>
           <div>

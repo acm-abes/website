@@ -103,9 +103,14 @@ const BlogsPage = async () => {
                       <div className="text-muted-foreground flex items-center gap-4 text-sm">
                         <div className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
-                          {new Date(
-                            featuredBlog.createdAt,
-                          ).toLocaleDateString()}
+                          {new Date(featuredBlog.createdAt).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            },
+                          )}
                         </div>
                         <div className="flex items-center gap-1">
                           <Clock className="h-3 w-3" />
@@ -178,9 +183,23 @@ const BlogsPage = async () => {
                           {blog.author.name}
                         </span>
                       </div>
-                      <div className="text-muted-foreground flex items-center gap-2 text-xs">
-                        <Clock className="h-3 w-3" />
-                        {blog.readTime}m
+                      <div className="flex gap-4">
+                        <div className="text-muted-foreground flex items-center gap-2 text-xs">
+                          <Calendar className="h-3 w-3" />
+                          {new Date(blog.createdAt).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            },
+                          )}
+                        </div>
+
+                        <div className="text-muted-foreground flex items-center gap-2 text-xs">
+                          <Clock className="h-3 w-3" />
+                          {blog.readTime}m
+                        </div>
                       </div>
                     </div>
                   </div>

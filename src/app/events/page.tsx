@@ -200,7 +200,7 @@ const EventsPage = async () => {
                       src={event.poster}
                       alt={event.name}
                       fill
-                      className="object-cover grayscale transition-transform duration-300 group-hover:scale-105 group-hover:grayscale-0"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                     <div className="absolute top-4 left-4">
                       <Badge variant="outline">Past Event</Badge>

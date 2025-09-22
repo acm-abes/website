@@ -103,7 +103,7 @@ const PapersPage = async () => {
                       <span>
                         {paper.publishedAt.toLocaleDateString("en-US", {
                           year: "numeric",
-                          month: "long",
+                          month: "short",
                         })}
                       </span>
                       {paper.conference && (
@@ -135,11 +135,6 @@ const PapersPage = async () => {
 
                   {/* Conference & Track Badges */}
                   <div className="flex flex-wrap gap-2">
-                    {paper.conference && (
-                      <Badge variant="secondary" className="text-xs">
-                        {paper.conference}
-                      </Badge>
-                    )}
                     {paper.track && (
                       <Badge variant="outline" className="text-xs">
                         {paper.track}
