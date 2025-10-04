@@ -1,4 +1,0 @@
-User-Agent: *
-Disallow: /admin/
-
-Sitemap: https://abes-acm.vercel.app/sitemap.xml

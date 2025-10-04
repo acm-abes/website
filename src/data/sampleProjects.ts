@@ -1,0 +1,144 @@
+export const sampleProjects = [
+  {
+    title: "ACM Website Platform",
+    description:
+      "A modern, responsive website platform built for ACM chapters. Features include event management, research paper showcase, member profiles, and blog system. Built with Next.js, TypeScript, and Prisma with a focus on performance and user experience.",
+    link: "https://acm-abes.vercel.app",
+    repo: "https://github.com/acm-abes/website",
+    techStack: [
+      "Next.js",
+      "TypeScript",
+      "Prisma",
+      "PostgreSQL",
+      "TailwindCSS",
+      "Framer Motion",
+    ],
+    images: [
+      "/public/img.jpg",
+      "/public/events/navrohan-25.png",
+      "/public/events/acpc-25.png",
+    ],
+    progress: [
+      {
+        title: "Project Initialization",
+        description:
+          "Set up the foundational architecture with Next.js 14, TypeScript, and Prisma. Established the database schema, authentication system, and basic routing structure.",
+        blogLink: "https://blog.acm-abes.org/project-setup",
+        images: ["/public/img.jpg"],
+      },
+      {
+        title: "Core Features Development",
+        description:
+          "Implemented user authentication, event management system, and research paper showcase. Added responsive design with TailwindCSS and smooth animations with Framer Motion.",
+        blogLink: "https://blog.acm-abes.org/core-features",
+        images: ["/public/events/navrohan-25.png"],
+      },
+      {
+        title: "Blog System & API",
+        description:
+          "Developed a comprehensive blog system with markdown support, categories, tags, and view tracking. Created RESTful APIs for all major features with proper validation.",
+        blogLink: "https://blog.acm-abes.org/blog-system",
+        images: ["/public/events/acpc-25.png"],
+      },
+      {
+        title: "Deployment & Optimization",
+        description:
+          "Deployed to Vercel with optimized performance. Implemented caching strategies, image optimization, and SEO enhancements. Added monitoring and analytics.",
+        blogLink: "https://blog.acm-abes.org/deployment",
+        images: ["/public/events/more-events.jpg"],
+      },
+    ],
+  },
+  {
+    title: "Student Portal System",
+    description:
+      "A comprehensive student management system for academic institutions. Features include grade tracking, course enrollment, assignment submission, and communication tools. Built with modern web technologies for scalability and ease of use.",
+    link: "https://student-portal.acm-abes.org",
+    repo: "https://github.com/acm-abes/student-portal",
+    techStack: [
+      "React",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Socket.io",
+      "Material-UI",
+    ],
+    images: ["/public/events/navrohan-25.png", "/public/events/acpc-25.png"],
+    progress: [
+      {
+        title: "System Architecture Design",
+        description:
+          "Designed the overall system architecture with microservices approach. Set up the database schema, API structure, and authentication flow.",
+        blogLink: "https://blog.acm-abes.org/portal-architecture",
+        images: ["/public/events/navrohan-25.png"],
+      },
+      {
+        title: "Frontend Development",
+        description:
+          "Built responsive user interfaces for students, faculty, and administrators. Implemented real-time notifications and interactive dashboards.",
+        blogLink: "https://blog.acm-abes.org/portal-frontend",
+        images: ["/public/events/acpc-25.png"],
+      },
+      {
+        title: "Testing & Launch",
+        description:
+          "Conducted comprehensive testing with beta users. Fixed bugs, optimized performance, and launched the system for the entire institution.",
+        blogLink: "https://blog.acm-abes.org/portal-launch",
+        images: ["/public/events/more-events.jpg"],
+      },
+    ],
+  },
+  {
+    title: "AI Research Assistant",
+    description:
+      "An intelligent research assistant powered by machine learning to help students and researchers find relevant papers, generate summaries, and discover connections between different research areas. Features natural language processing and recommendation systems.",
+    link: "https://research-ai.acm-abes.org",
+    repo: "https://github.com/acm-abes/ai-research-assistant",
+    techStack: [
+      "Python",
+      "FastAPI",
+      "TensorFlow",
+      "OpenAI API",
+      "Redis",
+      "Docker",
+    ],
+    images: ["/public/events/acpc-25.png", "/public/img.jpg"],
+    progress: [
+      {
+        title: "Research & Planning",
+        description:
+          "Conducted extensive research on existing solutions and identified key features. Planned the ML pipeline and data processing requirements.",
+        blogLink: "https://blog.acm-abes.org/ai-research-planning",
+        images: ["/public/events/acpc-25.png"],
+      },
+      {
+        title: "ML Model Development",
+        description:
+          "Developed and trained natural language processing models for paper analysis. Implemented recommendation algorithms and semantic search capabilities.",
+        blogLink: "https://blog.acm-abes.org/ai-model-development",
+        images: ["/public/img.jpg"],
+      },
+    ],
+  },
+  {
+    title: "Event Management Platform",
+    description:
+      "A complete event management solution for organizing conferences, workshops, and competitions. Features include registration management, speaker coordination, live streaming integration, and post-event analytics.",
+    link: "https://events.acm-abes.org",
+    repo: "https://github.com/acm-abes/event-platform",
+    techStack: ["Vue.js", "Django", "PostgreSQL", "Stripe", "AWS S3", "WebRTC"],
+    images: [
+      "/public/events/more-events.jpg",
+      "/public/events/navrohan-25.png",
+    ],
+    progress: [
+      {
+        title: "MVP Development",
+        description:
+          "Built the minimum viable product with core features: event creation, registration, and basic management tools.",
+        blogLink: "https://blog.acm-abes.org/event-mvp",
+        images: ["/public/events/more-events.jpg"],
+      },
+    ],
+  },
+];
