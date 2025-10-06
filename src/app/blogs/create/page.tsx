@@ -3,7 +3,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateBlogSchema } from "@/schemas/CreateBlogSchema";
+import { CreateSingleBlogSchema } from "@/schemas/CreateBlogSchema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,41 +16,56 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createBlog } from "@/actions/blogs";
 import { X } from "lucide-react";
+import { useSession } from "next-auth/react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 
-type BlogFormData = {
-  slug: string;
-  title: string;
-  tldr: string;
-  content: string;
-  readTime: number;
-  tags: string[];
-  categories: string[];
-  poster: string;
-  banner: string;
-  authorId: string;
-  relatedTo?: string;
-  type?: "BLOG" | "RESEARCH_PAPER" | "PROJECT" | "EVENT";
-};
+import { type CreateBlogInput } from "@/schemas/CreateBlogSchema";
+type BlogFormData = CreateBlogInput;
 
 export default function CreateBlogPage() {
   const router = useRouter();
+  const { data: session } = useSession();
   const [tags, setTags] = React.useState<string[]>([]);
   const [categories, setCategories] = React.useState<string[]>([]);
   const [tagInput, setTagInput] = React.useState("");
   const [categoryInput, setCategoryInput] = React.useState("");
 
+  // If not authenticated, redirect to auth page
+  React.useEffect(() => {
+    if (!session?.user) {
+      router.push("/auth");
+    }
+  }, [session, router]);
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
+    setValue,
+    watch,
   } = useForm<BlogFormData>({
-    resolver: zodResolver(CreateBlogSchema.element),
+    resolver: zodResolver(CreateSingleBlogSchema),
+    defaultValues: {
+      type: "BLOG",
+      authorId: session?.user?.id || "",
+    },
   });
+
+  // Update authorId when session is available
+  React.useEffect(() => {
+    if (session?.user?.id) {
+      setValue("authorId", session.user.id);
+    }
+  }, [session, setValue]);
 
   const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -80,27 +95,41 @@ export default function CreateBlogPage() {
     setCategories(categories.filter((c) => c !== category));
   };
 
-  const onSubmit = async (data: BlogFormData) => {
+  const onSubmit = async (formData: BlogFormData) => {
+    // Early return if no user session
+    if (!session?.user?.id) {
+      toast.error("You must be logged in to create a blog");
+      router.push("/auth");
+      return;
+    }
+
     try {
-      const blogData = {
-        ...data,
+      // Parse tags and categories from state
+      const data = {
+        ...formData,
         tags,
         categories,
+        readTime: Number(formData.readTime),
+        authorId: session.user.id,
       };
 
-      const result = await createBlog(blogData);
+      const result = await createBlog(data);
       if (result) {
         toast.success("Blog created successfully!");
         reset();
+        setTags([]);
+        setCategories([]);
         router.push("/blogs");
-      } else {
-        toast.error("Failed to create blog");
       }
     } catch (error) {
-      toast.error("Something went wrong");
-      console.error(error);
+      console.error("Error creating blog:", error);
+      toast.error(error instanceof Error ? error.message : "Failed to create blog");
     }
   };
+
+  if (!session?.user) {
+    return null; // Return nothing while redirecting
+  }
 
   return (
     <div className="container mx-auto py-8">
@@ -150,19 +179,34 @@ export default function CreateBlogPage() {
             )}
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="content" className="block text-sm font-medium">
-              Content (Markdown)
-            </label>
-            <Textarea
-              id="content"
-              {...register("content")}
-              placeholder="Write your blog content in Markdown format"
-              className="font-mono min-h-[400px]"
-            />
-            {errors.content && (
-              <p className="text-destructive text-sm">{errors.content.message}</p>
-            )}
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="content" className="block text-sm font-medium">
+                Content (Markdown)
+              </label>
+              <Textarea
+                id="content"
+                {...register("content")}
+                placeholder="Write your blog content in Markdown format"
+                className="font-mono min-h-[400px]"
+              />
+              {errors.content && (
+                <p className="text-destructive text-sm">{errors.content.message}</p>
+              )}
+            </div>
+            
+            {/* Markdown Preview */}
+            <div className="border rounded-lg p-4">
+              <h3 className="text-sm font-medium mb-2">Preview</h3>
+              <div className="prose dark:prose-invert max-w-none">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                >
+                  {watch("content") || "*No content yet*"}
+                </ReactMarkdown>
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -264,7 +308,10 @@ export default function CreateBlogPage() {
             <label htmlFor="type" className="block text-sm font-medium">
               Content Type
             </label>
-            <Select defaultValue="BLOG" {...register("type")}>
+            <Select 
+              defaultValue="BLOG" 
+              onValueChange={(value) => setValue("type", value as BlogFormData["type"])}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select content type" />
               </SelectTrigger>
@@ -302,7 +349,9 @@ export default function CreateBlogPage() {
             >
               Cancel
             </Button>
-            <Button type="submit">Create Blog</Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Creating..." : "Create Blog"}
+            </Button>
           </div>
         </form>
       </Card>

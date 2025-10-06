@@ -5,6 +5,7 @@ import "./globals.css";
 import "lenis/dist/lenis.css";
 import Navbar from "@/components/Navbar";
 import { Poppins } from "next/font/google";
+import AuthProvider from "@/components/AuthProvider";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
@@ -21,8 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`antialiased ${poppins.className}`}>
-        <Navbar />
-        {children}
+        <AuthProvider>
+          <Navbar />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
