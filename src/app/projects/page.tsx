@@ -16,12 +16,18 @@ const ProjectsPage = async () => {
   return (
     <main className="mb-20 flex flex-col gap-16 px-8 pt-28 md:px-16 lg:px-32">
       {/* Header Section */}
-      <div className="mx-auto max-w-4xl text-center">
+  <div className="mx-auto max-w-4xl text-center relative">
         <h1
           className={`text-5xl font-bold md:text-7xl ${oldStandardTT.className} mb-6`}
         >
           Our Projects
         </h1>
+        <a
+          href="/projects/new"
+          className="absolute right-0 top-0 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-4 py-2 text-sm font-medium transition-colors"
+        >
+          New Project
+        </a>
         <p className="text-muted-foreground mb-8 text-lg">
           At ABES ACM, we&apos;re not just coding, we&apos;re creating.
           Transforming ideas into open-source solutions that empower communities
