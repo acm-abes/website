@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import BackgroundCircles from "@/components/BackgroundCircles";
@@ -30,10 +30,7 @@ export default function AboutPage() {
         <StatsCards />
 
         <motion.div
-          className="my-12 h-[2px] w-full"
-          style={{
-            background: 'linear-gradient(to right, transparent, rgba(11, 188, 214, 0.5), transparent)',
-          }}
+          className="my-12 h-[2px] w-full bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -43,10 +40,7 @@ export default function AboutPage() {
         <TimelineConsole />
 
         <motion.div
-          className="my-16 h-[2px] w-full"
-          style={{
-            background: 'linear-gradient(to right, transparent, rgba(109, 77, 217, 0.5), transparent)',
-          }}
+          className="my-16 h-[2px] w-full bg-gradient-to-r from-transparent via-purple-400 to-transparent"
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}

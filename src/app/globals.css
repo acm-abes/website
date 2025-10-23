@@ -168,3 +168,120 @@
     transform: translateY(-50%);
   }
 }
+
+/* Marquee animation for headings */
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.marquee {
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-block;
+  will-change: transform;
+  animation: marquee var(--marquee-duration, 18s) linear infinite;
+}
+
+.marquee-item {
+  display: inline-block;
+  padding: 0 2rem;
+}
+
+/* Subtle reveal helper (fallback in case animate utilities aren't present) */
+@keyframes subtleFadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.subtle-reveal {
+  animation: subtleFadeUp 600ms cubic-bezier(.2,.8,.2,1) both;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+/* Respect user's reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation-play-state: paused;
+  }
+  .subtle-reveal {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Holographic and Jarvis-style effects */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes hologramScan {
+  0% { top: -100%; }
+  100% { top: 100%; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 5px rgba(0, 234, 255, 0.2), 0 0 10px rgba(0, 234, 255, 0.1); }
+  50% { box-shadow: 0 0 10px rgba(0, 234, 255, 0.4), 0 0 20px rgba(0, 234, 255, 0.2), 0 0 30px rgba(0, 234, 255, 0.1); }
+}
+
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Gradient text animation for headers */
+.gradient-text {
+  background: linear-gradient(90deg, #00eaff, #8a2be2, #00eaff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s linear infinite;
+}
+
+/* Holographic scan effect for cards */
+.holo-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.holo-card::after {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, rgba(0, 255, 255, 0.15), transparent);
+  animation: hologramScan 4s linear infinite;
+  pointer-events: none;
+}
+
+/* Glowing border effect */
+.glow-border {
+  position: relative;
+  border: 1px solid rgba(0, 234, 255, 0.3);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Floating animation */
+.float-animation {
+  animation: floatUp 4s ease-in-out infinite;
+}
+
+/* Interactive glow on hover */
+.interactive-glow {
+  transition: all 0.3s ease;
+}
+
+.interactive-glow:hover {
+  box-shadow: 0 0 20px rgba(0, 234, 255, 0.4), 0 0 40px rgba(0, 234, 255, 0.2);
+  border-color: rgba(0, 234, 255, 0.6);
+}
