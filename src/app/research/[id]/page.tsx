@@ -76,7 +76,7 @@ const ResearchPaperPage = async ({ params }: ResearchPaperPageProps) => {
                 <div className="flex flex-col">
                   <span className="text-sm font-medium">{author.name}</span>
                   <span className="text-muted-foreground text-xs">
-                    {author.role}
+                    {author.designation ?? author.role}
                   </span>
                 </div>
               </div>

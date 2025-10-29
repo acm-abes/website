@@ -255,14 +255,14 @@ const UserProfilePage = async ({ params }: PageProps) => {
                   <Badge variant="secondary">{user.blogs.length}</Badge>
                 </div>
 
-                <div className="space-y-8">
+                <div className="space-y-4">
                   {user.blogs.map((blog) => (
                     <Link
                       href={`/blogs/${blog.slug}`}
                       key={blog.id}
                       className="group block"
                     >
-                      <div className="hover:bg-muted/50 flex gap-4 rounded-lg transition-colors md:flex-row">
+                      <div className="hover:bg-muted/50 flex gap-4 rounded-lg p-3 transition-colors md:flex-row">
                         <div className="relative md:w-1/3">
                           <Image
                             src={blog.poster}
@@ -340,14 +340,14 @@ const UserProfilePage = async ({ params }: PageProps) => {
                   </Badge>
                 </div>
 
-                <div className="space-y-8">
+                <div className="space-y-4">
                   {user.researchPapers.map((paper) => (
                     <Link
                       href={`/research/${paper.id}`}
                       key={paper.id}
                       className="group block"
                     >
-                      <div className="hover:bg-muted/50 flex gap-4 rounded-lg transition-colors md:flex-row">
+                      <div className="hover:bg-muted/50 flex gap-2 rounded-lg p-3 transition-colors md:flex-row">
                         <div className="relative md:w-1/3">
                           <Image
                             src={paper.image}

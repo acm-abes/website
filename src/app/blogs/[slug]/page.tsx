@@ -89,7 +89,7 @@ const BlogPage = async ({ params }: BlogPageProps) => {
             <div className="flex flex-col">
               <span className="font-medium">{blog.author.name}</span>
               <span className="text-muted-foreground text-sm">
-                {blog.author.role || "Author"}
+                {(blog.author.designation ?? blog.author.role) || "Author"}
               </span>
             </div>
           </div>

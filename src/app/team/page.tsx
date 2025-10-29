@@ -94,7 +94,7 @@ const TeamPage = async () => {
               {member.name || "Anonymous"}
             </h3>
             <p className="text-muted-foreground text-sm">
-              {isHOD ? hodData.department : member.role}
+              {isHOD ? hodData.department : (member.designation ?? member.role)}
             </p>
           </div>
 

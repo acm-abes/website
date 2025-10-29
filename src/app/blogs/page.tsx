@@ -59,7 +59,7 @@ const BlogsPage = async () => {
           <h2 className="text-2xl font-semibold">Featured Article</h2>
           <Link href={`/blogs/${featuredBlog.slug}`} className="group">
             <div className="flex gap-8 rounded-lg transition-shadow hover:shadow-lg lg:flex-row">
-              <div className="relative aspect-video overflow-hidden rounded-lg lg:aspect-[4/3] lg:w-1/2">
+              <div className="relative aspect-video overflow-hidden rounded-lg lg:aspect-video lg:w-3/5">
                 <Image
                   src={featuredBlog.banner}
                   alt={featuredBlog.title}
