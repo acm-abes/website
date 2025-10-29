@@ -5,11 +5,10 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ImageUpload } from "@/components/ImageUpload";
 import { updateUserProfile } from "@/actions/profile";
 import { Loader2, Save, X } from "lucide-react";
 import { toast } from "sonner";
-import Link from "next/link";
 
 interface EditProfileFormProps {
   user: {
@@ -66,17 +65,16 @@ export function EditProfileForm({ user }: EditProfileFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Preview */}
-      <div className="flex justify-center">
-        <div className="text-center">
-          <Avatar className="mx-auto mb-4 h-32 w-32 border-4">
-            <AvatarImage src={imageUrl || ""} alt={name || "Preview"} />
-            <AvatarFallback className="text-3xl">
-              {getInitials(name)}
-            </AvatarFallback>
-          </Avatar>
-          <p className="text-muted-foreground text-sm">Profile Preview</p>
-        </div>
+      {/* Image Upload */}
+      <div className="space-y-2">
+        <Label>Profile Picture</Label>
+        <ImageUpload
+          value={imageUrl}
+          onChange={setImageUrl}
+          onRemove={() => setImageUrl("")}
+          disabled={isLoading}
+          fallbackText={getInitials(name)}
+        />
       </div>
 
       {/* Name Field */}
@@ -93,22 +91,6 @@ export function EditProfileForm({ user }: EditProfileFormProps) {
         />
         <p className="text-muted-foreground text-xs">
           This is your public display name.
-        </p>
-      </div>
-
-      {/* Image URL Field */}
-      <div className="space-y-2">
-        <Label htmlFor="imageUrl">Profile Image URL</Label>
-        <Input
-          id="imageUrl"
-          type="url"
-          placeholder="https://example.com/your-image.jpg"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
-        <p className="text-muted-foreground text-xs">
-          Enter a direct link to your profile picture. Leave empty to use your
-          Google profile picture.
         </p>
       </div>
 
@@ -161,11 +143,10 @@ export function EditProfileForm({ user }: EditProfileFormProps) {
           <li>
             • Your email is linked to your Google account and cannot be changed
           </li>
-          <li>• Use a direct image URL (ending in .jpg, .png, etc.)</li>
           <li>
-            • Images from services like Imgur, Google Drive, or Cloudinary work
-            well
+            • Uploaded images are stored securely and optimized automatically
           </li>
+          <li>• Maximum file size is 4MB (JPG, PNG formats)</li>
         </ul>
       </div>
     </form>
