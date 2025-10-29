@@ -1,8 +1,8 @@
 /** @format */
 
+@import "@uploadthing/react/styles.css";
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "@uploadthing/react/styles.css";
 
 @custom-variant dark (&:is(.dark *));
 
