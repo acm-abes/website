@@ -113,3 +113,30 @@ export async function getUserByEmailPrefix(prefix: string) {
     return null;
   }
 }
+
+export async function updateUserProfile(
+  userId: string,
+  data: { name?: string; image?: string },
+) {
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        ...(data.name && { name: data.name }),
+        ...(data.image && { image: data.image }),
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        role: true,
+      },
+    });
+
+    return { success: true, user };
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    return { success: false, error: "Failed to update profile" };
+  }
+}

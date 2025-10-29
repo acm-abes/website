@@ -8,8 +8,17 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Old_Standard_TT } from "next/font/google";
-import { Calendar, Mail, BookOpen, FileText, Award, Clock } from "lucide-react";
+import {
+  Calendar,
+  Mail,
+  BookOpen,
+  FileText,
+  Award,
+  Clock,
+  Edit,
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { auth } from "@/lib/auth";
@@ -95,9 +104,17 @@ const UserProfilePage = async ({ params }: PageProps) => {
                 {user.role}
               </Badge>
               {isOwnProfile && (
-                <Badge variant="outline" className="bg-primary/10">
-                  Your Profile
-                </Badge>
+                <>
+                  <Badge variant="outline" className="bg-primary/10">
+                    Your Profile
+                  </Badge>
+                  <Link href={`/u/${user.id}/edit`}>
+                    <Button size="sm" variant="outline">
+                      <Edit className="mr-2 h-4 w-4" />
+                      Edit Profile
+                    </Button>
+                  </Link>
+                </>
               )}
             </div>
 
