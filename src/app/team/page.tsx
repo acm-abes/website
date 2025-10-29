@@ -98,18 +98,18 @@ const TeamPage = async () => {
         </section>
       )}
 
-      {/* Members Section */}
-      {members.length > 0 && (
+      {/* Alumni Section */}
+      {alumni.length > 0 && (
         <section className="mx-auto w-full max-w-7xl">
           <div className="mb-8 flex items-center justify-center gap-3">
             <h2 className={`text-4xl font-semibold ${oldStandardTT.className}`}>
-              Members
+              Alumni
             </h2>
-            <Badge variant="secondary">{members.length}</Badge>
+            <Badge variant="outline">{alumni.length}</Badge>
           </div>
 
-          <div className="grid grid-cols-4 justify-center gap-8">
-            {members.map((member, index) => (
+          <div className="flex flex-wrap justify-center gap-8">
+            {alumni.map((member, index) => (
               <TeamMemberPill
                 key={member.id}
                 name={member.name || "Anonymous"}
@@ -124,18 +124,18 @@ const TeamPage = async () => {
         </section>
       )}
 
-      {/* Alumni Section */}
-      {alumni.length > 0 && (
+      {/* Members Section */}
+      {members.length > 0 && (
         <section className="mx-auto w-full max-w-7xl">
           <div className="mb-8 flex items-center justify-center gap-3">
             <h2 className={`text-4xl font-semibold ${oldStandardTT.className}`}>
-              Alumni
+              Members
             </h2>
-            <Badge variant="outline">{alumni.length}</Badge>
+            <Badge variant="secondary">{members.length}</Badge>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-8">
-            {alumni.map((member, index) => (
+          <div className="grid grid-cols-4 justify-center gap-8">
+            {members.map((member, index) => (
               <TeamMemberPill
                 key={member.id}
                 name={member.name || "Anonymous"}
