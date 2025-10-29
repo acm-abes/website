@@ -61,11 +61,17 @@ export function TeamMemberPill({
       {/* Bottom Section - Image (curved top) */}
       <div className="absolute right-0 bottom-0 left-0 h-[60%]">
         {image ? (
-          <div className="relative h-full w-full overflow-hidden rounded-t-[100px]">
+          <div className="relative h-full w-full overflow-hidden rounded-t-[100px] bg-gray-200 dark:bg-gray-800">
             <Image
               src={image}
               alt={name}
               fill
+              sizes="(max-width: 768px) 200px, 200px"
+              quality={75}
+              priority={colorIndex < 4}
+              loading={colorIndex < 4 ? "eager" : "lazy"}
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
               className="object-cover transition-transform duration-500 group-hover:scale-110"
             />
           </div>

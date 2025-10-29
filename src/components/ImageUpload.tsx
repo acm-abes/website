@@ -89,7 +89,7 @@ export function ImageUpload({
       <p className="text-muted-foreground text-center text-xs">
         {value
           ? "Click the × button to remove and upload a new image"
-          : "Upload a profile picture (Max 4MB, JPG/PNG)"}
+          : "Upload a profile picture (Max 4MB, JPG/PNG). Large images will be optimized automatically."}
       </p>
     </div>
   );
@@ -172,7 +172,7 @@ export function ImageUploadDropzone({
       <p className="text-muted-foreground text-center text-xs">
         {value
           ? "Click the × button to remove and upload a new image"
-          : "Drag and drop or click to upload (Max 4MB, JPG/PNG)"}
+          : "Drag and drop or click to upload (Max 4MB, JPG/PNG). Large images will be optimized automatically."}
       </p>
     </div>
   );

@@ -270,6 +270,10 @@ const UserProfilePage = async ({ params }: PageProps) => {
                             alt={blog.title}
                             width={400}
                             height={225}
+                            quality={75}
+                            loading="lazy"
+                            placeholder="blur"
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
                             className="aspect-video w-full rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         </div>
@@ -355,6 +359,10 @@ const UserProfilePage = async ({ params }: PageProps) => {
                             alt={paper.title}
                             width={400}
                             height={225}
+                            quality={75}
+                            loading="lazy"
+                            placeholder="blur"
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
                             className="aspect-video w-full rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         </div>
