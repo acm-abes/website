@@ -93,6 +93,7 @@ const UserProfilePage = async ({ params }: PageProps) => {
                     <AvatarImage
                       src={user.image || ""}
                       alt={user.name || "User"}
+                      className="object-cover"
                     />
                     <AvatarFallback className="text-4xl">
                       {getInitials(user.name)}

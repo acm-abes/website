@@ -39,7 +39,7 @@ export function HODCard({
         <div className="flex flex-col items-center gap-8 md:flex-row md:gap-12">
           {/* Avatar with decorative ring */}
           <div className="relative">
-            <div className="absolute inset-0 -z-10 animate-pulse rounded-full bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-cyan-500/20 blur-xl"></div>
+            {/* <div className="absolute inset-0 -z-10 animate-pulse rounded-full bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-cyan-500/20 blur-xl"></div> */}
             <div className="relative rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 p-1">
               <Avatar className="border-background h-40 w-40 border-4 shadow-2xl md:h-48 md:w-48">
                 <AvatarImage src={image || ""} alt={name} />

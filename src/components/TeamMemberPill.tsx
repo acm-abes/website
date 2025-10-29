@@ -47,9 +47,11 @@ export function TeamMemberPill({
             !isPlaceholder ? "transition-colors group-hover:text-blue-600" : ""
           }`}
         >
-          {name.split(" ")[0]}
+          {toTitleCase(name.split(" ")[0])}
           <br />
-          {name.split(" ")[1]}
+          {toTitleCase(name.split(" ")[1] ?? "")}
+          <br />
+          {toTitleCase(name.split(" ")[2] ?? "")}
         </h3>
         <p className="text-secondary-foreground/60 text-sm">
           {toTitleCase(designation)}

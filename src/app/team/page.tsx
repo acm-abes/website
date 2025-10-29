@@ -37,8 +37,8 @@ const TeamPage = async () => {
       {/* HOD Section */}
       <section className="relative w-full overflow-hidden">
         {/* Background decorations */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl"></div>
+        <div className="absolute inset-0 -z-10 blur-2xl">
+          <div className="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-blue-500/10 blur-xl"></div>
           <div className="absolute right-1/4 bottom-0 h-96 w-96 rounded-full bg-purple-500/10 blur-3xl"></div>
           <div className="absolute top-1/2 left-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/5 blur-3xl"></div>
         </div>
