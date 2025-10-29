@@ -93,6 +93,7 @@ const UserProfilePage = async ({ params }: PageProps) => {
                     <AvatarImage
                       src={user.image || ""}
                       alt={user.name || "User"}
+                      className="object-cover"
                     />
                     <AvatarFallback className="text-4xl">
                       {getInitials(user.name)}
@@ -255,20 +256,24 @@ const UserProfilePage = async ({ params }: PageProps) => {
                   <Badge variant="secondary">{user.blogs.length}</Badge>
                 </div>
 
-                <div className="space-y-8">
+                <div className="space-y-4">
                   {user.blogs.map((blog) => (
                     <Link
                       href={`/blogs/${blog.slug}`}
                       key={blog.id}
                       className="group block"
                     >
-                      <div className="hover:bg-muted/50 flex gap-4 rounded-lg transition-colors md:flex-row">
+                      <div className="hover:bg-muted/50 flex gap-4 rounded-lg p-3 transition-colors md:flex-row">
                         <div className="relative md:w-1/3">
                           <Image
                             src={blog.poster}
                             alt={blog.title}
                             width={400}
                             height={225}
+                            quality={75}
+                            loading="lazy"
+                            placeholder="blur"
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
                             className="aspect-video w-full rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         </div>
@@ -340,20 +345,24 @@ const UserProfilePage = async ({ params }: PageProps) => {
                   </Badge>
                 </div>
 
-                <div className="space-y-8">
+                <div className="space-y-4">
                   {user.researchPapers.map((paper) => (
                     <Link
                       href={`/research/${paper.id}`}
                       key={paper.id}
                       className="group block"
                     >
-                      <div className="hover:bg-muted/50 flex gap-4 rounded-lg transition-colors md:flex-row">
+                      <div className="hover:bg-muted/50 flex gap-2 rounded-lg p-3 transition-colors md:flex-row">
                         <div className="relative md:w-1/3">
                           <Image
                             src={paper.image}
                             alt={paper.title}
                             width={400}
                             height={225}
+                            quality={75}
+                            loading="lazy"
+                            placeholder="blur"
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
                             className="aspect-video w-full rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         </div>

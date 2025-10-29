@@ -260,19 +260,19 @@ const EventsPage = async () => {
           experiences as a sponsor. Every event is an opportunity to learn,
           grow, and connect.
         </p>
-        <div className="flex flex-col justify-center gap-4 sm:flex-row">
-          <a
+        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Link
             href="/team"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-lg px-6 py-3 transition-colors"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex w-60 items-center justify-center rounded-lg py-3 transition-colors"
           >
             Participate
-          </a>
-          <a
+          </Link>
+          <Link
             href="mailto:sponsor@acm-abes.org"
-            className="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex items-center justify-center rounded-lg border px-6 py-3 transition-colors"
+            className="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex w-60 items-center justify-center rounded-lg border py-3 transition-colors"
           >
             Sponsor Events
-          </a>
+          </Link>
         </div>
       </section>
     </main>

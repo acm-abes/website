@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github, Calendar } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 interface ProjectCardProps {
   project: {
@@ -92,25 +93,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         </div>
 
         {/* Action Links */}
-        <div className="flex items-center gap-4 text-sm">
-          <Link
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary flex items-center gap-1 hover:underline"
-          >
-            <ExternalLink className="h-4 w-4" />
-            Live Demo
-          </Link>
-          <Link
-            href={project.repo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary flex items-center gap-1 hover:underline"
-          >
-            <Github className="h-4 w-4" />
-            Source Code
-          </Link>
+        <div className="mt-2 flex items-center gap-4 text-sm">
+          <Button asChild size={"sm"}>
+            <Link href={project.link} target="_blank" rel="noopener noreferrer">
+              <ExternalLink className="h-4 w-4" />
+              Live Demo
+            </Link>
+          </Button>
+          <Button variant={"secondary"} asChild size={"sm"}>
+            <Link
+              href={project.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary flex items-center gap-1 hover:underline"
+            >
+              <Github className="h-4 w-4" />
+              Source Code
+            </Link>
+          </Button>
         </div>
       </div>
     </div>
