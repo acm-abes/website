@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { ImageUpload } from "@/components/ImageUpload";
 import { updateUserProfile } from "@/actions/profile";
 import { Loader2, Save, X } from "lucide-react";
@@ -16,6 +17,12 @@ interface EditProfileFormProps {
     name?: string | null;
     email?: string | null;
     image?: string | null;
+    designation?: string | null;
+    department?: string | null;
+    batch?: string | null;
+    bio?: string | null;
+    linkedin?: string | null;
+    github?: string | null;
   };
 }
 
@@ -23,6 +30,12 @@ export function EditProfileForm({ user }: EditProfileFormProps) {
   const router = useRouter();
   const [name, setName] = useState(user.name || "");
   const [imageUrl, setImageUrl] = useState(user.image || "");
+  const [designation, setDesignation] = useState(user.designation || "");
+  const [department, setDepartment] = useState(user.department || "");
+  const [batch, setBatch] = useState(user.batch || "");
+  const [bio, setBio] = useState(user.bio || "");
+  const [linkedin, setLinkedin] = useState(user.linkedin || "");
+  const [github, setGithub] = useState(user.github || "");
   const [isLoading, setIsLoading] = useState(false);
 
   const getInitials = (name?: string) => {
@@ -43,6 +56,12 @@ export function EditProfileForm({ user }: EditProfileFormProps) {
       const result = await updateUserProfile(user.id, {
         name: name.trim(),
         image: imageUrl.trim(),
+        designation: designation.trim() || null,
+        department: department.trim() || null,
+        batch: batch.trim() || null,
+        bio: bio.trim() || null,
+        linkedin: linkedin.trim() || null,
+        github: github.trim() || null,
       });
 
       if (result.success) {
@@ -79,7 +98,7 @@ export function EditProfileForm({ user }: EditProfileFormProps) {
 
       {/* Name Field */}
       <div className="space-y-2">
-        <Label htmlFor="name">Full Name</Label>
+        <Label htmlFor="name">Full Name *</Label>
         <Input
           id="name"
           type="text"
@@ -92,6 +111,91 @@ export function EditProfileForm({ user }: EditProfileFormProps) {
         <p className="text-muted-foreground text-xs">
           This is your public display name.
         </p>
+      </div>
+
+      {/* Professional Info Section */}
+      <div className="space-y-4 rounded-lg border p-4">
+        <h3 className="font-semibold">Professional Information</h3>
+
+        <div className="space-y-2">
+          <Label htmlFor="designation">Designation</Label>
+          <Input
+            id="designation"
+            type="text"
+            placeholder="e.g., Student, Professor, Researcher"
+            value={designation}
+            onChange={(e) => setDesignation(e.target.value)}
+            maxLength={100}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="department">Department</Label>
+          <Input
+            id="department"
+            type="text"
+            placeholder="e.g., Computer Science & Engineering"
+            value={department}
+            onChange={(e) => setDepartment(e.target.value)}
+            maxLength={100}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="batch">Batch/Year</Label>
+          <Input
+            id="batch"
+            type="text"
+            placeholder="e.g., 2021-2025, Class of 2024"
+            value={batch}
+            onChange={(e) => setBatch(e.target.value)}
+            maxLength={50}
+          />
+        </div>
+      </div>
+
+      {/* Bio Section */}
+      <div className="space-y-2">
+        <Label htmlFor="bio">Bio</Label>
+        <Textarea
+          id="bio"
+          placeholder="Tell us about yourself, your interests, research areas, or anything you'd like to share..."
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          maxLength={500}
+          rows={4}
+          className="resize-none"
+        />
+        <p className="text-muted-foreground text-xs">
+          {bio.length}/500 characters
+        </p>
+      </div>
+
+      {/* Social Links Section */}
+      <div className="space-y-4 rounded-lg border p-4">
+        <h3 className="font-semibold">Social Links</h3>
+
+        <div className="space-y-2">
+          <Label htmlFor="linkedin">LinkedIn Profile</Label>
+          <Input
+            id="linkedin"
+            type="url"
+            placeholder="https://linkedin.com/in/username"
+            value={linkedin}
+            onChange={(e) => setLinkedin(e.target.value)}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="github">GitHub Profile</Label>
+          <Input
+            id="github"
+            type="url"
+            placeholder="https://github.com/username"
+            value={github}
+            onChange={(e) => setGithub(e.target.value)}
+          />
+        </div>
       </div>
 
       {/* Email (Read-only) */}
@@ -146,7 +250,7 @@ export function EditProfileForm({ user }: EditProfileFormProps) {
           <li>
             • Uploaded images are stored securely and optimized automatically
           </li>
-          <li>• Maximum file size is 4MB (JPG, PNG formats)</li>
+          <li>• All fields except name are optional</li>
         </ul>
       </div>
     </form>

@@ -59,7 +59,7 @@ const EditProfilePage = async ({ params }: PageProps) => {
             Edit Profile
           </h1>
           <p className="text-muted-foreground">
-            Update your name and profile picture
+            Update your profile information and social links
           </p>
         </div>
 

@@ -116,14 +116,31 @@ export async function getUserByEmailPrefix(prefix: string) {
 
 export async function updateUserProfile(
   userId: string,
-  data: { name?: string; image?: string },
+  data: {
+    name?: string;
+    image?: string;
+    designation?: string | null;
+    department?: string | null;
+    batch?: string | null;
+    bio?: string | null;
+    linkedin?: string | null;
+    github?: string | null;
+  },
 ) {
   try {
     const user = await prisma.user.update({
       where: { id: userId },
       data: {
-        ...(data.name && { name: data.name }),
-        ...(data.image && { image: data.image }),
+        ...(data.name !== undefined && { name: data.name }),
+        ...(data.image !== undefined && { image: data.image }),
+        ...(data.designation !== undefined && {
+          designation: data.designation,
+        }),
+        ...(data.department !== undefined && { department: data.department }),
+        ...(data.batch !== undefined && { batch: data.batch }),
+        ...(data.bio !== undefined && { bio: data.bio }),
+        ...(data.linkedin !== undefined && { linkedin: data.linkedin }),
+        ...(data.github !== undefined && { github: data.github }),
       },
       select: {
         id: true,
@@ -131,6 +148,12 @@ export async function updateUserProfile(
         email: true,
         image: true,
         role: true,
+        designation: true,
+        department: true,
+        batch: true,
+        bio: true,
+        linkedin: true,
+        github: true,
       },
     });
 
