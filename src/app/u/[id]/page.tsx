@@ -20,14 +20,14 @@ const oldStandardTT = Old_Standard_TT({
 });
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 const UserProfilePage = async ({ params }: PageProps) => {
   const session = await auth();
-  const { id } = params;
+  const { id } = await params;
 
   // Try to fetch user by email pattern (username@domain format)
   // If id doesn't contain @, try to find user by matching email prefix
