@@ -1,5 +1,6 @@
 /** @format */
 
+@import "@uploadthing/react/styles.css";
 @import "tailwindcss";
 @import "tw-animate-css";
 

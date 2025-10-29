@@ -129,47 +129,54 @@ const EventsPage = async () => {
         </h2>
 
         {upcomingEvents.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {upcomingEvents.map((event) => (
-              <Link href={`/events/${event.slug}`} key={event.id}>
-                <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <CardContent className="p-0">
-                    <div className="relative aspect-video">
-                      <Image
-                        src={event.poster}
-                        alt={event.name}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                      <div className="absolute top-4 left-4">
-                        <Badge variant="secondary">Upcoming</Badge>
+              <Link
+                href={`/events/${event.slug}`}
+                key={event.id}
+                className="group block"
+              >
+                <div className="mb-8 flex flex-col gap-4">
+                  <div className="relative">
+                    <Image
+                      src={event.poster}
+                      alt={event.name}
+                      width={500}
+                      height={300}
+                      className="aspect-video w-full rounded-lg object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                    {/* Overlay with date info */}
+                    <div className="absolute right-4 bottom-4 left-4">
+                      <div className="flex items-center gap-2 rounded-lg bg-black/60 px-3 py-2 text-sm text-white">
+                        <Calendar className="h-4 w-4" />
+                        <span>
+                          {formatDateRange(event.startDate, event.endDate)}
+                        </span>
+                        <span>•</span>
+                        <MapPin className="h-4 w-4" />
+                        <span className="truncate">{event.venue}</span>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="p-6">
-                      <h3 className="group-hover:text-primary line-clamp-2 text-xl font-bold transition-colors">
-                        {event.name}
-                      </h3>
+                  <div className="flex flex-col gap-3">
+                    <h3 className="hover:text-primary text-2xl font-medium transition-colors">
+                      {event.name}
+                    </h3>
 
-                      <div className="mt-3 space-y-2">
-                        <div className="text-muted-foreground flex items-center gap-2 text-sm">
-                          <Calendar className="h-4 w-4" />
-                          <span>
-                            {formatDateRange(event.startDate, event.endDate)}
-                          </span>
-                        </div>
-                        <div className="text-muted-foreground flex items-center gap-2 text-sm">
-                          <MapPin className="h-4 w-4" />
-                          <span className="line-clamp-1">{event.venue}</span>
-                        </div>
-                      </div>
+                    {/* Description */}
+                    <p className="text-muted-foreground leading-relaxed">
+                      {event.description}
+                    </p>
 
-                      <p className="text-muted-foreground mt-3 line-clamp-3 text-sm">
-                        {event.description}
-                      </p>
+                    {/* Badge */}
+                    <div className="flex flex-wrap gap-2">
+                      <Badge variant="outline" className="text-xs">
+                        Upcoming Event
+                      </Badge>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </Link>
             ))}
           </div>
@@ -190,47 +197,54 @@ const EventsPage = async () => {
           Past Events
         </h2>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {pastEvents.map((event) => (
-            <Link href={`/events/${event.slug}`} key={event.id}>
-              <Card className="group h-full overflow-hidden p-0 opacity-75 transition-all duration-300 hover:-translate-y-1 hover:opacity-100 hover:shadow-lg">
-                <CardContent className="p-0">
-                  <div className="relative aspect-square">
-                    <Image
-                      src={event.poster}
-                      alt={event.name}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <Badge variant="outline">Past Event</Badge>
+            <Link
+              href={`/events/${event.slug}`}
+              key={event.id}
+              className="group block"
+            >
+              <div className="mb-8 flex flex-col gap-4 opacity-75 transition-opacity duration-300 hover:opacity-100">
+                <div className="relative">
+                  <Image
+                    src={event.poster}
+                    alt={event.name}
+                    width={500}
+                    height={300}
+                    className="aspect-video w-full rounded-lg object-cover transition-transform duration-300 hover:scale-105"
+                  />
+                  {/* Overlay with date info */}
+                  <div className="absolute right-4 bottom-4 left-4">
+                    <div className="flex items-center gap-2 rounded-lg bg-black/60 px-3 py-2 text-sm text-white">
+                      <Calendar className="h-4 w-4" />
+                      <span>
+                        {formatDateRange(event.startDate, event.endDate)}
+                      </span>
+                      <span>•</span>
+                      <MapPin className="h-4 w-4" />
+                      <span className="truncate">{event.venue}</span>
                     </div>
                   </div>
+                </div>
 
-                  <div className="p-6">
-                    <h3 className="group-hover:text-primary line-clamp-2 text-xl transition-colors">
-                      {event.name}
-                    </h3>
+                <div className="flex flex-col gap-3">
+                  <h3 className="hover:text-primary text-2xl font-medium transition-colors">
+                    {event.name}
+                  </h3>
 
-                    <div className="mt-3 space-y-2">
-                      <div className="text-muted-foreground flex items-center gap-2 text-sm">
-                        <Calendar className="h-4 w-4" />
-                        <span>
-                          {formatDateRange(event.startDate, event.endDate)}
-                        </span>
-                      </div>
-                      <div className="text-muted-foreground flex items-center gap-2 text-sm">
-                        <MapPin className="h-4 w-4" />
-                        <span className="line-clamp-1">{event.venue}</span>
-                      </div>
-                    </div>
+                  {/* Description */}
+                  <p className="text-muted-foreground leading-relaxed">
+                    {event.description}
+                  </p>
 
-                    <p className="text-muted-foreground mt-3 line-clamp-3 text-sm">
-                      {event.description}
-                    </p>
+                  {/* Badge */}
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="outline" className="text-xs">
+                      Past Event
+                    </Badge>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </Link>
           ))}
         </div>

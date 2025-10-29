@@ -38,7 +38,9 @@ model Account {
 enum UserRole {
   VISITOR
   MEMBER
-  ALUMINI
+  FACULTY
+  ALUMNI
+  HOD
 }
 
 enum ContentType {
@@ -55,6 +57,12 @@ model User {
   name          String?
   email         String    @unique
   emailVerified DateTime?
+  designation   String?
+  department    String?
+  batch         String?
+  bio           String?
+  linkedin      String?
+  github        String?
 
   // Images
   image String?
