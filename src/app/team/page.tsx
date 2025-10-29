@@ -336,16 +336,16 @@ const TeamPage = async () => {
           want to contribute to our community. Get involved in our events,
           workshops, and research initiatives.
         </p>
-        <div className="flex flex-col justify-center gap-4 sm:flex-row">
+        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
             href="/events"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-lg px-6 py-3 transition-colors"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex w-60 items-center justify-center rounded-lg py-3 transition-colors"
           >
             Explore Events
           </Link>
           <Link
             href="/about"
-            className="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex items-center justify-center rounded-lg border px-6 py-3 transition-colors"
+            className="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex w-60 items-center justify-center rounded-lg border py-3 transition-colors"
           >
             Learn More
           </Link>

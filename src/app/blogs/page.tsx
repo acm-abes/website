@@ -219,16 +219,16 @@ const BlogsPage = async () => {
           We&apos;d love to hear from you! Request a topic you&apos;d like us to
           cover or share your thoughts on our content.
         </p>
-        <div className="flex flex-col justify-center gap-4 sm:flex-row">
+        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
             href="mailto:blog@acm-abes.org?subject=Topic Request"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-lg px-6 py-3 transition-colors"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex w-60 items-center justify-center rounded-lg py-3 transition-colors"
           >
             Request a Topic
           </a>
           <a
             href="mailto:feedback@acm-abes.org?subject=Blog Feedback"
-            className="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex items-center justify-center rounded-lg border px-6 py-3 transition-colors"
+            className="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex w-60 items-center justify-center rounded-lg border py-3 transition-colors"
           >
             Send Feedback
           </a>

@@ -95,18 +95,18 @@ const ProjectsPage = async () => {
           community. Whether you&apos;re a beginner or an expert, there&apos;s a
           place for you in our projects.
         </p>
-        <div className="flex flex-col justify-center gap-4 sm:flex-row">
+        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
             href="https://github.com/acm-abes"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-lg px-6 py-3 transition-colors"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex w-60 items-center justify-center rounded-lg py-3 transition-colors"
           >
             View on GitHub
           </a>
           <a
             href="/team"
-            className="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex items-center justify-center rounded-lg border px-6 py-3 transition-colors"
+            className="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex w-60 items-center justify-center rounded-lg border py-3 transition-colors"
           >
             Join Our Team
           </a>
