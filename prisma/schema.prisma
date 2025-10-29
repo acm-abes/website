@@ -38,7 +38,8 @@ model Account {
 enum UserRole {
   VISITOR
   MEMBER
-  ALUMINI
+  FACULTY
+  ALUMNI
 }
 
 enum ContentType {
