@@ -78,6 +78,7 @@ export async function getTeamMembers() {
         image: true,
         role: true,
         createdAt: true,
+        designation: true,
         _count: {
           select: {
             blogs: true,
