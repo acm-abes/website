@@ -6,28 +6,19 @@ export async function middleware(request: NextRequest) {
   const basePath = request.url;
   const session = await auth();
 
-  const loginPage = "/api/auth/signin";
-
-  if (pathname.startsWith(loginPage) && session) {
+  // Redirect authenticated users away from auth pages
+  const authPages = ["/auth", "/api/auth/signin"];
+  if (authPages.some((page) => pathname.startsWith(page)) && session) {
     return NextResponse.redirect(new URL("/", basePath));
   }
 
-  // const requestHeaders = new Headers(request.headers);
-  // requestHeaders.set("x-url", basePath);
-
-  return NextResponse.next({
-    // request: {
-    //   headers: requestHeaders,
-    // },
-  });
+  return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    "/",
+    "/auth",
     "/api/auth/signin",
-    "/auth/login",
-    "/auth/register",
     "/admin/:path*",
     "/((?!.+\\.[\\w]+$|_next).*)",
     "/(api|trpc)(.*)",
