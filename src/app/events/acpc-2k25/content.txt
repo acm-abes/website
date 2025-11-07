@@ -1,0 +1,35 @@
+Experience the thrill of high-stakes programming at ACPC 2K25, the flagship competitive programming contest of ABES Engineering College, inspired by the global ICPC format.
+
+Organized by the ABES ACM Student Chapter and ABES ACM-W Chapter, ACPC brings together the brightest minds from across institutions to solve 6 algorithmic problems in 3 hours of intense competition. Designed to test your logic, teamwork, and time-bound problem-solving, ACPC is the ultimate arena for aspiring technologists to prove their mettle.
+
+Perks:
+
+Participation certificates for all.
+Certificate of achievement to top achievers.
+Prizes up to ₹15,000/-.
+Trophy to achieving teams.
+Refreshments and swag will be provided to all
+Guidelines:
+
+Please bring your laptops and required items (like pens, paper, etc.)
+The use of AI/ML/LLM models are not allowed. 
+The team will get disqualified if any observer finds any participant using unfair means.
+There will be 6 problem statements/problems.
+A time limitation of 3 Hours is bound.
+Report to the designated location on time.
+Bring College ID Card on a mandatory basis, Entry without the ID Card will not allowed.
+This contest is an offline coding contest.
+Inter-college team members are allowed.
+Inter-specialization team members allowed.
+Rules:
+
+The coding Contest hosted on Unstop is dedicated to providing everyone with a safe and comfortable environment and harassment-free experience.
+No discrimination, based on the following, shall be tolerated: gender, gender identity and expression, age, sexual, orientation, disability, physical appearance, body size, race, ethnicity, nationality, religion, political views, previous hackathon attendance or lack of computing experience or lack of chosen programming language or tech stack
+We do not tolerate harassment of hackathon participants in any form, including offensive discriminatory verbal comments, public display of sexual material, in public spaces, deliberate intimidation, stalking, wilful disruption, inappropriate physical contact, unwelcome sexual advances, and the taking of photographs and audio/video recordings without the subject's consent.
+No sponsors, partners, or participants shall use sexualized images, activities, or other material at the hackathons for any non-permitted purpose. The use of sexualized clothing/uniforms/costumes and anything that creates a sexualized environment is prohibited.
+In case any participant violates this Code of Conduct, the organizer may, at their discretion: expel them from the Contest with no refund (if applicable).
+
+Note:
+
+Grab the Early Bird Offer — just ₹50 for the first 200 participants!
+After that, the regular fee of ₹70 applies.
