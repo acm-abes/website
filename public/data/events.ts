@@ -1,4 +1,4 @@
-import { Event } from "../../generated/prisma";
+import { Event } from "../../generated/prisma/client";
 
 // small helper to parse a variety of date string formats used in the dataset
 const parseDate = (input: string | undefined): Date => {
