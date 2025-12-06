@@ -1,7 +1,8 @@
 /** @format */
 
 import React from "react";
-import { getEventBySlug } from "@/actions/events";
+import { getEventBySlug, getEvents } from "@/actions/events";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Old_Standard_TT } from "next/font/google";
 import Image from "next/image";
@@ -16,6 +17,52 @@ const oldStandardTT = Old_Standard_TT({
 
 interface EventPageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: EventPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const event = await getEventBySlug(slug);
+
+  if (!event) {
+    return {
+      title: "Event Not Found",
+      description: "The requested event could not be found.",
+    };
+  }
+
+  return {
+    title: event.name,
+    description: event.description,
+    openGraph: {
+      title: event.name,
+      description: event.description,
+      type: "website",
+      images: [
+        {
+          url: event.poster,
+          width: 800,
+          height: 1200,
+          alt: event.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: event.name,
+      description: event.description,
+      images: [event.poster],
+    },
+  };
+}
+
+export async function generateStaticParams() {
+  const events = await getEvents();
+
+  return events.map((event) => ({
+    slug: event.slug,
+  }));
 }
 
 const EventPage = async ({ params }: EventPageProps) => {

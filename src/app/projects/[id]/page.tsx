@@ -1,5 +1,6 @@
 import React from "react";
-import { getProjectById } from "@/actions/projects";
+import { getProjectById, getProjects } from "@/actions/projects";
+import { Metadata } from "next";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import ProjectTimeline from "@/components/ProjectTimeline";
@@ -25,6 +26,51 @@ interface ProjectPageProps {
   params: Promise<{
     id: string;
   }>;
+}
+
+export async function generateMetadata({
+  params,
+}: ProjectPageProps): Promise<Metadata> {
+  const { id } = await params;
+  const project = await getProjectById(id);
+
+  if (!project) {
+    return {
+      title: "Project Not Found",
+      description: "The requested project could not be found.",
+    };
+  }
+
+  return {
+    title: project.title,
+    description: project.description,
+    openGraph: {
+      title: project.title,
+      description: project.description,
+      type: "website",
+      images: project.images.map((img) => ({
+        url: img,
+        width: 1200,
+        height: 630,
+        alt: project.title,
+      })),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.description,
+      images: project.images,
+    },
+    keywords: project.techStack,
+  };
+}
+
+export async function generateStaticParams() {
+  const projects = await getProjects();
+
+  return projects.map((project) => ({
+    id: project.id,
+  }));
 }
 
 const ProjectPage = async ({ params }: ProjectPageProps) => {
