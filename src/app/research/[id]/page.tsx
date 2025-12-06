@@ -12,7 +12,6 @@ import { Old_Standard_TT } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import React from "react";
 
 const oldStandardTT = Old_Standard_TT({
   subsets: ["latin"],
