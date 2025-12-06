@@ -152,6 +152,7 @@ const UserProfilePage = async ({ params }: PageProps) => {
                         {user.blogs.reduce((acc, blog) => acc + blog.views, 0)}
                       </span>
                     </div>
+
                   </div>
 
                   {/* Contact Info */}

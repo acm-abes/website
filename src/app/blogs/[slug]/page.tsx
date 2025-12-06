@@ -1,5 +1,6 @@
 import React from "react";
-import { getBlogBySlug, incrementBlogViews } from "@/actions/blogs";
+import { getBlogBySlug, getBlogs, incrementBlogViews } from "@/actions/blogs";
+import { Metadata } from "next";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,56 @@ interface BlogPageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+export async function generateMetadata({
+  params,
+}: BlogPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const blog = await getBlogBySlug(slug);
+
+  if (!blog) {
+    return {
+      title: "Blog Not Found",
+      description: "The requested blog post could not be found.",
+    };
+  }
+
+  return {
+    title: blog.title,
+    description: blog.tldr,
+    openGraph: {
+      title: blog.title,
+      description: blog.tldr,
+      type: "article",
+      publishedTime: blog.createdAt.toISOString(),
+      modifiedTime: blog.updatedAt.toISOString(),
+      authors: [blog.author.name || "ACM Team"],
+      images: [
+        {
+          url: blog.banner,
+          width: 1200,
+          height: 630,
+          alt: blog.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.title,
+      description: blog.tldr,
+      images: [blog.banner],
+    },
+    keywords: blog.tags,
+  };
+}
+
+export async function generateStaticParams() {
+  const blogs = await getBlogs();
+
+  return blogs.map((blog) => ({
+    slug: blog.slug,
+  }));
 }
 
 const BlogPage = async ({ params }: BlogPageProps) => {

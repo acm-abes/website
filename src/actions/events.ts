@@ -1,6 +1,6 @@
 "use server";
 
-import { Prisma } from "./../../generated/prisma/index.d";
+import { Prisma } from "../../generated/prisma";
 
 import { prisma } from "@/lib/prisma";
 

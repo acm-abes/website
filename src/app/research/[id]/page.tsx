@@ -1,4 +1,5 @@
-import { getPaperById } from "@/actions/papers";
+import { fetchPapers, getPaperById } from "@/actions/papers";
+import { Metadata } from "next";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +12,6 @@ import { Old_Standard_TT } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import React from "react";
 
 const oldStandardTT = Old_Standard_TT({
   subsets: ["latin"],
@@ -22,6 +22,54 @@ interface ResearchPaperPageProps {
   params: Promise<{
     id: string;
   }>;
+}
+
+export async function generateMetadata({
+  params,
+}: ResearchPaperPageProps): Promise<Metadata> {
+  const { id } = await params;
+  const paper = await getPaperById(id);
+
+  if (!paper) {
+    return {
+      title: "Paper Not Found",
+      description: "The requested research paper could not be found.",
+    };
+  }
+
+  return {
+    title: paper.title,
+    description: paper.description || paper.title,
+    openGraph: {
+      title: paper.title,
+      description: paper.description || paper.title,
+      type: "article",
+      publishedTime: paper.publishedAt.toISOString(),
+      authors: paper.authors.map((author) => author.name || "ACM Member"),
+      images: [
+        {
+          url: paper.image,
+          width: 1200,
+          height: 630,
+          alt: paper.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: paper.title,
+      description: paper.description || paper.title,
+      images: [paper.image],
+    },
+  };
+}
+
+export async function generateStaticParams() {
+  const papers = await fetchPapers();
+
+  return papers.map((paper) => ({
+    id: paper.id,
+  }));
 }
 
 const ResearchPaperPage = async ({ params }: ResearchPaperPageProps) => {
