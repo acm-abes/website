@@ -189,11 +189,7 @@ const AboutPage = () => {
         </div>
       </div>
 
-      <Timeline
-        data={timelineData}
-        title="Our Journey"
-        description="A timeline of our milestones and achievements over the years."
-      />
+      <Timeline data={timelineData} title="Our Journey" />
 
       {/* Call to Action */}
       <footer className="px-8 pb-20 md:px-16 lg:px-32">

@@ -1,10 +1,5 @@
 "use client";
-import {
-  useMotionValueEvent,
-  useScroll,
-  useTransform,
-  motion,
-} from "motion/react";
+import { useScroll, useTransform, motion } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
 
 interface TimelineEntry {
@@ -15,7 +10,6 @@ interface TimelineEntry {
 export const Timeline = ({
   data,
   title = "Changelog from my journey",
-  description = "I've been working on Aceternity for the past 2 years. Here's a timeline of my journey.",
 }: {
   data: TimelineEntry[];
   title?: string;
@@ -42,13 +36,10 @@ export const Timeline = ({
 
   return (
     <div className="w-full font-sans md:px-10" ref={containerRef}>
-      <div className="mx-auto max-w-7xl px-4 py-20 md:px-8 lg:px-10">
+      <div className="mx-auto max-w-7xl py-10 md:px-8 lg:px-10">
         <h2 className="mb-4 max-w-4xl text-lg font-bold text-black md:text-5xl dark:text-white">
           {title}
         </h2>
-        <p className="max-w-sm text-sm text-neutral-700 md:text-base dark:text-neutral-300">
-          {description}
-        </p>
       </div>
 
       <div ref={ref} className="relative mx-auto max-w-7xl pb-20">
