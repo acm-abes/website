@@ -36,8 +36,7 @@ export function EventCarousel() {
     },
   ];
   return (
-    <div className="relative h-full w-full overflow-hidden px-28 py-40 text-6xl">
-      
+    <div className="relative h-full w-full overflow-hidden px-8 py-20 text-4xl md:px-16 md:py-40 md:text-6xl lg:px-32">
       <h1 className="pb-20">Recent Events</h1>
       <Carousel slides={slideData} />
     </div>
