@@ -394,18 +394,20 @@ export function GlobalArcExplorer() {
   ];
 
   return (
-    <div className="flex h-[800px] w-full flex-col-reverse items-center justify-start md:flex-row md:px-28">
-      <div className="flex max-w-xl flex-col space-y-4 text-left">
-        <h1 className="text-4xl leading-tight md:text-5xl">
+    <div className="flex h-auto md:h-[800px] w-full flex-col-reverse items-center justify-center md:justify-start md:flex-row px-4 sm:px-8 md:px-16 lg:px-28 py-8 md:py-0">
+      <div className="flex max-w-xl flex-col space-y-4 text-left mb-8 md:mb-0">
+        <h1 className="text-3xl sm:text-4xl leading-tight md:text-5xl">
           From Campus to the World
         </h1>
-        <p className="text-muted-foreground text-lg">
-          ACM has always been about global knowledge-sharing. We’re carrying
+        <p className="text-muted-foreground text-base sm:text-lg">
+          ACM has always been about global knowledge-sharing. We're carrying
           that legacy forward by building, learning, and collaborating beyond
           boundaries.
         </p>
       </div>
-      <World data={sampleArcs} globeConfig={globeConfig} />
+      <div className="w-full md:w-auto aspect-square max-w-[350px] md:w-[700px] lg:w-[900px] xl:max-w-[1000px]">
+        <World data={sampleArcs} globeConfig={globeConfig} />
+      </div>
     </div>
   );
 }

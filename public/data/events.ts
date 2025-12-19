@@ -22,9 +22,37 @@ const parseDate = (input: string | undefined): Date => {
 
 export const events: Event[] = [
   {
+    id: "sah",
+    name: "SAH 2k26",
+    banner: "/events/sah-2k26.jpg",
+    poster: "/events/sah-2k26.jpg",
+    description:
+      "SAH is a hackathon based on theme 'ALGORYTHM'. It aims to make a rhytm between develpoment with algorithms. ALGORYTHM aims to bridge the gap between academic brilliance and industry needs by challenging students to solve real-world problem statements using cutting-edge algorithms.",
+    venue: "Aryabhatta Block, ABES ENGINEERING COLLEGE",
+    startDate: parseDate("2026-01-27T00:00:00.000Z"),
+    endDate: parseDate("2026-01-27T00:00:00.000Z"),
+    createdAt: new Date("27-01-2026"),
+    updatedAt: new Date("27-01-2026"),
+    slug: "",
+  },
+  {
+    id: "acpc-2k25",
+    name: "ACPC 2K25",
+    banner: "/events/ACPC/banner_1.png",
+    poster: "/events/acpc-2k25.jpg",
+    description:
+      "Experience the thrill of high-stakes programming at ACPC 2K25, the flagship competitive programming contest of ABES Engineering College, inspired by the global ICPC format. Join the brightest minds to solve 6 algorithmic problems in 3 hours of intense competition.",
+    venue: "ABES ENGINEERING COLLEGE",
+    startDate: parseDate("2025-02-15T00:00:00.000Z"),
+    endDate: parseDate("2025-02-15T00:00:00.000Z"),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    slug: "acpc-2k25",
+  },
+  {
     id: "acpc",
     name: "ACPC 2k24",
-    banner: "/events/ACPC/banner_1.png",
+    banner: "/events/acpc-25.png",
     poster: "/events/acpc-25.png",
     description:
       "ACPC aims to provide a platform for students to showcase their knowledge and skills in competitive programming. The ABESEC Collegiate Programming Contest (ACPC) is an algorithmic programming contest for college students. ACPC provides students with opportunities to interact, demonstrate, and improve their teamwork, programming, and problem-solving processes.",
