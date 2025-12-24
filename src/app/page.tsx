@@ -13,8 +13,8 @@ const Home = () => {
         gradientBackgroundStart="rgb(9, 9, 26)"
         gradientBackgroundEnd="rgb(9, 9, 26)"
       >
-        <div className="pointer-events-none absolute inset-0 z-10 flex items-center px-8 text-start text-3xl font-bold text-white md:px-16 md:text-4xl lg:px-32 lg:text-7xl">
-          <div className="text-4xl font-normal text-neutral-600 md:text-6xl dark:text-neutral-400">
+        <div className="pointer-events-none absolute inset-0 z-10 flex items-center px-28 text-start text-3xl font-bold text-white md:text-4xl lg:text-7xl">
+          <div className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-normal text-neutral-600 dark:text-neutral-400">
             At ACM, <br />
             We Build
             <FlipWords words={words} duration={2000} /> <br />
@@ -28,7 +28,7 @@ const Home = () => {
       <div className="h-screen bg-[linear-gradient(-40deg,var(--gradient-background-end),var(--gradient-background-start))]">
         <GlobalArcExplorer />
       </div>
-      <div>
+      <div><br/>
         <EventCarousel />
       </div>
     </div>

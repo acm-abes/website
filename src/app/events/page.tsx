@@ -13,7 +13,27 @@ const oldStandardTT = Old_Standard_TT({
 });
 
 const EventsPage = async () => {
-  const events = await getEvents();
+  const dbEvents = await getEvents();
+  
+  // Static events with dedicated pages (just done for SAH 2k26 for now)
+  const staticEvents = [
+    {
+      id: "sah-2k26",
+      name: "SAH 2k26",
+      poster: "/events/sah-2k26.jpg",
+      banner: "/events/sah-2k26.jpg",
+      description: "SAH is a hackathon based on theme 'ALGORYTHM'. It aims to make a rhythm between development with algorithms. ALGORYTHM aims to bridge the gap between academic brilliance and industry needs by challenging students to solve real-world problem statements using cutting-edge algorithms.",
+      venue: "Aryabhatta Block, ABES ENGINEERING COLLEGE",
+      startDate: new Date("2026-01-27T00:00:00.000Z"),
+      endDate: new Date("2026-01-27T00:00:00.000Z"),
+      slug: "sah-2k26",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+
+  // Merge database and static events, merging sah (static one) with other dynamic pages
+  const events = [...dbEvents, ...staticEvents];
 
   const ongoingEvent = events.find(
     (event) => event.startDate < new Date() && event.endDate > new Date(),
