@@ -1,10 +1,8 @@
-/** @format */
 import { EventCarousel } from "@/components/EventCarousel";
 import { GlobalArcExplorer } from "@/components/Globe";
 import { QuoteSection } from "@/components/QuoteSection";
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
 import { FlipWords } from "@/components/ui/flip-words";
-import React from "react";
 
 const Home = () => {
   const words = ["Ideas", "Leaders", "Solutions", "Communities"];

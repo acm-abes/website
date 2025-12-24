@@ -19,8 +19,13 @@ const words = `Those who can imagine anything, can create the impossible.`;
 
 export function QuoteSection() {
   return (
-    <div className={`mb-28 px-28 text-center ${oldStandardTT.className}`}>
-      <TextGenerateEffect words={words} className="text-4xl font-thin" />
+    <div
+      className={`mb-16 px-8 text-center md:mb-28 md:px-16 lg:px-32 ${oldStandardTT.className}`}
+    >
+      <TextGenerateEffect
+        words={words}
+        className="text-2xl font-thin md:text-4xl"
+      />
       <TextGenerateEffect
         duration={3}
         words="~ Alan Turing"
