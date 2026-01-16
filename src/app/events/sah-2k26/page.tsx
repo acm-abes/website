@@ -1,5 +1,10 @@
 "use client";
 
+// Remove the redirect() line below to use the full page
+import { redirect } from "next/navigation";
+
+redirect("https://smartabeshackathon.tech/");
+
 import { Old_Standard_TT } from "next/font/google";
 import React, { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -179,7 +184,7 @@ export default function SahPage() {
       <CTASection />
     </div>
   );
-};
+}
 
 // About Section Component
 const AboutSection = () => {
