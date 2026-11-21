@@ -20,7 +20,7 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
 
   const xRef = useRef(0);
   const yRef = useRef(0);
-  const frameRef = useRef<number>(null);
+  const frameRef = useRef<number | null>(null);
 
   useEffect(() => {
     const animate = () => {
@@ -156,6 +156,10 @@ interface CarouselProps {
 
 export default function Carousel({ slides }: CarouselProps) {
   const [current, setCurrent] = useState(0);
+  // If there are no slides, return null to avoid rendering the carousel
+  if (slides.length === 0) {
+    return null;
+  }
 
   const handlePreviousClick = () => {
     const previous = current - 1;
@@ -183,7 +187,7 @@ export default function Carousel({ slides }: CarouselProps) {
       <ul
         className="absolute mx-[-4vmin] flex transition-transform duration-1000 ease-in-out"
         style={{
-          transform: `translateX(-${current * (100 / slides.length)}%)`,
+         transform: `translateX(-${current * (100 / slides.length)}%)`, 
         }}
       >
         {slides.map((slide, index) => (
