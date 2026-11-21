@@ -53,7 +53,7 @@ const EventsPage = async () => {
         "ABES Engineering College, Ghaziabad (Online Recruitment – Google Meet)",
       startDate: new Date("2026-10-23T00:00:00+05:30"),
       endDate: new Date("2026-11-23T23:59:59.999+05:30"),
-      slug: "navrohan-2k26",
+      slug: "navrohan-2K26",
       createdAt: new Date("2026-10-23T00:00:00+05:30"),
       updatedAt: new Date("2026-11-19T00:00:00+05:30"),
     },
