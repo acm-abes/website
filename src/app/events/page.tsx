@@ -3,6 +3,7 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { getEvents } from "@/actions/events";
+import { events as eventCatalogue } from "../../../public/data/events";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, MapPin } from "lucide-react";
@@ -13,9 +14,20 @@ const oldStandardTT = Old_Standard_TT({
 });
 
 const EventsPage = async () => {
-  const dbEvents = await getEvents();
   
-  // Static events with dedicated pages (just done for SAH 2k26 for now)
+  let dbEvents;
+  try {
+    dbEvents = await getEvents();
+  } catch (error) {
+    console.error("Unable to load database events; using the existing event catalogue.", error);
+    dbEvents = eventCatalogue
+      .filter((event) => event.id !== "sah") 
+      .map((event) => ({
+        ...event,
+        slug: event.slug || event.id.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+      }));
+  }
+
   const staticEvents = [
     {
       id: "sah-2k26",
@@ -30,13 +42,32 @@ const EventsPage = async () => {
       createdAt: new Date(),
       updatedAt: new Date(),
     },
+    {
+      id: "navrohan-2k26",
+      name: "NAVROHAN 2K26",
+      poster: "/events/navrohan-2k26.png",
+      banner: "/events/navrohan-2k26.png",
+      description:
+        "NAVROHAN 2K26 is the recruitment drive of the ABES ACM Student Chapter and ABES ACM-W Student Chapter, inviting second-year students to showcase their creativity, explore their interests, and become part of the community.",
+      venue:
+        "ABES Engineering College, Ghaziabad (Online Recruitment – Google Meet)",
+      startDate: new Date("2026-10-23T00:00:00+05:30"),
+      endDate: new Date("2026-11-23T23:59:59.999+05:30"),
+      slug: "navrohan-2k26",
+      createdAt: new Date("2026-10-23T00:00:00+05:30"),
+      updatedAt: new Date("2026-11-19T00:00:00+05:30"),
+    },
   ];
 
-  // Merge database and static events, merging sah (static one) with other dynamic pages
-  const events = [...dbEvents, ...staticEvents];
+  // Static event entries take precedence over database entries with the same slug.
+  const staticEventSlugs = new Set(staticEvents.map((event) => event.slug));
+  const events = [
+    ...dbEvents.filter((event) => !staticEventSlugs.has(event.slug)),
+    ...staticEvents,
+  ];
 
-  const ongoingEvent = events.find(
-    (event) => event.startDate < new Date() && event.endDate > new Date(),
+  const ongoingEvents = events.filter(
+    (event) => event.startDate <= new Date() && event.endDate >= new Date(),
   );
   const upcomingEvents = events
     .filter((event) => event.startDate > new Date())
@@ -47,10 +78,12 @@ const EventsPage = async () => {
 
   const formatDateRange = (start: Date, end: Date) => {
     const startStr = start.toLocaleDateString("en-US", {
+      timeZone: "Asia/Kolkata",
       month: "short",
       day: "numeric",
     });
     const endStr = end.toLocaleDateString("en-US", {
+      timeZone: "Asia/Kolkata",
       month: "short",
       day: "numeric",
       year: "numeric",
@@ -73,8 +106,8 @@ const EventsPage = async () => {
         </p>
       </div>
 
-      {/* Ongoing Event Section */}
-      {ongoingEvent && (
+      {/* Ongoing Events Section */}
+      {ongoingEvents.length > 0 && (
         <section className="flex flex-col gap-8">
           <div className="flex items-center gap-3">
             <h2 className={`text-4xl font-semibold ${oldStandardTT.className}`}>
@@ -85,61 +118,66 @@ const EventsPage = async () => {
             </Badge>
           </div>
 
-          <Card className="border-destructive/20 from-destructive/5 to-background overflow-hidden border-2 bg-gradient-to-br">
-            <CardContent className="p-0">
-              <div className="flex flex-col md:flex-row">
-                <div className="relative aspect-video md:aspect-square md:w-1/3">
-                  <Image
-                    src={ongoingEvent.poster}
-                    alt={ongoingEvent.name}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <Badge variant="destructive">Live Event</Badge>
-                  </div>
-                </div>
-
-                <div className="flex-1 p-6">
-                  <Link
-                    href={`/events/${ongoingEvent.slug}`}
-                    className="group block"
-                  >
-                    <h3 className="group-hover:text-primary text-3xl font-bold transition-colors">
-                      {ongoingEvent.name}
-                    </h3>
-                  </Link>
-
-                  <div className="mt-4 space-y-3">
-                    <div className="text-muted-foreground flex items-center gap-2">
-                      <Calendar className="h-4 w-4" />
-                      <span>
-                        {formatDateRange(
-                          ongoingEvent.startDate,
-                          ongoingEvent.endDate,
-                        )}
-                      </span>
-                    </div>
-                    <div className="text-muted-foreground flex items-center gap-2">
-                      <MapPin className="h-4 w-4" />
-                      <span>{ongoingEvent.venue}</span>
+          {ongoingEvents.map((ongoingEvent) => (
+            <Card
+              key={ongoingEvent.id}
+              className="border-destructive/20 from-destructive/5 to-background overflow-hidden border-2 bg-gradient-to-br"
+            >
+              <CardContent className="p-0">
+                <div className="flex flex-col md:flex-row">
+                  <div className="relative aspect-[3/4] bg-white md:w-1/3">
+                    <Image
+                      src={ongoingEvent.poster}
+                      alt={ongoingEvent.name}
+                      fill
+                      className="object-contain"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <Badge variant="destructive">Live Event</Badge>
                     </div>
                   </div>
 
-                  <p className="text-muted-foreground mt-4 line-clamp-3">
-                    {ongoingEvent.description}
-                  </p>
+                  <div className="flex-1 p-6">
+                    <Link
+                      href={`/events/${ongoingEvent.slug}`}
+                      className="group block"
+                    >
+                      <h3 className="group-hover:text-primary text-3xl font-bold transition-colors">
+                        {ongoingEvent.name}
+                      </h3>
+                    </Link>
 
-                  <Link
-                    href={`/events/${ongoingEvent.slug}`}
-                    className="text-primary mt-6 inline-flex items-center hover:underline"
-                  >
-                    View Event Details →
-                  </Link>
+                    <div className="mt-4 space-y-3">
+                      <div className="text-muted-foreground flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
+                        <span>
+                          {formatDateRange(
+                            ongoingEvent.startDate,
+                            ongoingEvent.endDate,
+                          )}
+                        </span>
+                      </div>
+                      <div className="text-muted-foreground flex items-center gap-2">
+                        <MapPin className="h-4 w-4" />
+                        <span>{ongoingEvent.venue}</span>
+                      </div>
+                    </div>
+
+                    <p className="text-muted-foreground mt-4 line-clamp-3">
+                      {ongoingEvent.description}
+                    </p>
+
+                    <Link
+                      href={`/events/${ongoingEvent.slug}`}
+                      className="text-primary mt-6 inline-flex items-center hover:underline"
+                    >
+                      View Event Details →
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          ))}
         </section>
       )}
       {/* Upcoming Events Section */}
@@ -300,3 +338,4 @@ const EventsPage = async () => {
 };
 
 export default EventsPage;
+
