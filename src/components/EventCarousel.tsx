@@ -1,24 +1,27 @@
 "use client";
-
+import React from "react";
 import Carousel from "@/components/ui/carousel";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { title } from "node:process";
 export function EventCarousel() {
-  const slideDataUpcoming = [
-    {
-      title: "SAH 2k26",
-      button: (
-        <div className="flex items-center gap-2">
-          <a href="/events/sah-2k26" className="flex items-center gap-2">
-            <span>View</span>
-            <ArrowRight />
-          </a>
-        </div>
-      ),
-      src: "/events/sah-2k26.jpg",
-    },
-  ];
+  const slideDataUpcoming: {
+  title: string;
+  button: React.ReactNode;
+  src: string;
+}[] = [];
   const slideData = [
+{
+  title: "NAVROHAN 2K26",
+  button: (
+    <div className="flex items-center gap-2">
+      <a href="/events/navrohan-2K26" className="flex items-center gap-2">
+        <span>View</span>
+        <ArrowRight />
+      </a>
+    </div>
+  ),
+  src: "/events/navrohan-2k26.png",
+},
+
     {
       title: "ACPC 2k25",
       button: (
@@ -71,8 +74,23 @@ export function EventCarousel() {
   return (
     <div className="relative h-full w-full overflow-hidden px-4 sm:px-8 md:px-16 lg:px-28 py-16 sm:py-24 md:py-32 lg:py-40 text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
       <h1 className="pb-8 sm:pb-12 md:pb-16 lg:pb-20">Upcoming Events</h1>
-      <Carousel slides={slideDataUpcoming} /><br/><br/>
-      <h1 className="pb-8 sm:pb-12 md:pb-16 lg:pb-20">Recent Events</h1>
+     {slideDataUpcoming.length > 0 ? (
+  <>
+    <Carousel slides={slideDataUpcoming} />
+    <br />
+    <br />
+  </>
+) : (
+  <div className="flex h-[35vmin] min-h-[180px] flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-center">
+    <h2 className="text-2xl font-semibold text-white">
+      No Upcoming Events
+    </h2>
+    <p className="mt-2 text-sm text-neutral-400">
+      Stay tuned! New events will be announced soon.
+    </p>
+  </div>
+)}
+      <h1 className="pt-10 pb-8 sm:pb-12 md:pb-16 lg:pb-20">Recent Events</h1>
       <Carousel slides={slideData} />
     </div>
   );
