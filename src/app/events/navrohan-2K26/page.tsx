@@ -49,7 +49,7 @@ const NavrohanPage = () => {
             A community for curious minds. NAVROHAN 2K26 is the recruitment drive of the ABES ACM Student Chapter and ABES ACM-W Student Chapter, inviting second-year students to explore their interests and become part of the community.
           </p>
           <div className="flex flex-col gap-4 text-sm">
-            <div className="flex items-center gap-3"><CalendarDays className="text-muted-foreground h-5 w-5" /><span>23 October – 20 November 2026</span></div>
+            <div className="flex items-center gap-3"><CalendarDays className="text-muted-foreground h-5 w-5" /><span>23 October – 23 November 2026</span></div>
             <div className="flex items-center gap-3"><MapPin className="text-muted-foreground h-5 w-5" /><span>ABES Engineering College, Ghaziabad (Online Recruitment – Google Meet)</span></div>
           </div>
         </div>
