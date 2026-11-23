@@ -63,7 +63,7 @@ model User {
   // Relationships
   accounts Account[]
 
-  role                UserRole              @default(MEMBER)
+  role                UserRole              @default(VISITOR)
   userContentRelation UserContentRelation[]
   researchPapers      ResearchPaper[]
 
